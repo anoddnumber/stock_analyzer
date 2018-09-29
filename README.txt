@@ -10,3 +10,23 @@ This project will do several things.
 Some things to think about:
 - How should we store the stock data?
 - We will want APIs to sort and filter the data, so we should store the data in a way that is easy to do so.
+- How to hide/retrieve the API key?
+
+
+To download historical data, we can use Alpha Vantage's free APIs (https://www.alphavantage.co/).
+There is a wrapper for the APIs over here: https://github.com/RomelTorres/alpha_vantage
+
+
+To install dependencies on your local computer, use virtual env (https://virtualenv.pypa.io/en/stable/installation/)
+
+Run the following to create a virtual environment called 'env':
+
+    virtualenv env
+
+Run the following to activate the virtual environment:
+
+    source env/bin/activate
+
+Run the following to deactivate the virtual environment:
+
+    deactivate
