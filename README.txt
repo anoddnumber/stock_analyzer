@@ -30,3 +30,7 @@ Run the following to activate the virtual environment:
 Run the following to deactivate the virtual environment:
 
     deactivate
+
+Install the Alpha Vantage wrapper:
+
+    pip install alpha_vantage
