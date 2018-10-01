@@ -34,3 +34,8 @@ Run the following to deactivate the virtual environment:
 Install the Alpha Vantage wrapper:
 
     pip install alpha_vantage
+
+How should we store the stock data?
+- For now, we can create a file for each ticker, containing the ending price of the stock on a daily level. This will make it easy to retrieve a stock's price history.
+- We can also store the stock prices based on date. This will make it easy to sort or get a snapshot of prices on a particular date.
+- We will want to consider saving the data in a database instead of text files later and to also have a cache.
