@@ -8,10 +8,11 @@ ticker = 'GOOG'
 data, meta_data = ts.get_daily(ticker, 'full')
 
 pp = pprint.PrettyPrinter()
+data_str = pp.pformat(data).replace('\'', '"')
 
 if not os.path.isdir('data'):
     os.mkdir('data')
 
 history_file = open('data/' + ticker + '.json', 'w')
-history_file.write(pp.pformat(data))
+history_file.write(data_str)
 history_file.close()
