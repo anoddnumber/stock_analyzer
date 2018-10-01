@@ -42,3 +42,8 @@ How should we store the stock data?
 
 How are we going to get Financial Statement data?
 - Possibly from FinancialModelingPrep (https://financialmodelingprep.com/developer/docs) - this only gives information for the last 5 years. We also would want quarterly information
+- Possibly from MorningStar: https://gist.github.com/hahnicity/45323026693cdde6a116
+
+How can we get the list of available stock tickers? How about historical stock tickers?
+- Possibly from NASDAQ: https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ
+
