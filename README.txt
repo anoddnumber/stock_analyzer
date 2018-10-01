@@ -46,4 +46,4 @@ How are we going to get Financial Statement data?
 
 How can we get the list of available stock tickers? How about historical stock tickers?
 - Possibly from NASDAQ: https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ
-
+- Possibly better than above: https://quant.stackexchange.com/questions/1640/where-to-download-list-of-all-common-stocks-traded-on-nyse-nasdaq-and-amex
