@@ -12,6 +12,17 @@ class FileStorageDAO:
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
 
     @staticmethod
+    def get_tickers():
+        tickers_file = open(FileStorageDAO.DATA_DIR + 'tickers.txt', 'r')
+        tickers = []
+
+        for i, line in enumerate(tickers_file):
+            if i != 0:
+                tickers.append(line[0:line.index('|')])
+        return tickers
+
+
+    @staticmethod
     def get_financial_statements(ticker):
         pass
 

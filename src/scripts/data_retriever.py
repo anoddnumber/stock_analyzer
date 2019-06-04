@@ -19,7 +19,6 @@ class DataRetriever:
 
         if len(data) != len(tickers):
             print('retrieve_income_statements: Data length does not match number of tickers')
-            print(data)
             print('data length: ' + str(len(data)))
             print('tickers length: ' + str(len(tickers)))
             return
