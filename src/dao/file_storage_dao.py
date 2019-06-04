@@ -37,7 +37,6 @@ class FileStorageDAO:
         file.write(json.dumps(json_obj, indent=2))
         file.close()
 
-
     @staticmethod
     def save_balance_sheet(ticker, json_obj):
         pass

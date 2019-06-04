@@ -6,4 +6,4 @@ from scripts.data_retriever import DataRetriever
 # print(FinancialModelingPrepClient.get_income_statements_batch(['GOOG', 'AMZN']))
 
 
-DataRetriever.retrieve_income_statements(['AMZN'])
+DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
