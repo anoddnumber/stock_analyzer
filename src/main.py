@@ -18,3 +18,5 @@ from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 tickers = FinancialModelingPrepClient.get_tickers()
 
 DataRetriever.retrieve_income_statements(tickers)
+
+# print(FileStorageDAO.get_income_statement('AAPL'))

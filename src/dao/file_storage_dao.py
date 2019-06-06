@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 
 
 class FileStorageDAO:
@@ -21,14 +22,14 @@ class FileStorageDAO:
                 tickers.append(line[0:line.index('|')])
         return tickers
 
-
     @staticmethod
     def get_financial_statements(ticker):
         pass
 
     @staticmethod
     def get_income_statement(ticker):
-        pass
+        income_statement = open(FileStorageDAO.INCOME_STATEMENTS_DIR + ticker + '.json', 'r')
+        return json.load(income_statement)
 
     @staticmethod
     def get_balance_sheet(ticker):
@@ -69,4 +70,3 @@ class FileStorageDAO:
         for path in paths:
             if not os.path.isdir(path):
                 os.mkdir(path)
-
