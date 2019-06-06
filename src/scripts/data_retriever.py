@@ -4,13 +4,21 @@ from dao.file_storage_dao import FileStorageDAO
 
 class DataRetriever:
 
+    MAX_TICKERS = 10  # 10 is the max allowed
+
     @staticmethod
     def retrieve_financial_statements():
         pass
 
     @staticmethod
     def retrieve_income_statements(tickers):
+        if len(tickers) > DataRetriever.MAX_TICKERS:
+            tickers = tickers[0:DataRetriever.MAX_TICKERS]
+        print('tickers')
+        print(tickers)
+
         data = FinancialModelingPrepClient.get_income_statements_batch(tickers)
+        print(data)
 
         if len(tickers) == 1:
             data = [data]
