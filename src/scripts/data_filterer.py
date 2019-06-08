@@ -10,12 +10,16 @@ class DataFilterer:
     @staticmethod
     def filter_greater_than(tickers, get_attr, value):
         filtered_tickers = []
+        full_filtered_tickers = []
 
         for ticker in tickers:
             analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
             attr = get_attr(analyzed_data)
             if attr > value:
                 filtered_tickers.append(ticker)
+                full_filtered_tickers.append({
+                    'ticker': ticker,
+                    'attr': attr,
+                })
 
-        return filtered_tickers
-
+        return filtered_tickers, full_filtered_tickers

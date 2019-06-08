@@ -4,6 +4,7 @@ from dao.file_storage_dao import FileStorageDAO
 from scripts.data_organizer import DataOrganizer
 from scripts.data_analyzer import DataAnalyzer
 from scripts.data_filterer import DataFilterer
+from scripts.data_sorter import DataSorter
 from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 
 
@@ -23,14 +24,19 @@ tickers = FinancialModelingPrepClient.get_tickers()
 # DataOrganizer.organize_ticker('AAPL', 0)
 # DataOrganizer.organize_tickers(tickers, 0)
 # DataAnalyzer.analyze_ticker('AAPL', 0)
-DataAnalyzer.analyze_tickers(tickers, 0)
+# DataAnalyzer.analyze_tickers(tickers, 0)
 
 
 def get_attr(analyzed_data):
     return analyzed_data['earnings_score']
 
 
-tickers = DataFilterer.filter_greater_than(tickers, get_attr, 90)
-print(tickers)
+tickers_tuple = DataFilterer.filter_greater_than(tickers, get_attr, 90)
+# for info in tickers[1]:
+#     print(info)
+
+data = DataSorter.sort(tickers_tuple[0], get_attr)
+for info in data:
+    print(info)
 
 # print(FileStorageDAO.get_income_statement('AAPL'))
