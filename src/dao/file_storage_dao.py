@@ -14,33 +14,28 @@ class FileStorageDAO:
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
 
     @staticmethod
-    def get_tickers():
-        tickers_file = open(FileStorageDAO.DATA_DIR + 'tickers.txt', 'r')
-        tickers = []
-
-        for i, line in enumerate(tickers_file):
-            if i != 0:
-                tickers.append(line[0:line.index('|')])
-        return tickers
-
-    @staticmethod
     def get_financial_statements(ticker):
         pass
 
     @staticmethod
     def get_income_statement(ticker):
-        income_statement = open(FileStorageDAO.INCOME_STATEMENTS_DIR + ticker + '.json', 'r')
-        return json.load(income_statement)
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.INCOME_STATEMENTS_DIR)
 
     @staticmethod
     def get_balance_sheet(ticker):
-        income_statement = open(FileStorageDAO.BALANCE_SHEET_DIR + ticker + '.json', 'r')
-        return json.load(income_statement)
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.BALANCE_SHEET_DIR)
 
     @staticmethod
     def get_cash_flow_statement(ticker):
-        income_statement = open(FileStorageDAO.CASH_FLOW_STATEMENTS_DIR + ticker + '.json', 'r')
-        return json.load(income_statement)
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.CASH_FLOW_STATEMENTS_DIR)
+
+    @staticmethod
+    def get_organized_data(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.ORGANIZED_DATA_DIR)
+
+    @staticmethod
+    def get_data(ticker, directory):
+        return json.load(open(directory + ticker + '.json', 'r'))
 
     @staticmethod
     def save_income_statement(ticker, json_obj):
