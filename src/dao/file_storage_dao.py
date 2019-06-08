@@ -34,7 +34,7 @@ class FileStorageDAO:
         return FileStorageDAO.get_data(ticker, FileStorageDAO.ORGANIZED_DATA_DIR)
 
     @staticmethod
-    def get_anazlyed_data(ticker):
+    def get_analyzed_data(ticker):
         return FileStorageDAO.get_data(ticker, FileStorageDAO.ANALYSIS_DIR)
 
     @staticmethod

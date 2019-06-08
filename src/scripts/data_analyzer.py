@@ -18,7 +18,7 @@ class DataAnalyzer:
     def analyze_ticker(ticker, time_to_live=30 * 24 * 60 * 60):
 
         try:
-            analyzed_data = FileStorageDAO.get_anazlyed_data(ticker)
+            analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
             if time.time() - float(analyzed_data.get('last_updated_date', 0)) < time_to_live:
                 return
         except FileNotFoundError:
