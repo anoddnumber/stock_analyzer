@@ -26,9 +26,14 @@ class DataAnalyzer:
             pass
 
         organized_data = FileStorageDAO.get_organized_data(ticker)
+        earnings_score = DataAnalyzer.calculate_earnings_score(organized_data)
+        revenue_score = DataAnalyzer.calculate_revenue_score(organized_data)
+        overall_score = Utils.average([earnings_score, revenue_score])
 
         analyzed_data = {
-            'earnings_score': DataAnalyzer.calculate_earnings_score(organized_data),
+            'earnings_score': earnings_score,
+            'revenue_score': revenue_score,
+            'overall_score': overall_score,
             'organized_data': organized_data,
             'last_updated_date': time.time(),
         }
@@ -39,7 +44,7 @@ class DataAnalyzer:
     def calculate_earnings_score(organized_data):
         increase_percentage = Utils.safe_cast(organized_data['earnings_increase_percentage'], float, 0)
         strict_increase_percentage = Utils.safe_cast(organized_data['earnings_strict_increase_percentage'], float, 0)
-        earnings_positive_percentage = Utils.safe_cast(organized_data['earnings_positive_percentage'], float, 0)
+        positive_percentage = Utils.safe_cast(organized_data['earnings_positive_percentage'], float, 0)
         num_years = Utils.safe_cast(organized_data['num_years'], int, 0)
 
         max_years = max(num_years, 10)
@@ -47,7 +52,25 @@ class DataAnalyzer:
         values = [
             increase_percentage,
             strict_increase_percentage,
-            earnings_positive_percentage,
+            positive_percentage,
+            num_years / float(max_years)
+        ]
+
+        return Utils.average(values) * 100
+
+    @staticmethod
+    def calculate_revenue_score(organized_data):
+        increase_percentage = Utils.safe_cast(organized_data['revenue_increase_percentage'], float, 0)
+        strict_increase_percentage = Utils.safe_cast(organized_data['revenue_strict_increase_percentage'], float, 0)
+        positive_percentage = Utils.safe_cast(organized_data['revenue_positive_percentage'], float, 0)
+        num_years = Utils.safe_cast(organized_data['num_years'], int, 0)
+
+        max_years = max(num_years, 10)
+
+        values = [
+            increase_percentage,
+            strict_increase_percentage,
+            positive_percentage,
             num_years / float(max_years)
         ]
 

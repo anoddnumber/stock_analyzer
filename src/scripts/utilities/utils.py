@@ -2,6 +2,8 @@ class Utils:
 
     @staticmethod
     def average(values):
+        if len(values) == 0:
+            return 0
         return float(sum(values)) / len(values)
 
     @staticmethod

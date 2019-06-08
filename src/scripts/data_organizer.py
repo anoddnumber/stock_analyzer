@@ -31,12 +31,19 @@ class DataOrganizer:
         # cash_flow_statement = FileStorageDAO.get_cash_flow_statement(ticker)
 
         earnings = IncomeStatementUtilities.get_earnings(income_statement)
+        revenue = IncomeStatementUtilities.get_revenue(income_statement)
 
         organized_data = {
+            'average_earnings': Utils.average(earnings),
             'earnings': earnings,
             'earnings_positive_percentage': Utils.calculate_percent_positive(earnings),
             'earnings_increase_percentage': Utils.calculate_increase_percentage(earnings),
             'earnings_strict_increase_percentage': Utils.calculate_strict_increase_percentage(earnings),
+            'average_revenue': Utils.average(revenue),
+            'revenue': revenue,
+            'revenue_positive_percentage': Utils.calculate_percent_positive(revenue),
+            'revenue_increase_percentage': Utils.calculate_increase_percentage(revenue),
+            'revenue_strict_increase_percentage': Utils.calculate_strict_increase_percentage(revenue),
             'num_years': IncomeStatementUtilities.get_num_years(income_statement),
             'last_updated_date': time.time(),
         }

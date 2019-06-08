@@ -24,11 +24,11 @@ tickers = FinancialModelingPrepClient.get_tickers()
 # DataOrganizer.organize_ticker('AAPL', 0)
 # DataOrganizer.organize_tickers(tickers, 0)
 # DataAnalyzer.analyze_ticker('AAPL', 0)
-DataAnalyzer.analyze_tickers(tickers, 0)
+# DataAnalyzer.analyze_tickers(tickers, 0)
 
 
 def get_attr(analyzed_data):
-    return analyzed_data['earnings_score']
+    return analyzed_data['overall_score']
 
 
 tickers_tuple = DataFilterer.filter_greater_than(tickers, get_attr, 90)
