@@ -1,5 +1,6 @@
 from dao.file_storage_dao import FileStorageDAO
 from scripts.utilities.income_statement_utilities import IncomeStatementUtilities
+from scripts.utilities.utils import Utils
 import time
 
 
@@ -33,40 +34,11 @@ class DataOrganizer:
 
         organized_data = {
             'earnings': earnings,
-            'earnings_increase_percentage': DataOrganizer.calculate_increase_percentage(earnings),
-            'earnings_strict_increase_percentage': DataOrganizer.calculate_strict_increase_percentage(earnings),
+            'earnings_positive_percentage': Utils.calculate_percent_positive(earnings),
+            'earnings_increase_percentage': Utils.calculate_increase_percentage(earnings),
+            'earnings_strict_increase_percentage': Utils.calculate_strict_increase_percentage(earnings),
             'num_years': IncomeStatementUtilities.get_num_years(income_statement),
             'last_updated_date': time.time(),
         }
 
         FileStorageDAO.save_organized_data(ticker, organized_data)
-
-    @staticmethod
-    def calculate_increase_percentage(values):
-        """ Calculates the percentage of times the value increases from the previous value. """
-        if len(values) <= 1:
-            return 0
-        prev = values[0]
-        num_increasing = 0
-        for i in range(1, len(values)):
-            value = values[i]
-            if value > prev:
-                num_increasing += 1
-            prev = value
-
-        return num_increasing / (len(values) - 1.0)
-
-    @staticmethod
-    def calculate_strict_increase_percentage(values):
-        """Calculates the percentage of times the value increases from the previous maximum. """
-        if len(values) <= 1:
-            return 0
-        max_value = values[0]
-        num_increasing = 0
-        for i in range(1, len(values)):
-            value = values[i]
-            if value > max_value:
-                num_increasing += 1
-                max_value = value
-
-        return num_increasing / (len(values) - 1.0)

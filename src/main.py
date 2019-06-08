@@ -13,10 +13,6 @@ from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 # DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
 
 
-# tickers = FileStorageDAO.get_tickers()
-# print('tickers')
-# print(tickers)
-
 tickers = FinancialModelingPrepClient.get_tickers()
 
 # DataRetriever.retrieve_income_statements(tickers)
@@ -24,7 +20,7 @@ tickers = FinancialModelingPrepClient.get_tickers()
 # DataRetriever.retrieve_cash_flow_statements(tickers)
 
 # DataOrganizer.organize_ticker('AAPL', 0)
-# DataOrganizer.organize_tickers(tickers, 0)
+DataOrganizer.organize_tickers(tickers, 0)
 # DataAnalyzer.analyze_ticker('AAPL', 0)
 DataAnalyzer.analyze_tickers(tickers, 0)
 
