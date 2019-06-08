@@ -1,6 +1,10 @@
 class Utils:
 
     @staticmethod
+    def average(values):
+        return float(sum(values)) / len(values)
+
+    @staticmethod
     def safe_cast(val, to_type, default=None):
         try:
             return to_type(val)

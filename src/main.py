@@ -24,7 +24,7 @@ tickers = FinancialModelingPrepClient.get_tickers()
 # DataOrganizer.organize_ticker('AAPL', 0)
 # DataOrganizer.organize_tickers(tickers, 0)
 # DataAnalyzer.analyze_ticker('AAPL', 0)
-# DataAnalyzer.analyze_tickers(tickers, 0)
+DataAnalyzer.analyze_tickers(tickers, 0)
 
 
 def get_attr(analyzed_data):
@@ -35,7 +35,7 @@ tickers_tuple = DataFilterer.filter_greater_than(tickers, get_attr, 90)
 # for info in tickers[1]:
 #     print(info)
 
-data = DataSorter.sort(tickers_tuple[0], get_attr)
+data = DataSorter.sort(tickers_tuple[0], get_attr, reverse=True)
 for info in data:
     print(info)
 

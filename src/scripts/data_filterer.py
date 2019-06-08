@@ -4,18 +4,18 @@ from dao.file_storage_dao import FileStorageDAO
 class DataFilterer:
 
     """
-        get_attr is a method that returns the attribute you want to filter by
-        It takes the analyzed data as a parameter
+    comparison_method is a function that is given the attribute and the value that should be filtered on
+    It returns True if the attribute should be included in the result.
     """
     @staticmethod
-    def filter_greater_than(tickers, get_attr, value):
+    def filter(tickers, get_attr, comparsion_method, value):
         filtered_tickers = []
         full_filtered_tickers = []
 
         for ticker in tickers:
             analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
             attr = get_attr(analyzed_data)
-            if attr > value:
+            if comparsion_method(attr, value):
                 filtered_tickers.append(ticker)
                 full_filtered_tickers.append({
                     'ticker': ticker,
@@ -23,3 +23,11 @@ class DataFilterer:
                 })
 
         return filtered_tickers, full_filtered_tickers
+
+    """
+        get_attr is a function that returns the attribute you want to filter by
+        It takes the analyzed data as a parameter
+    """
+    @staticmethod
+    def filter_greater_than(tickers, get_attr, value):
+        return DataFilterer.filter(tickers, get_attr, lambda a, v: a > v, value)

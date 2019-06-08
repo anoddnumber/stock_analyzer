@@ -40,5 +40,15 @@ class DataAnalyzer:
         increase_percentage = Utils.safe_cast(organized_data['earnings_increase_percentage'], float, 0)
         strict_increase_percentage = Utils.safe_cast(organized_data['earnings_strict_increase_percentage'], float, 0)
         earnings_positive_percentage = Utils.safe_cast(organized_data['earnings_positive_percentage'], float, 0)
+        num_years = Utils.safe_cast(organized_data['num_years'], int, 0)
 
-        return ((increase_percentage + strict_increase_percentage + earnings_positive_percentage) / 3) * 100
+        max_years = max(num_years, 10)
+
+        values = [
+            increase_percentage,
+            strict_increase_percentage,
+            earnings_positive_percentage,
+            num_years / float(max_years)
+        ]
+
+        return Utils.average(values) * 100
