@@ -34,6 +34,10 @@ class FileStorageDAO:
         return FileStorageDAO.get_data(ticker, FileStorageDAO.ORGANIZED_DATA_DIR)
 
     @staticmethod
+    def get_anazlyed_data(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.ANALYSIS_DIR)
+
+    @staticmethod
     def get_data(ticker, directory):
         return json.load(open(directory + ticker + '.json', 'r'))
 
@@ -52,6 +56,10 @@ class FileStorageDAO:
     @staticmethod
     def save_organized_data(ticker, json_obj):
         FileStorageDAO._save(FileStorageDAO.ORGANIZED_DATA_DIR + ticker + '.json', json_obj)
+
+    @staticmethod
+    def save_analyzed_data(ticker, json_obj):
+        FileStorageDAO._save(FileStorageDAO.ANALYSIS_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def _make_directories():
