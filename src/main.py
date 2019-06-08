@@ -1,6 +1,7 @@
 # from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 from scripts.data_retriever import DataRetriever
 from dao.file_storage_dao import FileStorageDAO
+from scripts.data_organizer import DataOrganizer
 from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 
 
@@ -17,8 +18,11 @@ from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 
 tickers = FinancialModelingPrepClient.get_tickers()
 
-# DataRetriever.retrieve_income_statements(tickers)
+DataRetriever.retrieve_income_statements(tickers)
 # DataRetriever.retrieve_balance_sheets(tickers)
-DataRetriever.retrieve_cash_flow_statements(tickers)
+# DataRetriever.retrieve_cash_flow_statements(tickers)
+
+# DataOrganizer.organize_ticker('AAPL', 0)
+DataOrganizer.organize_tickers(tickers, 0)
 
 # print(FileStorageDAO.get_income_statement('AAPL'))
