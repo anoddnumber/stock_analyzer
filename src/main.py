@@ -24,7 +24,7 @@ tickers = FinancialModelingPrepClient.get_tickers()
 # DataOrganizer.organize_ticker('AAPL', 0)
 # DataOrganizer.organize_tickers(tickers, 0)
 # DataAnalyzer.analyze_ticker('AAPL', 0)
-# DataAnalyzer.analyze_tickers(tickers, 0)
+DataAnalyzer.analyze_tickers(tickers, 0)
 
 
 def get_attr(analyzed_data):
@@ -40,3 +40,6 @@ for info in data:
     print(info)
 
 # print(FileStorageDAO.get_income_statement('AAPL'))
+
+
+

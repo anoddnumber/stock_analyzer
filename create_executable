@@ -1,5 +1,5 @@
 #!/bin/zsh
 
 mkdir -p ~/bin
-cp ~/Documents/work/workspace/stock_analyzer/src/screener.py ~/bin/screener
+cp ~/Documents/work/workspace/stock_analyzer/src/screener.py ~/bin/stock_analyzer
 

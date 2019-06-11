@@ -16,7 +16,6 @@ class DataAnalyzer:
 
     @staticmethod
     def analyze_ticker(ticker, time_to_live=30 * 24 * 60 * 60):
-
         try:
             analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
             if time.time() - float(analyzed_data.get('last_updated_date', 0)) < time_to_live:
@@ -28,18 +27,41 @@ class DataAnalyzer:
         organized_data = FileStorageDAO.get_organized_data(ticker)
         earnings_score = DataAnalyzer.calculate_earnings_score(organized_data)
         revenue_score = DataAnalyzer.calculate_revenue_score(organized_data)
-        overall_score = Utils.average([earnings_score, revenue_score])
+        growth_score = DataAnalyzer.calculate_growth_score(organized_data)
+        overall_score = Utils.average([earnings_score, revenue_score, growth_score])
 
         analyzed_data = {
-            'price_target': organized_data['earnings'][-1] * 15,
+            'price_target': DataAnalyzer.calculate_price_target(organized_data),
             'earnings_score': earnings_score,
             'revenue_score': revenue_score,
+            'growth_score': growth_score,
             'overall_score': overall_score,
             'organized_data': organized_data,
             'last_updated_date': time.time(),
         }
 
         FileStorageDAO.save_analyzed_data(ticker, analyzed_data)
+
+    @staticmethod
+    def calculate_price_target(organized_data):
+        if len(organized_data['earnings']) <= 0:
+            return 0
+        return organized_data['earnings'][-1] * 15
+
+    @staticmethod
+    def calculate_growth_score(organized_data):
+        if organized_data['earnings_growth'] is None:
+            return 0
+
+        growth = organized_data['earnings_growth'] * 100
+
+        if growth <= 0:
+            return 0
+        if growth <= 10:
+            return growth * 8
+        if growth <= 15:
+            return 90
+        return 100
 
     @staticmethod
     def calculate_earnings_score(organized_data):
