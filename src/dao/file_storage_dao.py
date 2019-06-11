@@ -4,7 +4,8 @@ import os
 
 class FileStorageDAO:
 
-    ROOT_DIR = '../'
+    home_dir = os.path.expanduser("~")
+    ROOT_DIR = home_dir + '/Documents/work/workspace/stock_analyzer/'
     DATA_DIR = ROOT_DIR + 'data/'
     ANALYSIS_DIR = DATA_DIR + 'analysis/'
     ORGANIZED_DATA_DIR = DATA_DIR + 'organized_data/'
