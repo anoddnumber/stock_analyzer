@@ -7,6 +7,22 @@ class Utils:
         return float(sum(values)) / len(values)
 
     @staticmethod
+    def weighted_average(data_points):
+        if len(data_points) == 0:
+            return 0
+
+        total = 0.0
+        total_weight = 0
+        for point in data_points:
+            total_weight += point.weight
+            total += point.weight * point.value
+
+        if total_weight == 0:
+            return 0
+
+        return total / total_weight
+
+    @staticmethod
     def safe_cast(val, to_type, default=None):
         try:
             return to_type(val)
