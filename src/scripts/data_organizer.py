@@ -34,16 +34,20 @@ class DataOrganizer:
         revenue = IncomeStatementUtilities.get_revenue(income_statement)
 
         organized_data = {
+            # earnings attributes
             'average_earnings': Utils.average(earnings),
             'earnings': earnings,
             'earnings_positive_percentage': Utils.calculate_percent_positive(earnings),
             'earnings_increase_percentage': Utils.calculate_increase_percentage(earnings),
             'earnings_strict_increase_percentage': Utils.calculate_strict_increase_percentage(earnings),
+
+            # revenue attributes
             'average_revenue': Utils.average(revenue),
             'revenue': revenue,
             'revenue_positive_percentage': Utils.calculate_percent_positive(revenue),
             'revenue_increase_percentage': Utils.calculate_increase_percentage(revenue),
             'revenue_strict_increase_percentage': Utils.calculate_strict_increase_percentage(revenue),
+
             'num_years': IncomeStatementUtilities.get_num_years(income_statement),
             'last_updated_date': time.time(),
         }

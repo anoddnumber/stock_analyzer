@@ -31,6 +31,7 @@ class DataAnalyzer:
         overall_score = Utils.average([earnings_score, revenue_score])
 
         analyzed_data = {
+            'price_target': organized_data['earnings'][-1] * 15,
             'earnings_score': earnings_score,
             'revenue_score': revenue_score,
             'overall_score': overall_score,
