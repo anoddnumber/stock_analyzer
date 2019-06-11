@@ -1,3 +1,5 @@
+import math
+
 class Utils:
 
     @staticmethod
@@ -85,3 +87,8 @@ class Utils:
                 num_positive += 1
 
         return num_positive / len(values)
+
+    @staticmethod
+    def calculate_yoy_return(starting_value, ending_value, num_years=1):
+        return math.exp(math.log(ending_value * 1.0 / starting_value) / num_years) - 1
+
