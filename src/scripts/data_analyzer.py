@@ -27,14 +27,16 @@ class DataAnalyzer:
         organized_data = FileStorageDAO.get_organized_data(ticker)
         earnings_score = DataAnalyzer.calculate_earnings_score(organized_data)
         revenue_score = DataAnalyzer.calculate_revenue_score(organized_data)
-        growth_score = DataAnalyzer.calculate_growth_score(organized_data)
-        overall_score = Utils.average([earnings_score, revenue_score, growth_score])
+        earnings_growth_score = DataAnalyzer.calculate_earnings_growth_score(organized_data)
+        revenue_growth_score = DataAnalyzer.calculate_revenue_growth_score(organized_data)
+        overall_score = Utils.average([earnings_score, revenue_score, earnings_growth_score, revenue_growth_score])
 
         analyzed_data = {
             'price_target': DataAnalyzer.calculate_price_target(organized_data),
             'earnings_score': earnings_score,
+            'earnings_growth_score': earnings_growth_score,
             'revenue_score': revenue_score,
-            'growth_score': growth_score,
+            'revenue_growth_score': revenue_growth_score,
             'overall_score': overall_score,
             'organized_data': organized_data,
             'last_updated_date': time.time(),
@@ -49,7 +51,7 @@ class DataAnalyzer:
         return organized_data['earnings'][-1] * 15
 
     @staticmethod
-    def calculate_growth_score(organized_data):
+    def calculate_earnings_growth_score(organized_data):
         if organized_data['earnings_growth'] is None:
             return 0
 
@@ -80,6 +82,21 @@ class DataAnalyzer:
         ]
 
         return Utils.average(values) * 100
+
+    @staticmethod
+    def calculate_revenue_growth_score(organized_data):
+        if organized_data['revenue_growth'] is None:
+            return 0
+
+        growth = organized_data['revenue_growth'] * 100
+
+        if growth <= 0:
+            return 0
+        if growth <= 10:
+            return growth * 8
+        if growth <= 15:
+            return 90
+        return 100
 
     @staticmethod
     def calculate_revenue_score(organized_data):

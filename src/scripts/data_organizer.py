@@ -41,7 +41,7 @@ class DataOrganizer:
             'earnings_positive_percentage': Utils.calculate_percent_positive(earnings),
             'earnings_increase_percentage': Utils.calculate_increase_percentage(earnings),
             'earnings_strict_increase_percentage': Utils.calculate_strict_increase_percentage(earnings),
-            'earnings_growth': DataOrganizer.get_earnings_growth(earnings, num_years),
+            'earnings_growth': DataOrganizer.get_growth(earnings, num_years),
 
             # revenue attributes
             'average_revenue': Utils.average(revenue),
@@ -49,6 +49,7 @@ class DataOrganizer:
             'revenue_positive_percentage': Utils.calculate_percent_positive(revenue),
             'revenue_increase_percentage': Utils.calculate_increase_percentage(revenue),
             'revenue_strict_increase_percentage': Utils.calculate_strict_increase_percentage(revenue),
+            'revenue_growth': DataOrganizer.get_growth(revenue, num_years),
 
             'num_years': num_years,
             'last_updated_date': time.time(),
@@ -57,7 +58,7 @@ class DataOrganizer:
         FileStorageDAO.save_organized_data(ticker, organized_data)
 
     @staticmethod
-    def get_earnings_growth(earnings, num_years):
-        if len(earnings) <= 1:
+    def get_growth(values, num_years):
+        if len(values) <= 1:
             return 0
-        return Utils.calculate_yoy_return(earnings[0], earnings[-1], num_years)
+        return Utils.calculate_yoy_return(values[0], values[-1], num_years)
