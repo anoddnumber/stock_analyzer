@@ -1,11 +1,24 @@
 
 
 class IncomeStatement:
+    DATE = 'date'
+    REVENUE = 'revenue'
+    COST_OF_REVENUE = 'cost_of_revenue'
+    GROSS_PROFIT = 'gross_profit'
+    R_AND_D_EXPENSES = 'r_and_d_expenses'
+    S_G_AND_A_EXPENSES = 's_g_and_a_expenses'
+    OPERATING_EXPENSES = 'operating_expenses'
+    INTEREST_EXPENSES = 'interest_expenses'
+    EARNINGS_BEFORE_TAX = 'earnings_before_tax'
+    INCOME_TAX_EXPENSE = 'income_tax_expense'
+    NET_INCOME = 'net_income'
+    EPS = 'eps'
+    EPS_DILUTED = 'eps_diluted'
 
-    available_attributes = frozenset({'date', 'revenue', 'cost_of_revenue',
-                                      'gross_profit', 'r_and_d_expenses', 's_g_and_a_expenses',
-                                      'operating_expenses', 'interest_expenses', 'earnings_before_tax',
-                                      'income_tax_expense', 'net_income', 'eps', 'eps_diluted'})
+    available_attributes = frozenset({DATE, REVENUE, COST_OF_REVENUE,
+                                      GROSS_PROFIT, R_AND_D_EXPENSES, S_G_AND_A_EXPENSES,
+                                      OPERATING_EXPENSES, INTEREST_EXPENSES, EARNINGS_BEFORE_TAX,
+                                      INCOME_TAX_EXPENSE, NET_INCOME, EPS, EPS_DILUTED})
 
     def __init__(self, mapping, json_data):
         if mapping is not None and json_data is not None:

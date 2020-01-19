@@ -1,13 +1,29 @@
 
 
 class BalanceSheet:
+    DATE = 'date'
+    CASH_AND_CASH_EQUIVALENTS = 'cash_and_cash_equivalents'
+    ACCOUNTS_RECEIVABLE = 'accounts_receivable'
+    INVENTORY = 'inventory'
+    CURRENT_ASSETS = 'current_assets'
+    FIXED_ASSETS = 'fixed_assets'
+    INTANGIBLE_ASSETS = 'intangible_assets'
+    NON_CURRENT_ASSETS = 'non_current_assets'
+    TOTAL_ASSETS = 'total_assets'
+    ACCOUNTS_PAYABLE = 'accounts_payable'
+    CURRENT_LIABILITIES = 'current_liabilities'
+    TOTAL_DEBT = 'total_debt'
+    NON_CURRENT_LIABILITIES = 'non_current_liabilities'
+    TOTAL_LIABILITIES = 'total_liabilities'
+    RETAINED_EARNINGS = 'retained_earnings'
+    SHAREHOLDERS_EQUITY = 'shareholders_equity'
 
-    available_attributes = frozenset({'date', 'cash_and_cash_equivalents', 'accounts_receivable'
-                                      'inventory', 'current_assets', 'fixed_assets',
-                                      'intangible_assets', 'non_current_assets', 'total_assets',
-                                      'accounts_payable', 'current_liabilities', 'total_debt',
-                                      'non_current_liabilities', 'total_liabilities', 'retained_earnings',
-                                      'shareholders_equity'})
+    available_attributes = frozenset({DATE, CASH_AND_CASH_EQUIVALENTS, ACCOUNTS_RECEIVABLE,
+                                      INVENTORY, CURRENT_ASSETS, FIXED_ASSETS,
+                                      INTANGIBLE_ASSETS, NON_CURRENT_ASSETS, TOTAL_ASSETS,
+                                      ACCOUNTS_PAYABLE, CURRENT_LIABILITIES, TOTAL_DEBT,
+                                      NON_CURRENT_LIABILITIES, TOTAL_LIABILITIES, RETAINED_EARNINGS,
+                                      SHAREHOLDERS_EQUITY})
 
     def __init__(self, mapping, json_data):
         if mapping is not None and json_data is not None:
