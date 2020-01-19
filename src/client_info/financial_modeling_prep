@@ -1,0 +1,33 @@
+class FinancialModelingPrepInfo:
+
+    income_statement_object_to_json_mapping = {
+        'date': 'date',
+        'revenue': 'Revenue',
+        'cost_of_revenue': 'Cost of Revenue',
+        'gross_profit': 'Gross Profit',
+        'r_and_d_expenses': 'R&D Expenses',
+        's_g_and_a_expenses': 'SG&A Expense',
+        'operating_expenses': 'Operating Expenses',
+        'interest_expense': 'Interest Expense',
+        'earnings_before_tax': 'Earnings before Tax',
+        'income_tax_expense': 'Income Tax Expense',
+        'net_income': 'Net Income',
+        'eps': 'EPS',
+        'eps_diluted': 'EPS Diluted',
+    }
+
+    balance_sheet_object_to_json_mapping = {
+        'date': 'date',
+        'cash_and_cash_equivalents': 'Cash and cash equivalents',
+        'accounts_receivable': 'Receivables',
+        'intangible_assets': 'Goodwill and Intangible Assets',
+        'non_current_assets': 'Total non-current assets',
+        'total_assets': 'Total assets',
+        'accounts_payable': 'Payables',
+        'current_liabilities': 'Total current liabilities',
+        'total_debt': 'Total debt',
+        'non_current_liabilities': 'Total non-current liabilities',
+        'total_liabilities': 'Total liabilities',
+        'retained_earnings': 'Retained earnings (deficit)',
+        'shareholders_equity': 'Total shareholders equity',
+    }
