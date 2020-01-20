@@ -47,3 +47,16 @@ How are we going to get Financial Statement data?
 How can we get the list of available stock tickers? How about historical stock tickers?
 - Possibly from NASDAQ: https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ
 - Possibly better than above: https://quant.stackexchange.com/questions/1640/where-to-download-list-of-all-common-stocks-traded-on-nyse-nasdaq-and-amex
+
+
+Stock Analyzer will have the following steps:
+1) Get raw data from sources
+2) Translate the raw sources into the Income Statement, Balance Sheet, and Cash Flow Statement business objects. This step may involve a different translator for each source.
+3) Create a report using the Income Statement, Balance Sheet, and Cash Flow Statement for each company. Save the reports to disk (each stock is a separate file).
+4) Sort, filter, and search on the files.
+
+There will be several different scripts required to do this:
+1) Script to download the raw data and store them in files.
+2) Script to convert the raw data into business objects
+3) Scripts to sort, filter, and search
+4) Scripts to do steps 1 and 2 automatically.
