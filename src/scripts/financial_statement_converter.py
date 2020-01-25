@@ -1,4 +1,6 @@
 from src.dao.file_storage_dao import FileStorageDAO
+from src.business_objects.income_statement import IncomeStatement
+from src.client_info.financial_modeling_prep_info import FinancialModelingPrepInfo
 
 
 class FinancialStatementConverter:
@@ -15,16 +17,17 @@ class FinancialStatementConverter:
         :return: a list of income statement objects associated with the ticker that was input
         """
         json_data = FileStorageDAO.get_income_statement(ticker)
-        # print(json_data)
+        print(json_data)
         print(json_data['financials'])
 
         income_statements = []
         for income_statement_data in json_data['financials']:
-            income_statements.push(FinancialStatementConverter.convert_income_statement_datum(income_statement_data))
+            income_statements.append(IncomeStatement(ticker,
+                                                     FinancialModelingPrepInfo.income_statement_object_to_json_mapping,
+                                                     income_statement_data))
 
-    @staticmethod
-    def convert_income_statement_datum(income_statement_data):
-        pass
+        print('\n\n')
+        print(income_statements) # TODO: create a "toString" method for IncomeStatement
 
 
 # For testing, remove later.
