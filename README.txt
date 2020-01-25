@@ -11,6 +11,7 @@ Some things to think about:
 - How should we store the stock data?
 - We will want APIs to sort and filter the data, so we should store the data in a way that is easy to do so.
 - How to hide/retrieve the API key?
+- We may have multiple sources in the future, how do model that and make it fit in the flow?
 
 
 To download historical data, we can use Alpha Vantage's free APIs (https://www.alphavantage.co/).

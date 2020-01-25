@@ -3,6 +3,11 @@ import os
 
 
 class FileStorageDAO:
+    """
+        DAO to retrieve and save information. We will need to modify this when we add more sources in the future.
+        We will need to have a directory per source.
+    """
+
 
     home_dir = os.path.expanduser("~")
     ROOT_DIR = home_dir + '/Documents/work/workspace/stock_analyzer/'
