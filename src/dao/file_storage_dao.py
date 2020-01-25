@@ -8,7 +8,6 @@ class FileStorageDAO:
         We will need to have a directory per source.
     """
 
-
     home_dir = os.path.expanduser("~")
     ROOT_DIR = home_dir + '/Documents/work/workspace/stock_analyzer/'
     DATA_DIR = ROOT_DIR + 'data/'

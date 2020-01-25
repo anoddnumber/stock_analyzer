@@ -13,7 +13,7 @@ class FinancialModelingPrepInfo:
         IncomeStatement.R_AND_D_EXPENSES: 'R&D Expenses',
         IncomeStatement.S_G_AND_A_EXPENSES: 'SG&A Expense',
         IncomeStatement.OPERATING_EXPENSES: 'Operating Expenses',
-        IncomeStatement.INTEREST_EXPENSE: 'Interest Expense',
+        IncomeStatement.INTEREST_EXPENSES: 'Interest Expense',
         IncomeStatement.EARNINGS_BEFORE_TAX: 'Earnings before Tax',
         IncomeStatement.INCOME_TAX_EXPENSE: 'Income Tax Expense',
         IncomeStatement.NET_INCOME: 'Net Income',

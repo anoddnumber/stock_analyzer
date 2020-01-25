@@ -1,6 +1,7 @@
 
 
 class IncomeStatement:
+    TICKER = 'ticker'
     DATE = 'date'
     REVENUE = 'revenue'
     COST_OF_REVENUE = 'cost_of_revenue'
@@ -15,12 +16,12 @@ class IncomeStatement:
     EPS = 'eps'
     EPS_DILUTED = 'eps_diluted'
 
-    available_attributes = frozenset({DATE, REVENUE, COST_OF_REVENUE,
+    available_attributes = frozenset({TICKER, DATE, REVENUE, COST_OF_REVENUE,
                                       GROSS_PROFIT, R_AND_D_EXPENSES, S_G_AND_A_EXPENSES,
                                       OPERATING_EXPENSES, INTEREST_EXPENSES, EARNINGS_BEFORE_TAX,
                                       INCOME_TAX_EXPENSE, NET_INCOME, EPS, EPS_DILUTED})
 
-    def __init__(self, mapping, json_data):
+    def __init__(self, ticker, mapping, json_data):
         if mapping is not None and json_data is not None:
             for key in mapping:
                 if key not in self.available_attributes:
@@ -28,6 +29,10 @@ class IncomeStatement:
                     continue
                 json_data_key = mapping[key]
                 try:
-                    self[key] = json_data[json_data_key]
+                    # print('key: ' + str(key))
+                    # print('json_data_key: ' + json_data_key)
+                    setattr(self, key, json_data_key)
+                    # self['abc'] = 'abc'
+                    # self[key] = json_data[json_data_key]
                 except KeyError:
                     print('Income Statement: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
