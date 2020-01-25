@@ -92,6 +92,8 @@ class Utils:
     @staticmethod
     def calculate_yoy_return(starting_value, ending_value, num_years=1):
         try:
+            if starting_value <= 0 or ending_value <= 0:
+                return None
             return math.exp(math.log(ending_value * 1.0 / starting_value) / num_years) - 1
         except (ValueError, ZeroDivisionError):
             return None

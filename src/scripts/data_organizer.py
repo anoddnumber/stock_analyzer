@@ -41,7 +41,7 @@ class DataOrganizer:
             'earnings_positive_percentage': Utils.calculate_percent_positive(earnings),
             'earnings_increase_percentage': Utils.calculate_increase_percentage(earnings),
             'earnings_strict_increase_percentage': Utils.calculate_strict_increase_percentage(earnings),
-            'earnings_growth': DataOrganizer.get_growth(earnings, num_years),
+            'earnings_growth': DataOrganizer.get_growth(earnings, num_years - 1),
 
             # revenue attributes
             'average_revenue': Utils.average(revenue),
@@ -49,7 +49,7 @@ class DataOrganizer:
             'revenue_positive_percentage': Utils.calculate_percent_positive(revenue),
             'revenue_increase_percentage': Utils.calculate_increase_percentage(revenue),
             'revenue_strict_increase_percentage': Utils.calculate_strict_increase_percentage(revenue),
-            'revenue_growth': DataOrganizer.get_growth(revenue, num_years),
+            'revenue_growth': DataOrganizer.get_growth(revenue, num_years - 1),
 
             'num_years': num_years,
             'last_updated_date': time.time(),
