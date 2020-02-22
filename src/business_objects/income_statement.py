@@ -31,11 +31,7 @@ class IncomeStatement:
                     continue
                 json_data_key = mapping[key]
                 try:
-                    # print('key: ' + str(key))
-                    # print('json_data_key: ' + json_data_key)
                     setattr(self, key, json_data[json_data_key])
-                    # self['abc'] = 'abc'
-                    # self[key] = json_data[json_data_key]
                 except KeyError:
                     print('Income Statement: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
 

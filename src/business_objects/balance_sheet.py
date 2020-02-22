@@ -33,6 +33,6 @@ class BalanceSheet:
                     continue
                 json_data_key = mapping[key]
                 try:
-                    self[key] = json_data[json_data_key]
+                    setattr(self, key, json_data[json_data_key])
                 except KeyError:
                     print('Balance Sheet: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
