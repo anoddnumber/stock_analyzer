@@ -26,6 +26,7 @@ class FinancialModelingPrepInfo:
         BalanceSheet.CASH_AND_CASH_EQUIVALENTS: 'Cash and cash equivalents',
         BalanceSheet.ACCOUNTS_RECEIVABLE: 'Receivables',
         BalanceSheet.INTANGIBLE_ASSETS: 'Goodwill and Intangible Assets',
+        BalanceSheet.CURRENT_ASSETS: 'Total current assets',
         BalanceSheet.NON_CURRENT_ASSETS: 'Total non-current assets',
         BalanceSheet.TOTAL_ASSETS: 'Total assets',
         BalanceSheet.ACCOUNTS_PAYABLE: 'Payables',
@@ -35,6 +36,8 @@ class FinancialModelingPrepInfo:
         BalanceSheet.TOTAL_LIABILITIES: 'Total liabilities',
         BalanceSheet.RETAINED_EARNINGS: 'Retained earnings (deficit)',
         BalanceSheet.SHAREHOLDERS_EQUITY: 'Total shareholders equity',
+        BalanceSheet.FIXED_ASSETS: 'Property, Plant & Equipment Net',
+        BalanceSheet.INVENTORY: 'Inventories',
     }
 
     cash_flow_statement_object_to_json_mapping = {
