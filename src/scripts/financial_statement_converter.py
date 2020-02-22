@@ -17,8 +17,6 @@ class FinancialStatementConverter:
         :return: a list of income statement objects associated with the ticker that was input
         """
         json_data = FileStorageDAO.get_income_statement(ticker)
-        print(json_data)
-        print(json_data['financials'])
 
         income_statements = []
         for income_statement_data in json_data['financials']:
@@ -26,9 +24,4 @@ class FinancialStatementConverter:
                                                      FinancialModelingPrepInfo.income_statement_object_to_json_mapping,
                                                      income_statement_data))
 
-        print('\n\n')
-        print(*income_statements, sep='\n') # TODO: create a "toString" method for IncomeStatement
-
-
-# For testing, remove later.
-FinancialStatementConverter.convert_income_statement_data('AMZN')
+        return income_statements
