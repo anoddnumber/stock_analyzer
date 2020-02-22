@@ -22,6 +22,8 @@ class IncomeStatement:
                                       INCOME_TAX_EXPENSE, NET_INCOME, EPS, EPS_DILUTED})
 
     def __init__(self, ticker, mapping, json_data):
+        setattr(self, 'ticker', ticker)
+
         if mapping is not None and json_data is not None:
             for key in mapping:
                 if key not in self.available_attributes:
@@ -31,8 +33,14 @@ class IncomeStatement:
                 try:
                     # print('key: ' + str(key))
                     # print('json_data_key: ' + json_data_key)
-                    setattr(self, key, json_data_key)
+                    setattr(self, key, json_data[json_data_key])
                     # self['abc'] = 'abc'
                     # self[key] = json_data[json_data_key]
                 except KeyError:
                     print('Income Statement: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
+
+    def __str__(self):
+        res = ''
+        for attribute in sorted(self.available_attributes):
+            res += attribute + ' : ' + getattr(self, attribute, 'missing') + '\n'
+        return res

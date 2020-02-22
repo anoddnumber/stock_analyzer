@@ -27,7 +27,7 @@ class FinancialStatementConverter:
                                                      income_statement_data))
 
         print('\n\n')
-        print(income_statements) # TODO: create a "toString" method for IncomeStatement
+        print(*income_statements, sep='\n') # TODO: create a "toString" method for IncomeStatement
 
 
 # For testing, remove later.
