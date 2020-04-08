@@ -4,10 +4,12 @@ import csv
 class ProcessDoublesFile:
 
     @staticmethod
-    def run(filepath):
-        date = filepath.split(sep=' ')[1]
+    def process_file(file_path):
+        date = file_path.split(sep=' ')[1]
         ret = {'date': date}
-        with open(filepath, newline='') as csvfile:
+
+        # print('file_path: ' + file_path)
+        with open(file_path, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 # print(row)
@@ -22,14 +24,14 @@ class ProcessDoublesFile:
                     ret[name] = {
                         'country': p1_country,
                         'points': points,
-                        'rank': rank,
+                        # 'rank': rank,
                     }
 
                     if rank >= 10:
                         break
                 except ValueError:
                     continue
-        print(ret)
+        # print(ret)
         return ret
 
 
