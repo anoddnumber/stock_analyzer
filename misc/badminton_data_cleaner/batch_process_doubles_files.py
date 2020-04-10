@@ -12,11 +12,21 @@ class BatchProcessDoublesFiles:
         }
         relevant_file_paths = BatchProcessDoublesFiles.get_relevant_file_paths(data_source_dir_path, doubles_type)
         for file_path in relevant_file_paths:
+            # print('filepath: ' + str(file_path))
             data = ProcessDoublesFile.process_file(file_path)
+
+            # print(consolidated_data['dates'])
+            # print('data')
+            # print(data)
+
+            # for i in range(0, 7):
+            #     consolidated_data['dates'].append(str(datetime.strptime(data['date'], '%Y-%m-%d') + timedelta(days=i)).split()[0])
+
+            consolidated_data['dates'].append(data['date'])
             for key in data:
                 # keys are either the player names or 'date'
                 if key is 'date':
-                    consolidated_data['dates'].append(data[key])
+                    # consolidated_data['dates'].append(data[key])
                     continue
 
                 new_data = {
@@ -29,8 +39,10 @@ class BatchProcessDoublesFiles:
                 else:
                     consolidated_data[key] = {
                         'country': data[key]['country'],
+                        'image': data[key]['image'],
                         'data': [new_data],
                     }
+
         print(consolidated_data)
         BatchProcessDoublesFiles.write_file(destination_file_path, consolidated_data)
 
@@ -38,11 +50,14 @@ class BatchProcessDoublesFiles:
     def write_file(destination_file_path, consolidated_data):
         # # processed_headers = False
         # for data in consolidated_data:
+        dates = consolidated_data['dates']
+        dates.sort()
+        # print(dates)
 
         with open(destination_file_path, 'w', newline='') as csvfile:
             fieldnames = ['Name', 'Country', 'Image']
-            fieldnames.extend(consolidated_data['dates'])
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            fieldnames.extend(dates)
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, restval=0)
 
             writer.writeheader()
 
@@ -52,7 +67,8 @@ class BatchProcessDoublesFiles:
 
                 row = {
                     'Name': key,
-                    'Country': consolidated_data[key]['country']
+                    'Country': consolidated_data[key]['country'],
+                    'Image': consolidated_data[key]['image'],
                 }
 
                 for datum in consolidated_data[key]['data']:
@@ -66,21 +82,23 @@ class BatchProcessDoublesFiles:
             try:
                 # print('directory ' + directory)
                 if doubles_type == 'md':
-                    look_for = "Men's doubles"
+                    look_for = "men's doubles"
                 elif doubles_type == 'wd':
-                    look_for = "Women's doubles"
+                    look_for = "women's doubles"
                 else:
-                    look_for = "Mixed doubles"
+                    look_for = "mixed doubles"
 
                 # print('look_for: ' + look_for)
                 for filename in os.listdir(dir_path + directory):
                     # print('filename: ' + filename)
-                    if not filename.startswith('.') and look_for in filename:
+                    if not filename.startswith('.') and filename.lower().startswith(look_for):
                         file_paths.append(dir_path + directory + '/' + filename)
             except NotADirectoryError:
                 # print('not a directory')
                 continue
-        # print(file_paths)
+        print(file_paths)
         return file_paths
 
 
+BatchProcessDoublesFiles.process_files('/Volumes/ExFAT_B/Samson/badmintonbites/bwf_historical_data/csv/', 'md',
+                                       '/Volumes/ExFAT_B/Samson/badmintonbites/test.csv')
