@@ -100,5 +100,5 @@ class BatchProcessDoublesFiles:
         return file_paths
 
 
-BatchProcessDoublesFiles.process_files('/Volumes/ExFAT_B/Samson/badmintonbites/bwf_historical_data/csv/', 'md',
+BatchProcessDoublesFiles.process_files('/Volumes/ExFAT_B/Samson/badmintonbites/bwf_historical_data/csv/', 'wd',
                                        '/Volumes/ExFAT_B/Samson/badmintonbites/test.csv')

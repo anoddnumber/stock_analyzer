@@ -11,4 +11,7 @@ class Constants:
         'RUS': 'https://badmintonbites.com/wp-content/uploads/2020/04/russia_flag.png',
         'ENG': 'https://badmintonbites.com/wp-content/uploads/2020/01/england_flag.png',
         'IND': 'https://badmintonbites.com/wp-content/uploads/2020/01/india_flag.png',
+        'HKG': 'https://badmintonbites.com/wp-content/uploads/2020/04/hong_kong_flag.png',
+        'NED': 'https://badmintonbites.com/wp-content/uploads/2020/04/netherlands_flag.png',
+        'BUL': 'https://badmintonbites.com/wp-content/uploads/2020/04/bulgaria_flag.png',
     }
