@@ -14,4 +14,8 @@ class Constants:
         'HKG': 'https://badmintonbites.com/wp-content/uploads/2020/04/hong_kong_flag.png',
         'NED': 'https://badmintonbites.com/wp-content/uploads/2020/04/netherlands_flag.png',
         'BUL': 'https://badmintonbites.com/wp-content/uploads/2020/04/bulgaria_flag.png',
+        'POL': 'https://badmintonbites.com/wp-content/uploads/2020/04/poland_flag.png',
+        'SIN': 'https://badmintonbites.com/wp-content/uploads/2020/04/singapore_flag.png',
+        'GER': 'https://badmintonbites.com/wp-content/uploads/2020/04/germany_flag.png',
+        'VIE': 'https://badmintonbites.com/wp-content/uploads/2020/04/vietnam_flag.png',
     }

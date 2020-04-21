@@ -23,40 +23,77 @@ class ProcessDoublesFile:
 
                     name = p1_last_name.upper() + '/' + p2_last_name.upper()
 
-                    #hacks for womens doubles
+                    # hacks for mixed doubles
+                    if name == 'MATEUSIAK/ZIEBA *':
+                        name = 'MATEUSIAK/ZIEBA'
                     if date == '2012-04-05':
-                        ret['WANG/YU'] = {
-                            'points': '100704.9444'
+                        ret['ZHANG/ZHAO'] = {
+                            'points': '90940'
                         }
-                        ret['TIAN/ZHAO'] = {
-                            'points': '91051.9161'
+                        ret['XU/MA'] = {
+                            'points': '84196.2'
                         }
-                        ret['HA/KIM'] = {
-                            'points': '76540'
+                        ret['AHMAD/NATSIR'] = {
+                            'points': '80990'
                         }
-                        ret['FUJII/KAKIWAA'] = {
-                            'points': '70214.61199999999',
-                            'country': 'JPN',
-                            'image': Constants.flag_map['JPN'],
+                        ret['FISCHER NIELSEN/PEDERSEN'] = {
+                            'points': '80036.39999999999',
                         }
-                        ret['MAEDA/SUETSUNA'] = {
-                            'points': '63604.6607'
+                        ret['CHEN/CHENG'] = {
+                            'points': '66822.39999999999'
                         }
-                        ret['MATSUO/NAITO'] = {
-                            'points': '62283.9'
+                        ret['LAYBOURN/RYTTER JUHL'] = {
+                            'points': '64782.8571'
                         }
-                        ret['RYTTER JUHL/PEDERSEN'] = {
-                            'points': '61599.8937'
+                        ret['LEE/HA'] = {
+                            'points': '57470'
                         }
-                        ret['POLII/JAUHARI'] = {
-                            'points': '55247.862'
+                        ret['CHAN/GOH'] = {
+                            'points': '56460'
                         }
-                        ret['CHENG/CHIEN'] = {
-                            'points': '54949.7'
+                        ret['PRAPAKAMOL/THOUNGTHONGKAM'] = {
+                            'points': '54874'
                         }
-                        ret['JUNG/KIM'] = {
-                            'points': '54680'
+                        ret['ADCOCK/BANKIER'] = {
+                            'points': '49880',
+                            'country': 'ENG',
+                            'image': 'https://badmintonbites.com/wp-content/uploads/2020/01/england_flag.png'
                         }
+
+                    #hacks for womens doubles
+                    # if date == '2012-04-05':
+                    #     ret['WANG/YU'] = {
+                    #         'points': '100704.9444'
+                    #     }
+                    #     ret['TIAN/ZHAO'] = {
+                    #         'points': '91051.9161'
+                    #     }
+                    #     ret['HA/KIM'] = {
+                    #         'points': '76540'
+                    #     }
+                    #     ret['FUJII/KAKIWAA'] = {
+                    #         'points': '70214.61199999999',
+                    #         'country': 'JPN',
+                    #         'image': Constants.flag_map['JPN'],
+                    #     }
+                    #     ret['MAEDA/SUETSUNA'] = {
+                    #         'points': '63604.6607'
+                    #     }
+                    #     ret['MATSUO/NAITO'] = {
+                    #         'points': '62283.9'
+                    #     }
+                    #     ret['RYTTER JUHL/PEDERSEN'] = {
+                    #         'points': '61599.8937'
+                    #     }
+                    #     ret['POLII/JAUHARI'] = {
+                    #         'points': '55247.862'
+                    #     }
+                    #     ret['CHENG/CHIEN'] = {
+                    #         'points': '54949.7'
+                    #     }
+                    #     ret['JUNG/KIM'] = {
+                    #         'points': '54680'
+                    #     }
 
 
                     # hacks for mens doubles
