@@ -33,6 +33,7 @@ class DataRetriever:
                                            FinancialModelingPrepClient.get_cash_flow_statements_batch,
                                            FileStorageDAO.save_cash_flow_statement, time_to_live)
 
+    # time_to_live is in seconds
     @staticmethod
     def retrieve_data(tickers, get_func, fetch_func, save_func, time_to_live=0):
         tickers_to_retrieve = []

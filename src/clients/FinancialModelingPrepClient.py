@@ -29,7 +29,7 @@ class FinancialModelingPrepClient:
     def get_batch(tickers, statement_type):
         ret = []
         for ticker in tickers:
-            time.sleep(1)
+            # time.sleep(1)
             ret.append(FinancialModelingPrepClient.json_get_single_financial_statement(ticker, statement_type))
         return ret
 

@@ -78,7 +78,11 @@ class FileStorageDAO:
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
         file.write('# Big 5\n')
-        file.write('ROIC 1 Year: ' + company_report.get_str(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR))
+        file.write('ROIC 1 Year: ' + company_report.get_str(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR) + '\n')
+        file.write('Equity Growth: ' + company_report.get_str(CompanyReport.EQUITY_GROWTH) + '\n')
+        file.write('Earnings Growth: ' + company_report.get_str(CompanyReport.EARNINGS_GROWTH) + "\n")
+        file.write('Revenue Growth: ' + company_report.get_str(CompanyReport.REVENUE_GROWTH) + "\n")
+        file.write('Cash Growth: ' + company_report.get_str(CompanyReport.CASH_GROWTH) + "\n")
         file.close()
 
     @staticmethod

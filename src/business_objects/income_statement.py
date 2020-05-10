@@ -35,6 +35,9 @@ class IncomeStatement:
                 except KeyError:
                     print('Income Statement: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
 
+    def get(self, attr):
+        return getattr(self, attr)
+
     def __str__(self):
         res = ''
         for attribute in sorted(self.available_attributes):
