@@ -34,6 +34,12 @@ class ProcessSinglesFile:
                     else:
                         name = first_name.upper() + ' ' + last_name.upper()
 
+                    # women's singles hack
+                    if name == 'LIU XIN (F)':
+                        name = 'LIU XIN'
+                    if name == 'RATCHANOK INTHANON' or name == 'INTHANON RATCHANOK' or name == 'INTANON RATCHANOK':
+                        name = 'RATCHANOK INTANON'
+
                     ret[name] = {
                         'country': country,
                         'points': points,

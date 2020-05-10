@@ -81,5 +81,5 @@ class BatchProcessSinglesFiles:
         return file_paths
 
 
-BatchProcessSinglesFiles.process_files('/Volumes/ExFAT_B/Samson/badmintonbites/bwf_historical_data/csv/', 'ms',
+BatchProcessSinglesFiles.process_files('/Volumes/ExFAT_B/Samson/badmintonbites/bwf_historical_data/csv/', 'ws',
                                        '/Volumes/ExFAT_B/Samson/badmintonbites/test.csv')

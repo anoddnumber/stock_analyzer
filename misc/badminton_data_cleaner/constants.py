@@ -18,4 +18,7 @@ class Constants:
         'SIN': 'https://badmintonbites.com/wp-content/uploads/2020/04/singapore_flag.png',
         'GER': 'https://badmintonbites.com/wp-content/uploads/2020/04/germany_flag.png',
         'VIE': 'https://badmintonbites.com/wp-content/uploads/2020/04/vietnam_flag.png',
+        'ESP': 'https://badmintonbites.com/wp-content/uploads/2020/01/spain_flag.png',
+        'USA': 'https://badmintonbites.com/wp-content/uploads/2020/04/usa_flag.png',
+        'CAN': 'https://badmintonbites.com/wp-content/uploads/2020/04/canada_flag.png',
     }
