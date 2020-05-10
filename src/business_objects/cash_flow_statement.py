@@ -29,3 +29,9 @@ class CashFlowStatement:
                     setattr(self, key, json_data[json_data_key])
                 except KeyError:
                     print('Cash Flow Statement: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
+
+    def __str__(self):
+        res = ''
+        for attribute in sorted(self.available_attributes):
+            res += attribute + ' : ' + getattr(self, attribute, 'missing') + '\n'
+        return res
