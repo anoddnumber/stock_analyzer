@@ -59,5 +59,6 @@ Stock Analyzer will have the following steps:
 There will be several different scripts required to do this:
 1) Script to download the raw data and store them in files.
 2) Script to convert the raw data into business objects
-3) Scripts to sort, filter, and search
-4) Scripts to do steps 1 and 2 automatically.
+3) Script to convert business objects into reports
+4) Scripts to sort, filter, and search
+5) Scripts to do steps 1 and 2 automatically.

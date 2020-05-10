@@ -1,6 +1,7 @@
 from src.dao.file_storage_dao import FileStorageDAO
 from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
+from src.business_objects.cash_flow_statement import CashFlowStatement
 from src.client_info.financial_modeling_prep_info import FinancialModelingPrepInfo
 
 
@@ -42,3 +43,23 @@ class FinancialStatementConverter:
                                                balance_sheet_data))
 
         return balance_sheets
+
+    @staticmethod
+    def convert_cash_flow_statement_data(ticker):
+        """
+                Reads the raw cash flow statement data for the given ticker and converts it into
+                CashFlowStatement objects
+
+                :param ticker: the stock symbol
+                :return: a list of cash flow statement objects associated with the ticker that was input
+                """
+        json_data = FileStorageDAO.get_cash_flow_statement(ticker)
+        cash_flow_statements = []
+        for cash_flow_statement_data in json_data['financials']:
+            cash_flow_statements.append(CashFlowStatement(
+                FinancialModelingPrepInfo.cash_flow_statement_object_to_json_mapping, cash_flow_statement_data))
+
+        return cash_flow_statements
+
+
+# print(*FinancialStatementConverter.convert_cash_flow_statement_data('AMZN'))
