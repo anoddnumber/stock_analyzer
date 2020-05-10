@@ -26,6 +26,9 @@ class CompanyReport:
     HISTORIC_PE = 'historic_pe'
     TOTAL_DEBT = 'total_debt'
     MARGIN_OF_SAFETY = 'margin_of_safety'
+    NUM_INCOME_STATEMENTS = 'num_income_statements'
+    NUM_BALANCE_SHEETS = 'num_balance_sheets'
+    NUM_CASH_FLOW_STATEMENTS = 'num_cash_flow_statements'
 
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL_10_YEAR, RETURN_ON_INVESTED_CAPITAL_5_YEAR,
@@ -34,10 +37,19 @@ class CompanyReport:
                                       EARNINGS_GROWTH,
                                       REVENUE_GROWTH,
                                       CASH_GROWTH,
-                                      HISTORIC_PE, TOTAL_DEBT, MARGIN_OF_SAFETY})
+                                      HISTORIC_PE, TOTAL_DEBT, MARGIN_OF_SAFETY,
+                                      NUM_INCOME_STATEMENTS,
+                                      NUM_BALANCE_SHEETS,
+                                      NUM_CASH_FLOW_STATEMENTS})
 
     def __init__(self):
         pass
+
+    def get(self, attr):
+        return getattr(self, attr)
+
+    def get_str(self, attr):
+        return str(self.get(attr))
 
     def set_attr(self, attr, value):
         if attr not in self.available_attributes:

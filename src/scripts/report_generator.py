@@ -28,13 +28,18 @@ class ReportGenerator:
 
         roic_1_year = nopat_1_year / financing_1_year
 
-        print('gross profit: ' + str(gross_profit))
-        print('nopat: ' + str(nopat_1_year))
-        print('financing: ' + str(financing_1_year))
-        print('roic: ' + str(roic_1_year))
+        # print('gross profit: ' + str(gross_profit))
+        # print('nopat: ' + str(nopat_1_year))
+        # print('financing: ' + str(financing_1_year))
+        # print('roic: ' + str(roic_1_year))
 
         company_report = CompanyReport()
 
+        company_report.set_attr(CompanyReport.TICKER, ticker)
+        # company_report.set_attr(CompanyReport.EQUITY_GROWTH, )
+        company_report.set_attr(CompanyReport.NUM_INCOME_STATEMENTS, len(income_statements))
+        company_report.set_attr(CompanyReport.NUM_BALANCE_SHEETS, len(balance_sheets))
+        company_report.set_attr(CompanyReport.NUM_CASH_FLOW_STATEMENTS, len(cash_flow_statements))
         company_report.set_attr(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR, roic_1_year)
 
         FileStorageDAO.save_report(company_report)

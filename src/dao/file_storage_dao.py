@@ -1,5 +1,6 @@
 import json
 import os
+from business_objects.company_report import CompanyReport
 
 
 class FileStorageDAO:
@@ -17,6 +18,7 @@ class FileStorageDAO:
     INCOME_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'income_statements/'
     BALANCE_SHEET_DIR = FINANCIAL_STATEMENTS_DIR + 'balance_sheets/'
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
+    COMPANY_REPORTS_DIR = DATA_DIR + 'company_reports/'
 
     @staticmethod
     def get_financial_statements(ticker):
@@ -69,6 +71,15 @@ class FileStorageDAO:
     @staticmethod
     def save_report(company_report):
         print('\n\ncompany report: ' + str(company_report))
+        ticker = company_report.get(CompanyReport.TICKER)
+        file = open(FileStorageDAO.COMPANY_REPORTS_DIR + ticker + '.txt', "w")
+        file.write(ticker + '\n\n')
+        file.write('Number of Income Statements: ' + company_report.get_str(CompanyReport.NUM_INCOME_STATEMENTS) + '\n')
+        file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
+        file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
+        file.write('# Big 5\n')
+        file.write('ROIC 1 Year: ' + company_report.get_str(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR))
+        file.close()
 
     @staticmethod
     def _make_directories():
