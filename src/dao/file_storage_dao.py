@@ -48,23 +48,27 @@ class FileStorageDAO:
 
     @staticmethod
     def save_income_statement(ticker, json_obj):
-        FileStorageDAO._save(FileStorageDAO.INCOME_STATEMENTS_DIR + ticker + '.json', json_obj)
+        FileStorageDAO._save_json(FileStorageDAO.INCOME_STATEMENTS_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_balance_sheet(ticker, json_obj):
-        FileStorageDAO._save(FileStorageDAO.BALANCE_SHEET_DIR + ticker + '.json', json_obj)
+        FileStorageDAO._save_json(FileStorageDAO.BALANCE_SHEET_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_cash_flow_statement(ticker, json_obj):
-        FileStorageDAO._save(FileStorageDAO.CASH_FLOW_STATEMENTS_DIR + ticker + '.json', json_obj)
+        FileStorageDAO._save_json(FileStorageDAO.CASH_FLOW_STATEMENTS_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_organized_data(ticker, json_obj):
-        FileStorageDAO._save(FileStorageDAO.ORGANIZED_DATA_DIR + ticker + '.json', json_obj)
+        FileStorageDAO._save_json(FileStorageDAO.ORGANIZED_DATA_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_analyzed_data(ticker, json_obj):
-        FileStorageDAO._save(FileStorageDAO.ANALYSIS_DIR + ticker + '.json', json_obj)
+        FileStorageDAO._save_json(FileStorageDAO.ANALYSIS_DIR + ticker + '.json', json_obj)
+
+    @staticmethod
+    def save_report(company_report):
+        print('\n\ncompany report: ' + str(company_report))
 
     @staticmethod
     def _make_directories():
@@ -77,7 +81,7 @@ class FileStorageDAO:
                 os.mkdir(path)
 
     @staticmethod
-    def _save(file_path, json_obj):
+    def _save_json(file_path, json_obj):
         file = open(file_path, 'w')
         file.write(json.dumps(json_obj, indent=2))
         file.close()
