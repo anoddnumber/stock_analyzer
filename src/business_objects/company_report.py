@@ -42,4 +42,10 @@ class CompanyReport:
     def set_attr(self, attr, value):
         if attr not in self.available_attributes:
             raise AttributeError('Cannot set attribute ' + str(attr) + ' to CompanyReport, it is not a supported attribute')
-        self[attr] = value;
+        setattr(self, attr, value)
+
+    def __str__(self):
+        res = ''
+        for attribute in sorted(self.available_attributes):
+            res += attribute + ' : ' + str(getattr(self, attribute, 'missing')) + '\n'
+        return res

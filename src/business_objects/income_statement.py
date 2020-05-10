@@ -38,5 +38,5 @@ class IncomeStatement:
     def __str__(self):
         res = ''
         for attribute in sorted(self.available_attributes):
-            res += attribute + ' : ' + getattr(self, attribute, 'missing') + '\n'
+            res += attribute + ' : ' + str(getattr(self, attribute, 'missing')) + '\n'
         return res
