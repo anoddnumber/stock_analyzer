@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+# Some reason the downloaded video will have a 10 second delay or so from the start time..
+
 url=$1
-start_time=$2
+start_time=$2 # format of time should be something like this: 00:00:10
 end_time=$3
 
 original_output_name="$(youtube-dl --get-title "$url")"
