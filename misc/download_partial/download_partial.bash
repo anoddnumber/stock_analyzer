@@ -26,4 +26,4 @@ echo $output_name
 
 ffmpeg -i $(youtube-dl -f 22 --get-url "$url") \
 -ss $start_time -to $end_time -c:v copy -c:a copy \
-"$output_name"
+"$output_name" > /dev/null 2>&1

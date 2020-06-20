@@ -2,10 +2,6 @@ import subprocess
 import csv
 
 
-# bashCommand = "./download_partial.bash https://www.youtube.com/watch?v=MY24WxxlMuA 00:10:20 00:22:10"
-# process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-# output, error = process.communicate()
-
 with open('video_feed.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
@@ -22,6 +18,14 @@ with open('video_feed.csv', newline='') as csvfile:
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
             output, error = process.communicate()
         except Exception:
-            print(f'Could not download video with url: {url}, start time: {start_time}, and end time: {end_time}')
+            print(f'ERROR: Could not download video with url: {url}, start time: {start_time}, and end time: {end_time}')
+
+    try:
+        print('Executing convert_to_mov.bash')
+        bashCommand = './convert_to_mov.bash'
+        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+    except Exception:
+        print('ERROR: There was a problem executing convert_to_mov.bash')
 
 print("DOWNLOAD COMPLETE")
