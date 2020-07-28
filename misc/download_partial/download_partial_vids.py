@@ -5,7 +5,8 @@ import csv
 with open('video_feed.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
-        if len(row) != 3:
+        if len(row) < 3:
+            print(f'Row does not have enough arguments, at least 3 expected: {row}')
             continue
 
         url = row[0]
