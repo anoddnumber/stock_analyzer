@@ -2,11 +2,11 @@ import subprocess
 import csv
 
 
-with open('video_feed.csv', newline='') as csvfile:
+with open('video_feed.csv') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     for row in reader:
         if len(row) < 3:
-            print(f'Row does not have enough arguments, at least 3 expected: {row}')
+            print('Row does not have enough arguments, at least 3 expected: {}'.format(row))
             continue
 
         url = row[0]
@@ -14,12 +14,13 @@ with open('video_feed.csv', newline='') as csvfile:
         end_time = row[2]
 
         try:
-            print(f'Trying to download video with url: {url}, start time: {start_time}, and end time: {end_time}')
-            bashCommand = f'./download_partial.bash {url} {start_time} {end_time}'
+            print('Trying to download video with url: {}, start time: {}, and end time: {}'.format(url, start_time, end_time))
+            bashCommand = './download_partial.bash {} {} {}'.format(url, start_time, end_time)
             process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
             output, error = process.communicate()
         except Exception:
-            print(f'ERROR: Could not download video with url: {url}, start time: {start_time}, and end time: {end_time}')
+            print('ERROR: Could not download video with url: {url}, start time: {}, and end time: {}'
+                  .format(start_time, end_time))
 
     try:
         print('Executing convert_to_mov.bash')
