@@ -70,7 +70,7 @@ class FileStorageDAO:
 
     @staticmethod
     def save_report(company_report):
-        print('\n\ncompany report: ' + str(company_report))
+        print('\n\ncompany report:\n' + str(company_report))
         ticker = company_report.get(CompanyReport.TICKER)
         file = open(FileStorageDAO.COMPANY_REPORTS_DIR + ticker + '.txt', "w")
         file.write(ticker + '\n\n')
