@@ -16,7 +16,7 @@ class ReportGenerator:
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
 
-        print(income_statements[0])
+        # print(income_statements[0])
 
         gross_profit = float(getattr(income_statements[0], IncomeStatement.GROSS_PROFIT, 'no gross profit'))
         operating_expenses = float(getattr(income_statements[0], IncomeStatement.OPERATING_EXPENSES, 'no operating expenses'))
@@ -28,6 +28,7 @@ class ReportGenerator:
         nopat_1_year = gross_profit - operating_expenses - tax_expense
         financing_1_year = shareholders_equity + debt
 
+        # return on invested capital
         roic_1_year = nopat_1_year / financing_1_year
 
         # print('gross profit: ' + str(gross_profit))
@@ -66,7 +67,9 @@ class ReportGenerator:
 
 
 # DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
-all_tickers = FinancialModelingPrepClient.get_tickers()
-print(all_tickers)
-DataRetriever.retrieve_financial_statements(all_tickers, 60 * 60 * 24 * 10)
+# all_tickers = FinancialModelingPrepClient.get_tickers()
+# print(all_tickers)
+# print(len(all_tickers))
+# DataRetriever.retrieve_financial_statements(['AMZN'], 60 * 60 * 24 * 10)
+# DataRetriever.retrieve_financial_statements(all_tickers, 60 * 60 * 24 * 10)
 # ReportGenerator.generate_report(all_tickers)
