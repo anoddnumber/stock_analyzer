@@ -13,7 +13,12 @@ class DataFilterer:
         full_filtered_tickers = []
 
         for ticker in tickers:
-            analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
+            try:
+                analyzed_data = FileStorageDAO.get_analyzed_data(ticker)
+            except FileNotFoundError:
+                print('Did not find analyzed data for ' + ticker + '. Continuing')
+                continue
+
             attr = get_attr(analyzed_data)
             if comparsion_method(attr, value):
                 filtered_tickers.append(ticker)
