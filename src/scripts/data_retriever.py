@@ -68,9 +68,10 @@ class DataRetriever:
 
             # save to the database
             for ticker, datum in zip(current_tickers, data):
-                datum['last_updated_date'] = time.time()
-                datum['last_updated_date_human'] = str(datetime.datetime.now())
-                save_func(ticker, datum)
+                saved_datum = {'financials' : datum}
+                saved_datum['last_updated_date'] = time.time()
+                saved_datum['last_updated_date_human'] = str(datetime.datetime.now())
+                save_func(ticker, saved_datum)
 
             i += DataRetriever.MAX_TICKERS
 

@@ -63,11 +63,11 @@ class FinancialModelingPrepClient:
     @staticmethod
     def json_get_single_financial_statement(ticker, statement_type):
         if statement_type == 'income_statement':
-            url = 'https://financialmodelingprep.com/api/v3/financials/income-statement/'
+            url = 'https://financialmodelingprep.com/api/v3/income-statement/'
         elif statement_type == FinancialModelingPrepClient.BALANCE_SHEET:
-            url = 'https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/'
+            url = 'https://financialmodelingprep.com/api/v3/balance-sheet-statement/'
         elif statement_type == 'cash_flow_statement':
-            url = 'https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/'
+            url = 'https://financialmodelingprep.com/api/v3/cash-flow-statement/'
 
         url = url + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
         print('url ' + url)
@@ -75,10 +75,6 @@ class FinancialModelingPrepClient:
         data = FinancialModelingPrepClient.json_get(url)
         print('data: ' + str(data))
 
-        # try:
-        #     data = data['financialStatementList']
-        # except KeyError:
-        #     data = [data]
         return data
 
     @staticmethod

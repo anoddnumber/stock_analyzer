@@ -18,7 +18,7 @@ class BalanceSheet:
     RETAINED_EARNINGS = 'retained_earnings'
     SHAREHOLDERS_EQUITY = 'shareholders_equity'
 
-    available_attributes = frozenset({DATE, CASH_AND_CASH_EQUIVALENTS, ACCOUNTS_RECEIVABLE,
+    available_attributes = frozenset({DATE, CASH_AND_CASH_EQUIVALENTS,
                                       INVENTORY, CURRENT_ASSETS, FIXED_ASSETS,
                                       INTANGIBLE_ASSETS, NON_CURRENT_ASSETS, TOTAL_ASSETS,
                                       ACCOUNTS_PAYABLE, CURRENT_LIABILITIES, TOTAL_DEBT,
