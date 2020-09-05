@@ -1,0 +1,32 @@
+Owner's Earnings
+
+https://en.wikipedia.org/wiki/Owner_earnings#:~:text=Owner%20earnings%20is%20a%20valuation,minus%20any%20reinvestment%20of%20earnings.
+
+Valuation method used by Warren Buffett.
+
+"The value of a company is simply the total of the net cash flows (owner's earnings) expected to occur over the life of the business, minus any reinvestment of earnings"
+
+Owner's Earnings = earnings + depreciation + depletion + amortization + other non-cash charges - average annual capital expenditures for plant and equipment
+
+Warren Buffett says "average annual capital expenditures for plant and equipment" is an estimate that may be tricky to get right.
+Wall Street normally ignores "average annual capital expenditures for plant and equipment" but it is an important part to get correct in order to value a company accurately.
+
+
+Owner's Earnings is a representation of all the cash that the company will have for a particular year.
+Add up all the Owner's Earnings (with a discounted value) and you will have all the company's lifetime value.
+
+
+Explanation of the formula:
+
+-Earnings is the profit the company got in the year/term. It represents cash so therefore should be part of the equation.
+
+-Depreciation is a representation of the decrease in value of a tangible asset. However, it does not actually decrease cash flow
+as cash is not taken away from the company, therefore we add it back to the earnings.
+
+-Depletion is similar to depreciation but refers to the decrease in value of a natural resource.
+
+-Amortization is also similar to depreciation but refers to the decrease in value of an intangible asset.
+
+-Other non-cash charges is any expense that isn't covered by depreciation, depletion, and amortization that is also unrelated to cash.
+
+-"Average annual capital expenditures for plant and equipment" refers to any cash used to maintain the business. We need to subtract this from the owner's earnings because it reduces cash.
