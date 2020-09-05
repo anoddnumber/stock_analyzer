@@ -1,7 +1,16 @@
 import math
+from definitions import ROOT_DIR
 
 
 class Utils:
+    API_FILE_NAME = 'API_KEY.txt'
+
+    @staticmethod
+    def get_api_key():
+        api_file = open(ROOT_DIR + '/' + Utils.API_FILE_NAME, "r")
+        api_key = api_file.readline()
+        api_file.close()
+        return api_key
 
     @staticmethod
     def average(values):
@@ -97,4 +106,3 @@ class Utils:
             return math.exp(math.log(ending_value * 1.0 / starting_value) / num_years) - 1
         except (ValueError, ZeroDivisionError):
             return None
-

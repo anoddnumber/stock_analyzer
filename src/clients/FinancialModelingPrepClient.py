@@ -1,10 +1,11 @@
 from urllib.request import urlopen
+from scripts.utilities.utils import Utils
 import json
-import time
 
 
 class FinancialModelingPrepClient:
 
+    API_KEY = Utils.get_api_key()
     INCOME_STATEMENT = 'income_statement'
     BALANCE_SHEET = 'balance_sheet'
     CASH_FLOW_STATEMENT = 'cash_flow_statement'
@@ -43,9 +44,11 @@ class FinancialModelingPrepClient:
 
     @staticmethod
     def get_tickers():
-        url = 'https://financialmodelingprep.com/api/v3/company/stock/list'
+        url = 'https://financialmodelingprep.com/api/v3/company/stock/list' + '?apikey=' + FinancialModelingPrepClient.API_KEY
         res = FinancialModelingPrepClient.json_get(url)
         tickers = []
+        print(url)
+
         for datum in res['symbolsList']:
             tickers.append(datum['symbol'])
         return tickers
@@ -66,7 +69,7 @@ class FinancialModelingPrepClient:
         elif statement_type == 'cash_flow_statement':
             url = 'https://financialmodelingprep.com/api/v3/financials/cash-flow-statement/'
 
-        url = url + ticker
+        url = url + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
         print('url ' + url)
 
         data = FinancialModelingPrepClient.json_get(url)
@@ -83,14 +86,11 @@ class FinancialModelingPrepClient:
         if len(tickers) <= 0:
             return
 
-        # arguments = tickers[0]
-        # for i in range(1, len(tickers)):
-        #     arguments += ',' + tickers[i]
         arguments = tickers[len(tickers) - 1]
         for i in range(len(tickers) - 2, -1, -1):
             arguments += ',' + tickers[i]
 
-        url = url + arguments
+        url = url + arguments + '?apikey=' + FinancialModelingPrepClient.API_KEY
         print('url ' + url)
         data = FinancialModelingPrepClient.json_get(url)
 
