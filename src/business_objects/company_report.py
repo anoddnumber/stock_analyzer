@@ -30,17 +30,24 @@ class CompanyReport:
     NUM_BALANCE_SHEETS = 'num_balance_sheets'
     NUM_CASH_FLOW_STATEMENTS = 'num_cash_flow_statements'
 
+    INTRINSIC_VALUE = 'intrinsic_value'
+
     available_attributes = frozenset({TICKER,
-                                      RETURN_ON_INVESTED_CAPITAL_10_YEAR, RETURN_ON_INVESTED_CAPITAL_5_YEAR,
+                                      RETURN_ON_INVESTED_CAPITAL_10_YEAR,
+                                      RETURN_ON_INVESTED_CAPITAL_5_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_1_YEAR,
                                       EQUITY_GROWTH,
                                       EARNINGS_GROWTH,
                                       REVENUE_GROWTH,
                                       CASH_GROWTH,
-                                      HISTORIC_PE, TOTAL_DEBT, MARGIN_OF_SAFETY,
+                                      HISTORIC_PE,
+                                      TOTAL_DEBT,
+                                      MARGIN_OF_SAFETY,
                                       NUM_INCOME_STATEMENTS,
                                       NUM_BALANCE_SHEETS,
-                                      NUM_CASH_FLOW_STATEMENTS})
+                                      NUM_CASH_FLOW_STATEMENTS,
+                                      INTRINSIC_VALUE
+                                      })
 
     def __init__(self):
         pass
