@@ -1,0 +1,12 @@
+Discounted Cash Flow (DCF) Analysis
+
+https://www.investopedia.com/terms/d/dcf.asp
+
+
+Uses future cash flows to try to estimate the current intrinsic value of the company (which is called the present value).
+Future cash flows are discounted to the current value using a given discount rate. Warren Buffett uses the long term treasury
+bonds' interest rate as the discount rate.
+
+You can find the current values here: https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
+
+DCF heavily relies on accurate predictions of future cash flow in order to be accurate.
