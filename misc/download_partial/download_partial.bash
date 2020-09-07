@@ -8,6 +8,10 @@ end_time=$3
 
 original_output_name="$(youtube-dl --get-title "$url")"
 output_name="$(youtube-dl --get-title "$url").mp4"
+
+# replace all forward slashes with an underscore, otherwise ffmpeg will treat it as a path
+output_name=$(echo "$output_name"| tr / _)
+
 counter=
 
 # As long as the output_name exists, increment a counter and change the output_name
