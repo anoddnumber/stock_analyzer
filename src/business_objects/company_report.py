@@ -17,6 +17,26 @@ class CompanyReport:
     RETURN_ON_INVESTED_CAPITAL_5_YEAR = 'return_on_invested_capital_5_year'
     RETURN_ON_INVESTED_CAPITAL_1_YEAR = 'return_on_invested_capital_1_year'
 
+    EQUITY_GROWTH_10_YEAR = 'equity_growth_10_year'
+    EQUITY_GROWTH_5_YEAR = 'equity_growth_5_year'
+    EQUITY_GROWTH_3_YEAR = 'equity_growth_1_year'
+    EQUITY_GROWTH_1_YEAR = 'equity_growth_1_year'
+
+    EARNINGS_GROWTH_10_YEAR = 'earnings_growth_10_year'
+    EARNINGS_GROWTH_5_YEAR = 'earnings_growth_5_year'
+    EARNINGS_GROWTH_3_YEAR = 'earnings_growth_3_year'
+    EARNINGS_GROWTH_1_YEAR = 'earnings_growth_1_year'
+
+    REVENUE_GROWTH_10_YEAR = 'revenue_growth_10_year'
+    REVENUE_GROWTH_5_YEAR = 'revenue_growth_5_year'
+    REVENUE_GROWTH_3_YEAR = 'revenue_growth_3_year'
+    REVENUE_GROWTH_1_YEAR = 'revenue_growth_1_year'
+
+    OPERATING_CASH_GROWTH_10_YEAR = 'cash_growth_10_year'
+    OPERATING_CASH_GROWTH_5_YEAR = 'cash_growth_5_year'
+    OPERATING_CASH_GROWTH_3_YEAR = 'cash_growth_3_year'
+    OPERATING_CASH_GROWTH_1_YEAR = 'cash_growth_1_year'
+
     EQUITY_GROWTH = 'equity_growth'
     EARNINGS_GROWTH = 'earnings_growth'
     REVENUE_GROWTH = 'revenue_growth'
@@ -37,9 +57,25 @@ class CompanyReport:
                                       RETURN_ON_INVESTED_CAPITAL_5_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_1_YEAR,
                                       EQUITY_GROWTH,
+                                      EQUITY_GROWTH_10_YEAR,
+                                      EQUITY_GROWTH_5_YEAR,
+                                      EQUITY_GROWTH_3_YEAR,
+                                      EQUITY_GROWTH_1_YEAR,
                                       EARNINGS_GROWTH,
+                                      EARNINGS_GROWTH_10_YEAR,
+                                      EARNINGS_GROWTH_5_YEAR,
+                                      EARNINGS_GROWTH_3_YEAR,
+                                      EARNINGS_GROWTH_1_YEAR,
                                       REVENUE_GROWTH,
+                                      REVENUE_GROWTH_10_YEAR,
+                                      REVENUE_GROWTH_5_YEAR,
+                                      REVENUE_GROWTH_3_YEAR,
+                                      REVENUE_GROWTH_1_YEAR,
                                       CASH_GROWTH,
+                                      OPERATING_CASH_GROWTH_10_YEAR,
+                                      OPERATING_CASH_GROWTH_5_YEAR,
+                                      OPERATING_CASH_GROWTH_3_YEAR,
+                                      OPERATING_CASH_GROWTH_1_YEAR,
                                       HISTORIC_PE,
                                       TOTAL_DEBT,
                                       MARGIN_OF_SAFETY,
