@@ -150,6 +150,9 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.REVENUE_GROWTH, full_revenue_growth)
         company_report.set_attr(CompanyReport.CASH_GROWTH, full_cash_growth)
 
+        company_report.set_attr(CompanyReport.EPS, IncomeStatement.EPS)
+        company_report.set_attr(CompanyReport.EPS_DILUTED, IncomeStatement.EPS_DILUTED)
+
         FileStorageDAO.save_report(company_report)
 
     @staticmethod

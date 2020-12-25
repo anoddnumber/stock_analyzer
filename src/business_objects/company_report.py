@@ -69,6 +69,8 @@ class CompanyReport:
     NUM_INCOME_STATEMENTS = 'num_income_statements'
     NUM_BALANCE_SHEETS = 'num_balance_sheets'
     NUM_CASH_FLOW_STATEMENTS = 'num_cash_flow_statements'
+    EPS = 'EPS'
+    EPS_DILUTED = 'EPS_DILUTED'
 
     INTRINSIC_VALUE = 'intrinsic_value'
 
@@ -118,6 +120,8 @@ class CompanyReport:
                                       NUM_INCOME_STATEMENTS,
                                       NUM_BALANCE_SHEETS,
                                       NUM_CASH_FLOW_STATEMENTS,
+                                      EPS,
+                                      EPS_DILUTED,
                                       INTRINSIC_VALUE
                                       })
 
