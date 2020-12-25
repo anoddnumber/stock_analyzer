@@ -11,6 +11,23 @@ class FinancialModelingPrepClient:
     CASH_FLOW_STATEMENT = 'cash_flow_statement'
 
     @staticmethod
+    def get_financial_ratios(ticker):
+        url = 'https://financialmodelingprep.com/api/v3/key-metrics/' + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
+        return FinancialModelingPrepClient.json_get(url)
+
+    @staticmethod
+    def get_financial_ratios_batch(tickers):
+        """
+        Financial Modeling Prep doesn't have a batch API, so just loop through and use the single API
+        :param tickers: stock symbols to fetch for
+        :return: a list of json that contains financial ratios
+        """
+        ret = []
+        for ticker in tickers:
+            ret.append(FinancialModelingPrepClient.get_financial_ratios(ticker))
+        return ret
+
+    @staticmethod
     def get_income_statement(ticker):
         return FinancialModelingPrepClient.get_income_statements_batch([ticker])
 
@@ -28,6 +45,7 @@ class FinancialModelingPrepClient:
 
     @staticmethod
     def get_batch(tickers, statement_type):
+        # TODO: See if the batch API is fixed..
         ret = []
         for ticker in tickers:
             # time.sleep(1)
@@ -48,6 +66,7 @@ class FinancialModelingPrepClient:
         res = FinancialModelingPrepClient.json_get(url)
         tickers = []
         print(url)
+        print(res)
 
         for datum in res['symbolsList']:
             tickers.append(datum['symbol'])
@@ -70,10 +89,7 @@ class FinancialModelingPrepClient:
             url = 'https://financialmodelingprep.com/api/v3/cash-flow-statement/'
 
         url = url + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
-        print('url ' + url)
-
         data = FinancialModelingPrepClient.json_get(url)
-        print('data: ' + str(data))
 
         return data
 

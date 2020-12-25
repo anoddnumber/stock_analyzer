@@ -14,15 +14,22 @@ class FileStorageDAO:
     DATA_DIR = ROOT_DIR + 'data/'
     ANALYSIS_DIR = DATA_DIR + 'analysis/'
     ORGANIZED_DATA_DIR = DATA_DIR + 'organized_data/'
+
     FINANCIAL_STATEMENTS_DIR = DATA_DIR + 'financial_statements/'
     INCOME_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'income_statements/'
     BALANCE_SHEET_DIR = FINANCIAL_STATEMENTS_DIR + 'balance_sheets/'
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
+
+    KEY_RATIOS_DIR = DATA_DIR + 'key_ratios/'
     COMPANY_REPORTS_DIR = DATA_DIR + 'company_reports/'
 
     @staticmethod
     def get_financial_statements(ticker):
         pass
+
+    @staticmethod
+    def get_key_ratios(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.KEY_RATIOS_DIR)
 
     @staticmethod
     def get_income_statement(ticker):
@@ -47,6 +54,10 @@ class FileStorageDAO:
     @staticmethod
     def get_data(ticker, directory):
         return json.load(open(directory + ticker + '.json', 'r'))
+
+    @staticmethod
+    def save_key_ratios(ticker, json_obj):
+        FileStorageDAO._save_json(FileStorageDAO.KEY_RATIOS_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_income_statement(ticker, json_obj):

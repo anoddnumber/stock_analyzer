@@ -10,6 +10,12 @@ class DataRetriever:
     MAX_TICKERS = 10  # 10 is the max allowed for a single call
 
     @staticmethod
+    def retrieve_key_ratios(tickers, time_to_live=0):
+        return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_key_ratios,
+                                           FinancialModelingPrepClient.get_financial_ratios_batch,
+                                           FileStorageDAO.save_key_ratios, time_to_live)
+
+    @staticmethod
     def retrieve_financial_statements(tickers, time_to_live=0):
         DataRetriever.retrieve_income_statements(tickers, time_to_live)
         DataRetriever.retrieve_balance_sheets(tickers, time_to_live)
@@ -58,7 +64,6 @@ class DataRetriever:
             current_tickers = tickers_to_retrieve[i: i + DataRetriever.MAX_TICKERS]
             print('current tickers: ' + str(current_tickers))
             data = fetch_func(current_tickers)
-            print(data)
 
             if len(data) != len(current_tickers):
                 print('retrieve_income_statements: Data length does not match number of tickers')
