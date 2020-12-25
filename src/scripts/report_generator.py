@@ -99,6 +99,45 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_5_YEAR, operating_cash_growth_5_year)
         company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR, operating_cash_growth_10_year)
 
+        # Debt, Revenue, Earnings, Equity, ROIC, Return on Equity, Debt to Earnings, Shares Outstanding
+        company_report.set_attr(CompanyReport.TOTAL_DEBT_0_YEAR,
+                                ReportGenerator.get_value(balance_sheets, 0, BalanceSheet.TOTAL_DEBT))
+        company_report.set_attr(CompanyReport.TOTAL_DEBT_3_YEAR,
+                                ReportGenerator.get_value(balance_sheets, 3, BalanceSheet.TOTAL_DEBT))
+        company_report.set_attr(CompanyReport.TOTAL_DEBT_5_YEAR,
+                                ReportGenerator.get_value(balance_sheets, 5, BalanceSheet.TOTAL_DEBT))
+        company_report.set_attr(CompanyReport.TOTAL_DEBT_10_YEAR,
+                                ReportGenerator.get_value(balance_sheets, 10, BalanceSheet.TOTAL_DEBT))
+
+        company_report.set_attr(CompanyReport.REVENUE_0_YEAR,
+                                ReportGenerator.get_value(income_statements, 0, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.REVENUE_3_YEAR,
+                                ReportGenerator.get_value(income_statements, 3, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.REVENUE_5_YEAR,
+                                ReportGenerator.get_value(income_statements, 5, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.REVENUE_10_YEAR,
+                                ReportGenerator.get_value(income_statements, 10, IncomeStatement.REVENUE))
+
+        company_report.set_attr(CompanyReport.EARNINGS_0_YEAR,
+                                ReportGenerator.get_value(income_statements, 0, IncomeStatement.NET_INCOME))
+        company_report.set_attr(CompanyReport.EARNINGS_3_YEAR,
+                                ReportGenerator.get_value(income_statements, 3, IncomeStatement.NET_INCOME))
+        company_report.set_attr(CompanyReport.EARNINGS_5_YEAR,
+                                ReportGenerator.get_value(income_statements, 5, IncomeStatement.NET_INCOME))
+        company_report.set_attr(CompanyReport.EARNINGS_10_YEAR,
+                                ReportGenerator.get_value(income_statements, 10, IncomeStatement.NET_INCOME))
+
+        company_report.set_attr(CompanyReport.EQUITY_0_YEAR,
+                                ReportGenerator.get_value(income_statements, 0, BalanceSheet.SHAREHOLDERS_EQUITY))
+        company_report.set_attr(CompanyReport.EQUITY_3_YEAR,
+                                ReportGenerator.get_value(income_statements, 3, BalanceSheet.SHAREHOLDERS_EQUITY))
+        company_report.set_attr(CompanyReport.EQUITY_5_YEAR,
+                                ReportGenerator.get_value(income_statements, 5, BalanceSheet.SHAREHOLDERS_EQUITY))
+        company_report.set_attr(CompanyReport.EQUITY_10_YEAR,
+                                ReportGenerator.get_value(income_statements, 10, BalanceSheet.SHAREHOLDERS_EQUITY))
+
+
+
         # other
 
         company_report.set_attr(CompanyReport.TICKER, ticker)
@@ -121,6 +160,11 @@ class ReportGenerator:
         ending_value = float(statements[0].get(attr))
         return Utils.calculate_yoy_return(starting_value, ending_value, num_years)
 
+    @staticmethod
+    def get_value(statements, num_years, attr):
+        if len(statements) < num_years:
+            return 'no data'
+        return float(statements[num_years].get(attr))
 
 # DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
 # all_tickers = FinancialModelingPrepClient.get_tickers()

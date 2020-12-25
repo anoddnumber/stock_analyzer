@@ -37,6 +37,26 @@ class CompanyReport:
     OPERATING_CASH_GROWTH_3_YEAR = 'cash_growth_3_year'
     OPERATING_CASH_GROWTH_1_YEAR = 'cash_growth_1_year'
 
+    TOTAL_DEBT_10_YEAR = 'total_debt_10_year'
+    TOTAL_DEBT_5_YEAR = 'total_debt_5_year'
+    TOTAL_DEBT_3_YEAR = 'total_debt_3_year'
+    TOTAL_DEBT_0_YEAR = 'total_debt_0_year'
+
+    REVENUE_10_YEAR = 'revenue_10_year'
+    REVENUE_5_YEAR = 'revenue_5_year'
+    REVENUE_3_YEAR = 'revenue_3_year'
+    REVENUE_0_YEAR = 'revenue_0_year'
+
+    EARNINGS_10_YEAR = 'earnings_10_year'
+    EARNINGS_5_YEAR = 'earnings_5_year'
+    EARNINGS_3_YEAR = 'earnings_3_year'
+    EARNINGS_0_YEAR = 'earnings_0_year'
+
+    EQUITY_10_YEAR = 'equity_10_year'
+    EQUITY_5_YEAR = 'equity_5_year'
+    EQUITY_3_YEAR = 'equity_3_year'
+    EQUITY_0_YEAR = 'equity_0_year'
+
     EQUITY_GROWTH = 'equity_growth'
     EARNINGS_GROWTH = 'earnings_growth'
     REVENUE_GROWTH = 'revenue_growth'
@@ -78,6 +98,22 @@ class CompanyReport:
                                       OPERATING_CASH_GROWTH_1_YEAR,
                                       HISTORIC_PE,
                                       TOTAL_DEBT,
+                                      TOTAL_DEBT_10_YEAR,
+                                      TOTAL_DEBT_5_YEAR,
+                                      TOTAL_DEBT_3_YEAR,
+                                      TOTAL_DEBT_0_YEAR,
+                                      REVENUE_10_YEAR,
+                                      REVENUE_5_YEAR,
+                                      REVENUE_3_YEAR,
+                                      REVENUE_0_YEAR,
+                                      EARNINGS_10_YEAR,
+                                      EARNINGS_5_YEAR,
+                                      EARNINGS_3_YEAR,
+                                      EARNINGS_0_YEAR,
+                                      EQUITY_10_YEAR,
+                                      EQUITY_5_YEAR,
+                                      EQUITY_3_YEAR,
+                                      EQUITY_0_YEAR,
                                       MARGIN_OF_SAFETY,
                                       NUM_INCOME_STATEMENTS,
                                       NUM_BALANCE_SHEETS,
