@@ -108,5 +108,17 @@ class Utils:
             return None
 
     @staticmethod
-    def calculate_intrinsic_value(eps, growth_rate, expected_pe, minimum_acceptable_rate_of_return=1.15):
-        pass
+    def calculate_intrinsic_value(eps, growth_rate, future_pe, minimum_acceptable_rate_of_return=.15):
+        """
+
+        :param eps:
+        :param growth_rate: .25 means 25% growth rate
+        :param expected_pe:
+        :param minimum_acceptable_rate_of_return: .25 means 25% growth rate
+        :return:
+        """
+        num_years = 10
+        future_eps = eps * math.pow(1 + growth_rate, num_years)
+        future_val = future_eps * future_pe
+        intrinsic_val = future_val / math.pow(1 + minimum_acceptable_rate_of_return, num_years)
+        return intrinsic_val
