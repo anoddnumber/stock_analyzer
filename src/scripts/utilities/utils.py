@@ -106,3 +106,7 @@ class Utils:
             return math.exp(math.log(ending_value * 1.0 / starting_value) / num_years) - 1
         except (ValueError, ZeroDivisionError):
             return None
+
+    @staticmethod
+    def calculate_intrinsic_value(eps, growth_rate, expected_pe, minimum_acceptable_rate_of_return=1.15):
+        pass

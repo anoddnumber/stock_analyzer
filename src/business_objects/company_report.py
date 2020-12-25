@@ -73,6 +73,7 @@ class CompanyReport:
     EPS_DILUTED = 'EPS_DILUTED'
 
     INTRINSIC_VALUE = 'intrinsic_value'
+    CONSERVATE_INTRINSIC_VALUE = 'intrinsic_value'
 
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL_10_YEAR,
@@ -122,7 +123,8 @@ class CompanyReport:
                                       NUM_CASH_FLOW_STATEMENTS,
                                       EPS,
                                       EPS_DILUTED,
-                                      INTRINSIC_VALUE
+                                      INTRINSIC_VALUE,
+                                      CONSERVATE_INTRINSIC_VALUE
                                       })
 
     def __init__(self):

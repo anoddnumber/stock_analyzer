@@ -75,8 +75,18 @@ class ReportGenerator:
         full_cash_growth = ReportGenerator.get_growth(balance_sheets, len(balance_sheets) - 1,
                                                       BalanceSheet.CASH_AND_CASH_EQUIVALENTS)
 
-        company_report = CompanyReport()
 
+        lowest_growth_rate = min(revenue_growth_3_year, revenue_growth_10_year, earnings_growth_3_year,
+                                 earnings_growth_10_year, equity_growth_3_year, equity_growth_10_year,
+                                 operating_cash_growth_3_year, operating_cash_growth_10_year)
+        conservative_growth_rate = min(.15, lowest_growth_rate)
+
+        # TODO calculate a suitable P/E ratio
+        intrinsic_value = Utils.calculate_intrinsic_value(IncomeStatement.EPS, lowest_growth_rate, 15)
+        conservative_intrinsic_value = Utils.calculate_intrinsic_value(IncomeStatement.EPS_DILUTED, conservative_growth_rate, 15)
+
+        # Create and populate the company report
+        company_report = CompanyReport()
 
         # Set growth rates
         company_report.set_attr(CompanyReport.REVENUE_GROWTH_1_YEAR, revenue_growth_1_year)
@@ -136,8 +146,6 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EQUITY_10_YEAR,
                                 ReportGenerator.get_value(income_statements, 10, BalanceSheet.SHAREHOLDERS_EQUITY))
 
-
-
         # other
 
         company_report.set_attr(CompanyReport.TICKER, ticker)
@@ -152,6 +160,9 @@ class ReportGenerator:
 
         company_report.set_attr(CompanyReport.EPS, IncomeStatement.EPS)
         company_report.set_attr(CompanyReport.EPS_DILUTED, IncomeStatement.EPS_DILUTED)
+
+        company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
+        company_report.set_attr(CompanyReport.CONSERVATE_INTRINSIC_VALUE, conservative_intrinsic_value)
 
         FileStorageDAO.save_report(company_report)
 
