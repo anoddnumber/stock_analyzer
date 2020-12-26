@@ -28,6 +28,10 @@ class FileStorageDAO:
         pass
 
     @staticmethod
+    def get_company_report(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.COMPANY_REPORTS_DIR)
+
+    @staticmethod
     def get_key_ratios(ticker):
         return FileStorageDAO.get_data(ticker, FileStorageDAO.KEY_RATIOS_DIR)
 
