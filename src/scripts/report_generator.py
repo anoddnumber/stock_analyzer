@@ -12,6 +12,11 @@ from src.clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 class ReportGenerator:
 
     @staticmethod
+    def generate_reports(tickers):
+        for ticker in tickers:
+            ReportGenerator.generate_report(ticker)
+
+    @staticmethod
     def generate_report(ticker):
         income_statements = FinancialStatementConverter.convert_income_statement_data(ticker)
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)

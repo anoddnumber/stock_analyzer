@@ -29,4 +29,4 @@ as cash is not taken away from the company, therefore we add it back to the earn
 
 -Other non-cash charges is any expense that isn't covered by depreciation, depletion, and amortization that is also unrelated to cash.
 
--"Average annual capital expenditures for plant and equipment" refers to any cash used to maintain the business. We need to subtract this from the owner's earnings because it reduces cash.
+-"Average annual capital expenditures for plant and equipment" refers to any cash used to maintain the business (maintenance capital expenditures). We need to subtract this from the owner's earnings because it reduces cash. Note that we do not subtract cash used to grow the business (growth capital expenditures), just the cash used to maintain the business.

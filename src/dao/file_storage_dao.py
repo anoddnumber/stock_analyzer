@@ -100,7 +100,7 @@ class FileStorageDAO:
     def _make_directories():
         paths = [FileStorageDAO.ROOT_DIR, FileStorageDAO.DATA_DIR, FileStorageDAO.FINANCIAL_STATEMENTS_DIR,
                  FileStorageDAO.INCOME_STATEMENTS_DIR, FileStorageDAO.BALANCE_SHEET_DIR,
-                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR]
+                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR, FileStorageDAO.KEY_RATIOS_DIR]
 
         for path in paths:
             if not os.path.isdir(path):
