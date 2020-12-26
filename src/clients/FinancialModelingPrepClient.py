@@ -65,8 +65,6 @@ class FinancialModelingPrepClient:
         url = 'https://financialmodelingprep.com/api/v3/company/stock/list' + '?apikey=' + FinancialModelingPrepClient.API_KEY
         res = FinancialModelingPrepClient.json_get(url)
         tickers = []
-        print(url)
-        print(res)
 
         for datum in res['symbolsList']:
             tickers.append(datum['symbol'])
