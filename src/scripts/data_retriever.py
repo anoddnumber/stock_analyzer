@@ -10,6 +10,29 @@ class DataRetriever:
     MAX_TICKERS = 10  # 10 is the max allowed for a single call
 
     @staticmethod
+    def retrieve_all(tickers, time_to_live=0):
+        DataRetriever.retrieve_financial_statements(tickers, time_to_live)
+        DataRetriever.retrieve_key_ratios(tickers, time_to_live)
+
+    @staticmethod
+    def retrieve_tickers(time_to_live=0):
+        # if the database has up to date information, then retrieve it from there.
+        # otherwise, call FinancialModelingPrepClient
+        tickers_info = FileStorageDAO.get_tickers()
+
+        if time.time() - float(tickers_info.get('last_updated_date', 0)) >= time_to_live:
+            tickers_info = FinancialModelingPrepClient.get_tickers()
+            tickers_info['last_updated_date'] = time.time()
+            tickers_info['last_updated_date_human'] = str(datetime.datetime.now())
+            FileStorageDAO.save_tickers(tickers_info)
+
+        tickers = []
+        for datum in tickers_info['symbolsList']:
+            tickers.append(datum['symbol'])
+
+        return tickers
+
+    @staticmethod
     def retrieve_key_ratios(tickers, time_to_live=0):
         return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_key_ratios,
                                            FinancialModelingPrepClient.get_financial_ratios_batch,

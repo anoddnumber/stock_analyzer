@@ -63,12 +63,7 @@ class FinancialModelingPrepClient:
     @staticmethod
     def get_tickers():
         url = 'https://financialmodelingprep.com/api/v3/company/stock/list' + '?apikey=' + FinancialModelingPrepClient.API_KEY
-        res = FinancialModelingPrepClient.json_get(url)
-        tickers = []
-
-        for datum in res['symbolsList']:
-            tickers.append(datum['symbol'])
-        return tickers
+        return FinancialModelingPrepClient.json_get(url)
 
     @staticmethod
     def json_get(url, retries=3):

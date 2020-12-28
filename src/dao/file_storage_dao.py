@@ -22,6 +22,7 @@ class FileStorageDAO:
 
     KEY_RATIOS_DIR = DATA_DIR + 'key_ratios/'
     COMPANY_REPORTS_DIR = DATA_DIR + 'company_reports/'
+    TICKERS_FILE = DATA_DIR + 'tickers.json'
 
     @staticmethod
     def get_financial_statements(ticker):
@@ -30,6 +31,10 @@ class FileStorageDAO:
     @staticmethod
     def get_company_report(ticker):
         return FileStorageDAO.get_data(ticker, FileStorageDAO.COMPANY_REPORTS_DIR)
+
+    @staticmethod
+    def get_tickers():
+        return json.load(open(FileStorageDAO.TICKERS_FILE, 'r'))
 
     @staticmethod
     def get_key_ratios(ticker):
@@ -58,6 +63,10 @@ class FileStorageDAO:
     @staticmethod
     def get_data(ticker, directory):
         return json.load(open(directory + ticker + '.json', 'r'))
+
+    @staticmethod
+    def save_tickers(json_obj):
+        FileStorageDAO._save_json(FileStorageDAO.TICKERS_FILE, json_obj)
 
     @staticmethod
     def save_key_ratios(ticker, json_obj):
