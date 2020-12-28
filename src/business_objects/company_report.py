@@ -72,6 +72,12 @@ class CompanyReport:
     NUM_CASH_FLOW_STATEMENTS = 'num_cash_flow_statements'
     EPS = 'EPS'
     EPS_DILUTED = 'EPS_DILUTED'
+    SHARES_OUTSTANDING = 'SHARES_OUTSTANDING'
+    RETURN_ON_EQUITY = 'RETURN_ON_EQUITY'
+    DEBT_TO_EARNINGS = 'DEBT_TO_EARNINGS'
+    PE_RATIOS = 'PE_RATIOS'
+    AVERAGE_PE_RATIO = 'AVERAGE_PE_RATIO'
+
 
     INTRINSIC_VALUE = 'intrinsic_value'
     CONSERVATE_INTRINSIC_VALUE = 'intrinsic_value'
@@ -126,7 +132,12 @@ class CompanyReport:
                                       EPS,
                                       EPS_DILUTED,
                                       INTRINSIC_VALUE,
-                                      CONSERVATE_INTRINSIC_VALUE
+                                      CONSERVATE_INTRINSIC_VALUE,
+                                      RETURN_ON_EQUITY,
+                                      DEBT_TO_EARNINGS,
+                                      SHARES_OUTSTANDING,
+                                      PE_RATIOS,
+                                      AVERAGE_PE_RATIO
                                       })
 
     def __init__(self):
