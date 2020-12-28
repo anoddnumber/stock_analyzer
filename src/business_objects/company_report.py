@@ -58,10 +58,11 @@ class CompanyReport:
     EQUITY_3_YEAR = 'equity_3_year'
     EQUITY_0_YEAR = 'equity_0_year'
 
+    RETURN_ON_INVESTED_CAPITAL = 'return_on_invested_capital'
     EQUITY_GROWTH = 'equity_growth'
     EARNINGS_GROWTH = 'earnings_growth'
     REVENUE_GROWTH = 'revenue_growth'
-    CASH_GROWTH = 'cash_growth'
+    OPERATING_CASH_GROWTH = 'operating_cash_growth'
 
     # Other considerations
     HISTORIC_PE = 'historic_pe'
@@ -83,6 +84,7 @@ class CompanyReport:
     CONSERVATE_INTRINSIC_VALUE = 'intrinsic_value'
 
     available_attributes = frozenset({TICKER,
+                                      RETURN_ON_INVESTED_CAPITAL,
                                       RETURN_ON_INVESTED_CAPITAL_10_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_5_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_3_YEAR,
@@ -102,7 +104,7 @@ class CompanyReport:
                                       REVENUE_GROWTH_5_YEAR,
                                       REVENUE_GROWTH_3_YEAR,
                                       REVENUE_GROWTH_1_YEAR,
-                                      CASH_GROWTH,
+                                      OPERATING_CASH_GROWTH,
                                       OPERATING_CASH_GROWTH_10_YEAR,
                                       OPERATING_CASH_GROWTH_5_YEAR,
                                       OPERATING_CASH_GROWTH_3_YEAR,
