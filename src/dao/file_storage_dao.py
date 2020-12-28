@@ -153,6 +153,11 @@ class FileStorageDAO:
                                       company_report.get(CompanyReport.REVENUE_10_YEAR),
                                      ]) + '\n')
         # TODO: Return on Equity
+        # TODO: Debt to Earnings
+        # TODO: Shares Outstanding
+        # TODO: EPS
+        # TODO: PE ratios
+        # TODO: Average PE ratio
 
         file.write('\nIntrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE))
         file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATE_INTRINSIC_VALUE))
