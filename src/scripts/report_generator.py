@@ -135,7 +135,6 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.NUM_INCOME_STATEMENTS, len(income_statements))
         company_report.set_attr(CompanyReport.NUM_BALANCE_SHEETS, len(balance_sheets))
         company_report.set_attr(CompanyReport.NUM_CASH_FLOW_STATEMENTS, len(cash_flow_statements))
-        company_report.set_attr(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR, roic_1_year)
         company_report.set_attr(CompanyReport.EQUITY_GROWTH, full_equity_growth)
         company_report.set_attr(CompanyReport.EARNINGS_GROWTH, full_earnings_growth)
         company_report.set_attr(CompanyReport.REVENUE_GROWTH, full_revenue_growth)
@@ -162,6 +161,26 @@ class ReportGenerator:
         if len(statements) < num_years:
             return 'no data'
         return float(statements[num_years].get(attr))
+
+    @staticmethod
+    def get_list(statements, attr):
+        """
+        :param statements: a list of financial statements
+        :param attr: the attribute you want
+        :return: a list containing all the values of that particular attribute
+        """
+        ret = []
+        for i in range(len(statements)):
+            ret.push(statements[i].get(attr))
+        return ret
+
+    @staticmethod
+    def get_growth_list(statements, attr):
+        ret = []
+        for i in range(len(statements)):
+            ret.push(ReportGenerator.get_growth(statements, i, attr))
+        return ret
+
 
 # DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
 # all_tickers = FinancialModelingPrepClient.get_tickers()
