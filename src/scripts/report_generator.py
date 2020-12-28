@@ -22,28 +22,6 @@ class ReportGenerator:
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
 
-        # print(income_statements[0])
-
-        gross_profit = float(getattr(income_statements[0], IncomeStatement.GROSS_PROFIT, 'no gross profit'))
-        operating_expenses = float(getattr(income_statements[0], IncomeStatement.OPERATING_EXPENSES, 'no operating expenses'))
-        tax_expense = float(getattr(income_statements[0], IncomeStatement.INCOME_TAX_EXPENSE, 'no income tax expense'))
-        shareholders_equity = float(getattr(balance_sheets[0], BalanceSheet.SHAREHOLDERS_EQUITY, 'no shareholder equity'))
-        debt = float(getattr(balance_sheets[0], BalanceSheet.TOTAL_DEBT, 'no total debt'))
-
-        # net operating profit after tax
-        nopat_1_year = gross_profit - operating_expenses - tax_expense
-        financing_1_year = shareholders_equity + debt
-
-        # return on invested capital
-        roic_1_year = nopat_1_year / financing_1_year
-
-        # print('gross profit: ' + str(gross_profit))
-        # print('nopat: ' + str(nopat_1_year))
-        # print('financing: ' + str(financing_1_year))
-        # print('roic: ' + str(roic_1_year))
-
-
-
         # Part 1 - Growth rates
 
         revenue_growth_1_year = ReportGenerator.get_growth(income_statements, 1, IncomeStatement.REVENUE)
@@ -193,4 +171,4 @@ class ReportGenerator:
 # DataRetriever.retrieve_financial_statements(all_tickers, 60 * 60 * 24 * 10)
 # ReportGenerator.generate_report(all_tickers)
 
-ReportGenerator.generate_report('AAPL')
+# ReportGenerator.generate_report('AAPL')
