@@ -15,6 +15,7 @@ class CompanyReport:
     # NOPAT = operating income - tax expense (?)
     RETURN_ON_INVESTED_CAPITAL_10_YEAR = 'return_on_invested_capital_10_year'
     RETURN_ON_INVESTED_CAPITAL_5_YEAR = 'return_on_invested_capital_5_year'
+    RETURN_ON_INVESTED_CAPITAL_3_YEAR = 'return_on_invested_capital_3_year'
     RETURN_ON_INVESTED_CAPITAL_1_YEAR = 'return_on_invested_capital_1_year'
 
     EQUITY_GROWTH_10_YEAR = 'equity_growth_10_year'
@@ -78,6 +79,7 @@ class CompanyReport:
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL_10_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_5_YEAR,
+                                      RETURN_ON_INVESTED_CAPITAL_3_YEAR,
                                       RETURN_ON_INVESTED_CAPITAL_1_YEAR,
                                       EQUITY_GROWTH,
                                       EQUITY_GROWTH_10_YEAR,
