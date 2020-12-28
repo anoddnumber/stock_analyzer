@@ -71,9 +71,16 @@ class FinancialModelingPrepClient:
         return tickers
 
     @staticmethod
-    def json_get(url):
-        response = urlopen(url)
-        data = response.read().decode("utf-8")
+    def json_get(url, retries=3):
+        # print('url: ' + url)
+        num_tries = 0
+        while num_tries < retries:
+            try:
+                response = urlopen(url)
+                data = response.read().decode("utf-8")
+                break
+            except:
+                num_tries += 1
 
         return json.loads(data)
 
