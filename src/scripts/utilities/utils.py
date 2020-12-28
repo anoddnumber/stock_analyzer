@@ -122,3 +122,26 @@ class Utils:
         future_val = future_eps * future_pe
         intrinsic_val = future_val / math.pow(1 + minimum_acceptable_rate_of_return, num_years)
         return intrinsic_val
+
+    @staticmethod
+    def calculate_payback_time(price, shares_outstanding, growth_rate, earnings_ttm):
+        """
+        :param price: the price you will buy at
+        :param shares_outstanding: the number of shares outstanding for the company
+        :param growth_rate: the growth rate of the earnings
+        :param earnings_ttm: how many earnings the company made in the last 12 months (ttm = trailing twelve months)
+        :return: the number of years it will take for the earnings to equal the amount you paid for the company
+        """
+        if price < 0 or shares_outstanding < 0 or growth_rate <= 0 or earnings_ttm <= 0:
+            return -1
+
+        num_years = 0
+        target = price * shares_outstanding
+        next_earnings = earnings_ttm
+        while next_earnings < target:
+            target -= next_earnings
+            num_years += 1
+            next_earnings *= growth_rate
+
+        num_years += target / next_earnings
+        return num_years
