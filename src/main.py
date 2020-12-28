@@ -7,15 +7,27 @@ from scripts.data_filterer import DataFilterer
 from scripts.data_sorter import DataSorter
 from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 from scripts.report_generator import ReportGenerator
+from business_objects.company_report import CompanyReport
 
 FileStorageDAO._make_directories()
-tickers = FinancialModelingPrepClient.get_tickers()
+tickers = DataRetriever.get_tickers()
 print('tickers: ' + str(tickers))
-DataRetriever.retrieve_all(tickers)
+ttl=60*60*24*10 # 10 days
+# DataRetriever.retrieve_key_ratios(tickers, ttl)
+DataRetriever.retrieve_financial_statements(tickers, ttl)
 # ReportGenerator.generate_reports(tickers)
 
-
-
+# def should_include(company_report):
+#     return company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR) > .1 \
+#            and company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR) > .1 \
+#            and company_report.get(CompanyReport.EQUITY_GROWTH_10_YEAR) > .1 \
+#            and company_report.get(CompanyReport.EQUITY_GROWTH_3_YEAR) > .1 \
+#            and company_report.get(CompanyReport.EARNINGS_GROWTH_10_YEAR) > .1 \
+#            and company_report.get(CompanyReport.EARNINGS_GROWTH_3_YEAR) > .1 \
+#            and company_report.get(CompanyReport.REVENUE_GROWTH_10_YEAR) > .1 \
+#            and company_report.get(CompanyReport.REVENUE_GROWTH_3_YEAR) > .1 \
+#            and company_report.get(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR) > .1 \
+#            and company_report.get(CompanyReport.OPERATING_CASH_GROWTH_3_YEAR) > .1
 
 # print(FinancialModelingPrepClient.get_income_statement('AAPL'))
 # print(FinancialModelingPrepClient.get_income_statements_batch(['GOOG', 'AMZN']))
