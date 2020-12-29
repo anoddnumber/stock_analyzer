@@ -4,9 +4,7 @@ from src.business_objects.company_report import CompanyReport
 from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
-from scripts.data_retriever import DataRetriever
 from scripts.utilities.utils import Utils
-from src.clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 
 
 class ReportGenerator:
@@ -184,13 +182,4 @@ class ReportGenerator:
             ret.push(ReportGenerator.get_growth(statements, i, attr))
         return ret
 
-
-# DataRetriever.retrieve_income_statements(['AAPL', 'AMZN', 'GOOG'])
-# all_tickers = FinancialModelingPrepClient.get_tickers()
-# print(all_tickers)
-# print(len(all_tickers))
-# DataRetriever.retrieve_financial_statements(['AMZN'], 60 * 60 * 24 * 10)
-# DataRetriever.retrieve_financial_statements(all_tickers, 60 * 60 * 24 * 10)
-# ReportGenerator.generate_report(all_tickers)
-
-ReportGenerator.generate_report('AAPL')
+ReportGenerator.generate_report('AMZN')
