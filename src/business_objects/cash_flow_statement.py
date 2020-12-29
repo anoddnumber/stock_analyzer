@@ -35,3 +35,6 @@ class CashFlowStatement:
         for attribute in sorted(self.available_attributes):
             res += attribute + ' : ' + str(getattr(self, attribute, 'missing')) + '\n'
         return res
+
+    def get(self, attr):
+        return getattr(self, attr)
