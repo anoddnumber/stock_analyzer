@@ -20,7 +20,7 @@ class CompanyReport:
 
     EQUITY_GROWTH_10_YEAR = 'equity_growth_10_year'
     EQUITY_GROWTH_5_YEAR = 'equity_growth_5_year'
-    EQUITY_GROWTH_3_YEAR = 'equity_growth_1_year'
+    EQUITY_GROWTH_3_YEAR = 'equity_growth_3_year'
     EQUITY_GROWTH_1_YEAR = 'equity_growth_1_year'
 
     EARNINGS_GROWTH_10_YEAR = 'earnings_growth_10_year'
@@ -81,7 +81,7 @@ class CompanyReport:
 
 
     INTRINSIC_VALUE = 'intrinsic_value'
-    CONSERVATE_INTRINSIC_VALUE = 'intrinsic_value'
+    CONSERVATE_INTRINSIC_VALUE = 'conservative_intrinsic_value'
 
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL,
