@@ -27,24 +27,18 @@ class ReportGenerator:
         earnings_growth = ReportGenerator.get_growth_list(income_statements, IncomeStatement.NET_INCOME)
         operating_cash_growth = ReportGenerator.get_growth_list(cash_flow_statements, CashFlowStatement.OPERATING_CASH_FLOW)
 
-        revenue_growth_3_year = ReportGenerator.get_growth(income_statements, 3, IncomeStatement.REVENUE)
-        revenue_growth_10_year = ReportGenerator.get_growth(income_statements, 10, IncomeStatement.REVENUE)
+        try:
+            relevant_growth_rates = [equity_growth[2], equity_growth[9],
+                                     revenue_growth[2], revenue_growth[9],
+                                     earnings_growth[2], earnings_growth[9],
+                                     operating_cash_growth[2], operating_cash_growth[9]]
 
-        earnings_growth_3_year = ReportGenerator.get_growth(income_statements, 3, IncomeStatement.NET_INCOME)
-        earnings_growth_10_year = ReportGenerator.get_growth(income_statements, 10, IncomeStatement.NET_INCOME)
-
-        equity_growth_3_year = ReportGenerator.get_growth(balance_sheets, 3, BalanceSheet.SHAREHOLDERS_EQUITY)
-        equity_growth_10_year = ReportGenerator.get_growth(balance_sheets, 10, BalanceSheet.SHAREHOLDERS_EQUITY)
-
-        operating_cash_growth_3_year = ReportGenerator.get_growth(cash_flow_statements, 3,
-                                                                  CashFlowStatement.OPERATING_CASH_FLOW)
-        operating_cash_growth_10_year = ReportGenerator.get_growth(cash_flow_statements, 10,
-                                                                   CashFlowStatement.OPERATING_CASH_FLOW)
-
-        lowest_growth_rate = min(revenue_growth_3_year, revenue_growth_10_year, earnings_growth_3_year,
-                                 earnings_growth_10_year, equity_growth_3_year, equity_growth_10_year,
-                                 operating_cash_growth_3_year, operating_cash_growth_10_year)
-        conservative_growth_rate = min(.15, lowest_growth_rate)
+            # filter out any None values
+            lowest_growth_rate = min(rate for rate in relevant_growth_rates if rate is not None)
+            conservative_growth_rate = min(.15, lowest_growth_rate)
+        except:
+            lowest_growth_rate = 0
+            conservative_growth_rate = 0
 
         # TODO calculate a suitable P/E ratio
 
@@ -70,7 +64,6 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EQUITY, ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other
-
         company_report.set_attr(CompanyReport.TICKER, ticker)
         company_report.set_attr(CompanyReport.NUM_INCOME_STATEMENTS, len(income_statements))
         company_report.set_attr(CompanyReport.NUM_BALANCE_SHEETS, len(balance_sheets))
