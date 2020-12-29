@@ -10,9 +10,9 @@ from scripts.report_generator import ReportGenerator
 from business_objects.company_report import CompanyReport
 
 FileStorageDAO._make_directories()
-tickers = DataRetriever.get_tickers()
+tickers = DataRetriever.retrieve_tickers()
 print('tickers: ' + str(tickers))
-ttl=60*60*24*10 # 10 days
+ttl=60*60*24*50 # 50 days
 # DataRetriever.retrieve_key_ratios(tickers, ttl)
 DataRetriever.retrieve_financial_statements(tickers, ttl)
 # ReportGenerator.generate_reports(tickers)
