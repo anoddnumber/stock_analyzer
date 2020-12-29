@@ -104,11 +104,11 @@ class FileStorageDAO:
 
         file.write('[1 year, 3 years, 5 years, 10 years]')
         file.write('# Big 5\n')
-        file.write('ROIC: ' + str([company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR),
-                                   company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR),
-                                   company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_5_YEAR),
-                                   company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR),
-                                  ]) + '\n')
+        # file.write('ROIC: ' + str([company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR),
+        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR),
+        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_5_YEAR),
+        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR),
+        #                           ]) + '\n')
         file.write('Equity Growth: ' + str([company_report.get(CompanyReport.EQUITY_GROWTH_1_YEAR),
                                             company_report.get(CompanyReport.EQUITY_GROWTH_3_YEAR),
                                             company_report.get(CompanyReport.EQUITY_GROWTH_5_YEAR),

@@ -65,8 +65,12 @@ class ReportGenerator:
         conservative_growth_rate = min(.15, lowest_growth_rate)
 
         # TODO calculate a suitable P/E ratio
-        intrinsic_value = Utils.calculate_intrinsic_value(IncomeStatement.EPS, lowest_growth_rate, 15)
-        conservative_intrinsic_value = Utils.calculate_intrinsic_value(IncomeStatement.EPS_DILUTED, conservative_growth_rate, 15)
+
+        eps = income_statements[0].get(IncomeStatement.EPS)
+        eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
+
+        intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, 15)
+        conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, 15)
 
         # Create and populate the company report
         company_report = CompanyReport()
@@ -121,13 +125,13 @@ class ReportGenerator:
                                 ReportGenerator.get_value(income_statements, 10, IncomeStatement.NET_INCOME))
 
         company_report.set_attr(CompanyReport.EQUITY_0_YEAR,
-                                ReportGenerator.get_value(income_statements, 0, BalanceSheet.SHAREHOLDERS_EQUITY))
+                                ReportGenerator.get_value(balance_sheets, 0, BalanceSheet.SHAREHOLDERS_EQUITY))
         company_report.set_attr(CompanyReport.EQUITY_3_YEAR,
-                                ReportGenerator.get_value(income_statements, 3, BalanceSheet.SHAREHOLDERS_EQUITY))
+                                ReportGenerator.get_value(balance_sheets, 3, BalanceSheet.SHAREHOLDERS_EQUITY))
         company_report.set_attr(CompanyReport.EQUITY_5_YEAR,
-                                ReportGenerator.get_value(income_statements, 5, BalanceSheet.SHAREHOLDERS_EQUITY))
+                                ReportGenerator.get_value(balance_sheets, 5, BalanceSheet.SHAREHOLDERS_EQUITY))
         company_report.set_attr(CompanyReport.EQUITY_10_YEAR,
-                                ReportGenerator.get_value(income_statements, 10, BalanceSheet.SHAREHOLDERS_EQUITY))
+                                ReportGenerator.get_value(balance_sheets, 10, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other
 
@@ -138,7 +142,6 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EQUITY_GROWTH, full_equity_growth)
         company_report.set_attr(CompanyReport.EARNINGS_GROWTH, full_earnings_growth)
         company_report.set_attr(CompanyReport.REVENUE_GROWTH, full_revenue_growth)
-        company_report.set_attr(CompanyReport.CASH_GROWTH, full_cash_growth)
 
         company_report.set_attr(CompanyReport.EPS, IncomeStatement.EPS)
         company_report.set_attr(CompanyReport.EPS_DILUTED, IncomeStatement.EPS_DILUTED)
@@ -190,4 +193,4 @@ class ReportGenerator:
 # DataRetriever.retrieve_financial_statements(all_tickers, 60 * 60 * 24 * 10)
 # ReportGenerator.generate_report(all_tickers)
 
-# ReportGenerator.generate_report('AAPL')
+ReportGenerator.generate_report('AAPL')
