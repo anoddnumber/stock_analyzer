@@ -18,9 +18,14 @@ class DataRetriever:
     def retrieve_tickers(time_to_live=0):
         # if the database has up to date information, then retrieve it from there.
         # otherwise, call FinancialModelingPrepClient
-        tickers_info = FileStorageDAO.get_tickers()
 
-        if time.time() - float(tickers_info.get('last_updated_date', 0)) >= time_to_live:
+        try:
+            tickers_info = FileStorageDAO.get_tickers()
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            tickers_info = None
+            pass
+
+        if tickers_info is None or time.time() - float(tickers_info.get('last_updated_date', 0)) >= time_to_live:
             tickers_info = FinancialModelingPrepClient.get_tickers()
             tickers_info['last_updated_date'] = time.time()
             tickers_info['last_updated_date_human'] = str(datetime.datetime.now())
