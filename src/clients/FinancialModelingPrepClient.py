@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 from scripts.utilities.utils import Utils
 import json
+import sys
 
 
 class FinancialModelingPrepClient:
@@ -73,11 +74,15 @@ class FinancialModelingPrepClient:
             try:
                 response = urlopen(url)
                 data = response.read().decode("utf-8")
-                break
-            except:
+                return json.loads(data)
+            except Exception as err:
                 num_tries += 1
+                print("Error calling FinancialModelingPrep: {0}".format(err))
+                print("Unexpected error:", sys.exc_info()[0])
+                print("url: " + url)
+                print('Retrying ' + str(num_tries))
 
-        return json.loads(data)
+        raise Exception('Error retrieving data from FinancialModelingPrep')
 
     @staticmethod
     def json_get_single_financial_statement(ticker, statement_type):
