@@ -102,7 +102,7 @@ class FileStorageDAO:
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
 
-        file.write('[1 year, 3 years, 5 years, 10 years]')
+        file.write('[1 year, 3 years, 5 years, 10 years]\n')
         file.write('# Big 5\n')
         # file.write('ROIC: ' + str([company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR),
         #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR),
@@ -124,14 +124,14 @@ class FileStorageDAO:
                                              company_report.get(CompanyReport.REVENUE_GROWTH_5_YEAR),
                                              company_report.get(CompanyReport.REVENUE_GROWTH_10_YEAR),
                                             ]) + '\n')
-        file.write('Cash Growth: ' + str([company_report.get(CompanyReport.OPERATING_CASH_GROWTH_1_YEAR),
+        file.write('Operating Cash Growth: ' + str([company_report.get(CompanyReport.OPERATING_CASH_GROWTH_1_YEAR),
                                           company_report.get(CompanyReport.OPERATING_CASH_GROWTH_3_YEAR),
                                           company_report.get(CompanyReport.OPERATING_CASH_GROWTH_5_YEAR),
                                           company_report.get(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR),
                                          ]) + '\n')
 
         # 0 year just means the most recent year that has data
-        file.write('\nOther important metrics')
+        file.write('\nOther important metrics\n')
         file.write('Debt: ' + str([company_report.get(CompanyReport.TOTAL_DEBT_0_YEAR),
                                    company_report.get(CompanyReport.TOTAL_DEBT_3_YEAR),
                                    company_report.get(CompanyReport.TOTAL_DEBT_5_YEAR),
@@ -158,8 +158,8 @@ class FileStorageDAO:
         # TODO: PE ratios
         # TODO: Average PE ratio
 
-        file.write('EPS: ' + company_report.get_str(CompanyReport.EPS))
-        file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED))
+        file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
+        file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n')
 
         file.write('\nIntrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE))
         file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATE_INTRINSIC_VALUE))

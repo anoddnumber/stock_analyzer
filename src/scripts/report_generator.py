@@ -143,8 +143,8 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EARNINGS_GROWTH, full_earnings_growth)
         company_report.set_attr(CompanyReport.REVENUE_GROWTH, full_revenue_growth)
 
-        company_report.set_attr(CompanyReport.EPS, IncomeStatement.EPS)
-        company_report.set_attr(CompanyReport.EPS_DILUTED, IncomeStatement.EPS_DILUTED)
+        company_report.set_attr(CompanyReport.EPS, income_statements[0].get(IncomeStatement.EPS))
+        company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
         company_report.set_attr(CompanyReport.CONSERVATE_INTRINSIC_VALUE, conservative_intrinsic_value)
