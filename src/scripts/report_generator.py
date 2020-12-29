@@ -73,7 +73,9 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
-        company_report.set_attr(CompanyReport.CONSERVATE_INTRINSIC_VALUE, conservative_intrinsic_value)
+        company_report.set_attr(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE, lowest_growth_rate)
+        company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE, conservative_intrinsic_value)
+        company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE, conservative_growth_rate)
 
         FileStorageDAO.save_report(company_report)
 

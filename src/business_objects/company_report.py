@@ -50,7 +50,9 @@ class CompanyReport:
 
 
     INTRINSIC_VALUE = 'intrinsic_value'
-    CONSERVATE_INTRINSIC_VALUE = 'conservative_intrinsic_value'
+    INTRINSIC_VALUE_GROWTH_RATE = 'intrinsic_value_growth_rate'
+    CONSERVATIVE_INTRINSIC_VALUE = 'conservative_intrinsic_value'
+    CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE = 'conservative_intrinsic_value_growth_rate'
 
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL,
@@ -78,7 +80,9 @@ class CompanyReport:
                                       EPS,
                                       EPS_DILUTED,
                                       INTRINSIC_VALUE,
-                                      CONSERVATE_INTRINSIC_VALUE,
+                                      INTRINSIC_VALUE_GROWTH_RATE,
+                                      CONSERVATIVE_INTRINSIC_VALUE,
+                                      CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE,
                                       RETURN_ON_EQUITY,
                                       DEBT_TO_EARNINGS,
                                       SHARES_OUTSTANDING,

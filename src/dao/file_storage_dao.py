@@ -127,10 +127,13 @@ class FileStorageDAO:
         # TODO: Average PE ratio
 
         file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
-        file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n')
+        file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n\n')
+
+        file.write('Growth rate for intrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n\n')
+        file.write('Growth rate for conservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE) + '\n\n')
 
         file.write('\nIntrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE))
-        file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATE_INTRINSIC_VALUE))
+        file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE))
 
         file.close()
 
