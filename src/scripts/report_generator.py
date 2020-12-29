@@ -22,40 +22,24 @@ class ReportGenerator:
 
         # Part 1 - Growth rates
 
-        revenue_growth_1_year = ReportGenerator.get_growth(income_statements, 1, IncomeStatement.REVENUE)
+        equity_growth = ReportGenerator.get_growth_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY)
+        revenue_growth = ReportGenerator.get_growth_list(income_statements, IncomeStatement.REVENUE)
+        earnings_growth = ReportGenerator.get_growth_list(income_statements, IncomeStatement.NET_INCOME)
+        operating_cash_growth = ReportGenerator.get_growth_list(cash_flow_statements, CashFlowStatement.OPERATING_CASH_FLOW)
+
         revenue_growth_3_year = ReportGenerator.get_growth(income_statements, 3, IncomeStatement.REVENUE)
-        revenue_growth_5_year = ReportGenerator.get_growth(income_statements, 5, IncomeStatement.REVENUE)
         revenue_growth_10_year = ReportGenerator.get_growth(income_statements, 10, IncomeStatement.REVENUE)
 
-        earnings_growth_1_year = ReportGenerator.get_growth(income_statements, 1, IncomeStatement.NET_INCOME)
         earnings_growth_3_year = ReportGenerator.get_growth(income_statements, 3, IncomeStatement.NET_INCOME)
-        earnings_growth_5_year = ReportGenerator.get_growth(income_statements, 5, IncomeStatement.NET_INCOME)
         earnings_growth_10_year = ReportGenerator.get_growth(income_statements, 10, IncomeStatement.NET_INCOME)
 
-        equity_growth_1_year = ReportGenerator.get_growth(balance_sheets, 1, BalanceSheet.SHAREHOLDERS_EQUITY)
         equity_growth_3_year = ReportGenerator.get_growth(balance_sheets, 3, BalanceSheet.SHAREHOLDERS_EQUITY)
-        equity_growth_5_year = ReportGenerator.get_growth(balance_sheets, 5, BalanceSheet.SHAREHOLDERS_EQUITY)
         equity_growth_10_year = ReportGenerator.get_growth(balance_sheets, 10, BalanceSheet.SHAREHOLDERS_EQUITY)
 
-        operating_cash_growth_1_year = ReportGenerator.get_growth(cash_flow_statements, 1,
-                                                                  CashFlowStatement.OPERATING_CASH_FLOW)
         operating_cash_growth_3_year = ReportGenerator.get_growth(cash_flow_statements, 3,
-                                                                  CashFlowStatement.OPERATING_CASH_FLOW)
-        operating_cash_growth_5_year = ReportGenerator.get_growth(cash_flow_statements, 5,
                                                                   CashFlowStatement.OPERATING_CASH_FLOW)
         operating_cash_growth_10_year = ReportGenerator.get_growth(cash_flow_statements, 10,
                                                                    CashFlowStatement.OPERATING_CASH_FLOW)
-
-
-        full_equity_growth = ReportGenerator.get_growth(balance_sheets, len(balance_sheets) - 1,
-                                                        BalanceSheet.SHAREHOLDERS_EQUITY)
-        full_earnings_growth = ReportGenerator.get_growth(income_statements, len(income_statements) - 1,
-                                                          IncomeStatement.NET_INCOME)
-        full_revenue_growth = ReportGenerator.get_growth(income_statements, len(income_statements) - 1,
-                                                         IncomeStatement.REVENUE)
-        full_cash_growth = ReportGenerator.get_growth(balance_sheets, len(balance_sheets) - 1,
-                                                      BalanceSheet.CASH_AND_CASH_EQUIVALENTS)
-
 
         lowest_growth_rate = min(revenue_growth_3_year, revenue_growth_10_year, earnings_growth_3_year,
                                  earnings_growth_10_year, equity_growth_3_year, equity_growth_10_year,
@@ -74,62 +58,16 @@ class ReportGenerator:
         company_report = CompanyReport()
 
         # Set growth rates
-        company_report.set_attr(CompanyReport.REVENUE_GROWTH_1_YEAR, revenue_growth_1_year)
-        company_report.set_attr(CompanyReport.REVENUE_GROWTH_3_YEAR, revenue_growth_3_year)
-        company_report.set_attr(CompanyReport.REVENUE_GROWTH_5_YEAR, revenue_growth_5_year)
-        company_report.set_attr(CompanyReport.REVENUE_GROWTH_10_YEAR, revenue_growth_10_year)
-
-        company_report.set_attr(CompanyReport.EARNINGS_GROWTH_1_YEAR, earnings_growth_1_year)
-        company_report.set_attr(CompanyReport.EARNINGS_GROWTH_3_YEAR, earnings_growth_3_year)
-        company_report.set_attr(CompanyReport.EARNINGS_GROWTH_5_YEAR, earnings_growth_5_year)
-        company_report.set_attr(CompanyReport.EARNINGS_GROWTH_10_YEAR, earnings_growth_10_year)
-
-        company_report.set_attr(CompanyReport.EQUITY_GROWTH_1_YEAR, equity_growth_1_year)
-        company_report.set_attr(CompanyReport.EQUITY_GROWTH_3_YEAR, equity_growth_3_year)
-        company_report.set_attr(CompanyReport.EQUITY_GROWTH_5_YEAR, equity_growth_5_year)
-        company_report.set_attr(CompanyReport.EQUITY_GROWTH_10_YEAR, equity_growth_10_year)
-
-        company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_1_YEAR, operating_cash_growth_1_year)
-        company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_3_YEAR, operating_cash_growth_3_year)
-        company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_5_YEAR, operating_cash_growth_5_year)
-        company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR, operating_cash_growth_10_year)
+        company_report.set_attr(CompanyReport.EQUITY_GROWTH, equity_growth)
+        company_report.set_attr(CompanyReport.REVENUE_GROWTH, revenue_growth)
+        company_report.set_attr(CompanyReport.EARNINGS_GROWTH, earnings_growth)
+        company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH, operating_cash_growth)
 
         # Debt, Revenue, Earnings, Equity, ROIC, Return on Equity, Debt to Earnings, Shares Outstanding
-        company_report.set_attr(CompanyReport.TOTAL_DEBT_0_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 0, BalanceSheet.TOTAL_DEBT))
-        company_report.set_attr(CompanyReport.TOTAL_DEBT_3_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 3, BalanceSheet.TOTAL_DEBT))
-        company_report.set_attr(CompanyReport.TOTAL_DEBT_5_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 5, BalanceSheet.TOTAL_DEBT))
-        company_report.set_attr(CompanyReport.TOTAL_DEBT_10_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 10, BalanceSheet.TOTAL_DEBT))
-
-        company_report.set_attr(CompanyReport.REVENUE_0_YEAR,
-                                ReportGenerator.get_value(income_statements, 0, IncomeStatement.REVENUE))
-        company_report.set_attr(CompanyReport.REVENUE_3_YEAR,
-                                ReportGenerator.get_value(income_statements, 3, IncomeStatement.REVENUE))
-        company_report.set_attr(CompanyReport.REVENUE_5_YEAR,
-                                ReportGenerator.get_value(income_statements, 5, IncomeStatement.REVENUE))
-        company_report.set_attr(CompanyReport.REVENUE_10_YEAR,
-                                ReportGenerator.get_value(income_statements, 10, IncomeStatement.REVENUE))
-
-        company_report.set_attr(CompanyReport.EARNINGS_0_YEAR,
-                                ReportGenerator.get_value(income_statements, 0, IncomeStatement.NET_INCOME))
-        company_report.set_attr(CompanyReport.EARNINGS_3_YEAR,
-                                ReportGenerator.get_value(income_statements, 3, IncomeStatement.NET_INCOME))
-        company_report.set_attr(CompanyReport.EARNINGS_5_YEAR,
-                                ReportGenerator.get_value(income_statements, 5, IncomeStatement.NET_INCOME))
-        company_report.set_attr(CompanyReport.EARNINGS_10_YEAR,
-                                ReportGenerator.get_value(income_statements, 10, IncomeStatement.NET_INCOME))
-
-        company_report.set_attr(CompanyReport.EQUITY_0_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 0, BalanceSheet.SHAREHOLDERS_EQUITY))
-        company_report.set_attr(CompanyReport.EQUITY_3_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 3, BalanceSheet.SHAREHOLDERS_EQUITY))
-        company_report.set_attr(CompanyReport.EQUITY_5_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 5, BalanceSheet.SHAREHOLDERS_EQUITY))
-        company_report.set_attr(CompanyReport.EQUITY_10_YEAR,
-                                ReportGenerator.get_value(balance_sheets, 10, BalanceSheet.SHAREHOLDERS_EQUITY))
+        company_report.set_attr(CompanyReport.TOTAL_DEBT, ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT))
+        company_report.set_attr(CompanyReport.REVENUE, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.EQUITY, ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other
 
@@ -137,9 +75,6 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.NUM_INCOME_STATEMENTS, len(income_statements))
         company_report.set_attr(CompanyReport.NUM_BALANCE_SHEETS, len(balance_sheets))
         company_report.set_attr(CompanyReport.NUM_CASH_FLOW_STATEMENTS, len(cash_flow_statements))
-        company_report.set_attr(CompanyReport.EQUITY_GROWTH, full_equity_growth)
-        company_report.set_attr(CompanyReport.EARNINGS_GROWTH, full_earnings_growth)
-        company_report.set_attr(CompanyReport.REVENUE_GROWTH, full_revenue_growth)
 
         company_report.set_attr(CompanyReport.EPS, income_statements[0].get(IncomeStatement.EPS))
         company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
@@ -172,14 +107,16 @@ class ReportGenerator:
         """
         ret = []
         for i in range(len(statements)):
-            ret.push(statements[i].get(attr))
+            ret.append(statements[i].get(attr))
         return ret
 
     @staticmethod
     def get_growth_list(statements, attr):
         ret = []
-        for i in range(len(statements)):
-            ret.push(ReportGenerator.get_growth(statements, i, attr))
+
+        # start from 1 since growth requires more than 0 years
+        for i in range(1, len(statements)):
+            ret.append(ReportGenerator.get_growth(statements, i, attr))
         return ret
 
 ReportGenerator.generate_report('AMZN')

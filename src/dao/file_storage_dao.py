@@ -102,56 +102,24 @@ class FileStorageDAO:
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
 
-        file.write('[1 year, 3 years, 5 years, 10 years]\n')
         file.write('# Big 5\n')
         # file.write('ROIC: ' + str([company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR),
         #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR),
         #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_5_YEAR),
         #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR),
         #                           ]) + '\n')
-        file.write('Equity Growth: ' + str([company_report.get(CompanyReport.EQUITY_GROWTH_1_YEAR),
-                                            company_report.get(CompanyReport.EQUITY_GROWTH_3_YEAR),
-                                            company_report.get(CompanyReport.EQUITY_GROWTH_5_YEAR),
-                                            company_report.get(CompanyReport.EQUITY_GROWTH_10_YEAR),
-                                           ]) + '\n')
-        file.write('Earnings Growth: ' + str([company_report.get(CompanyReport.EARNINGS_GROWTH_1_YEAR),
-                                              company_report.get(CompanyReport.EARNINGS_GROWTH_3_YEAR),
-                                              company_report.get(CompanyReport.EARNINGS_GROWTH_5_YEAR),
-                                              company_report.get(CompanyReport.EARNINGS_GROWTH_10_YEAR),
-                                             ]) + '\n')
-        file.write('Revenue Growth: ' + str([company_report.get(CompanyReport.REVENUE_GROWTH_1_YEAR),
-                                             company_report.get(CompanyReport.REVENUE_GROWTH_3_YEAR),
-                                             company_report.get(CompanyReport.REVENUE_GROWTH_5_YEAR),
-                                             company_report.get(CompanyReport.REVENUE_GROWTH_10_YEAR),
-                                            ]) + '\n')
-        file.write('Operating Cash Growth: ' + str([company_report.get(CompanyReport.OPERATING_CASH_GROWTH_1_YEAR),
-                                          company_report.get(CompanyReport.OPERATING_CASH_GROWTH_3_YEAR),
-                                          company_report.get(CompanyReport.OPERATING_CASH_GROWTH_5_YEAR),
-                                          company_report.get(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR),
-                                         ]) + '\n')
+        file.write('Equity Growth: ' + str(company_report.get(CompanyReport.EQUITY_GROWTH)) + '\n\n')
+        file.write('Earnings Growth: ' + str(company_report.get(CompanyReport.EARNINGS_GROWTH)) + '\n\n')
+        file.write('Revenue Growth: ' + str(company_report.get(CompanyReport.REVENUE_GROWTH)) + '\n\n')
+        file.write('Operating Cash Growth: ' + str(company_report.get(CompanyReport.OPERATING_CASH_GROWTH)) + '\n\n')
 
         # 0 year just means the most recent year that has data
         file.write('\nOther important metrics\n')
-        file.write('Debt: ' + str([company_report.get(CompanyReport.TOTAL_DEBT_0_YEAR),
-                                   company_report.get(CompanyReport.TOTAL_DEBT_3_YEAR),
-                                   company_report.get(CompanyReport.TOTAL_DEBT_5_YEAR),
-                                   company_report.get(CompanyReport.TOTAL_DEBT_10_YEAR),
-                                  ]) + '\n')
-        file.write('Equity: ' + str([company_report.get(CompanyReport.EQUITY_0_YEAR),
-                                     company_report.get(CompanyReport.EQUITY_3_YEAR),
-                                     company_report.get(CompanyReport.EQUITY_5_YEAR),
-                                     company_report.get(CompanyReport.EQUITY_10_YEAR),
-                                    ]) + '\n')
-        file.write('Earnings: ' + str([company_report.get(CompanyReport.EARNINGS_0_YEAR),
-                                       company_report.get(CompanyReport.EARNINGS_3_YEAR),
-                                       company_report.get(CompanyReport.EARNINGS_5_YEAR),
-                                       company_report.get(CompanyReport.EARNINGS_10_YEAR),
-                                      ]) + '\n')
-        file.write('Revenue: ' + str([company_report.get(CompanyReport.REVENUE_0_YEAR),
-                                      company_report.get(CompanyReport.REVENUE_3_YEAR),
-                                      company_report.get(CompanyReport.REVENUE_5_YEAR),
-                                      company_report.get(CompanyReport.REVENUE_10_YEAR),
-                                     ]) + '\n')
+        file.write('Debt: ' + str(company_report.get(CompanyReport.TOTAL_DEBT)) + '\n\n')
+
+        file.write('Equity: ' + str(company_report.get(CompanyReport.EQUITY)) + '\n\n')
+        file.write('Earnings: ' + str(company_report.get(CompanyReport.EARNINGS)) + '\n\n')
+        file.write('Revenue: ' + str(company_report.get(CompanyReport.REVENUE)) + '\n\n')
         # TODO: Return on Equity
         # TODO: Debt to Earnings
         # TODO: Shares Outstanding
