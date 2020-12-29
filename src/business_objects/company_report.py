@@ -13,19 +13,10 @@ class CompanyReport:
     # net operating profit after tax (NOPAT) = net income + interest expenses + depreciation expenses
     # according to investopedia, NOPAT = net income - dividends
     # NOPAT = operating income - tax expense (?)
-    RETURN_ON_INVESTED_CAPITAL_10_YEAR = 'return_on_invested_capital_10_year'
-    RETURN_ON_INVESTED_CAPITAL_5_YEAR = 'return_on_invested_capital_5_year'
-    RETURN_ON_INVESTED_CAPITAL_3_YEAR = 'return_on_invested_capital_3_year'
-    RETURN_ON_INVESTED_CAPITAL_1_YEAR = 'return_on_invested_capital_1_year'
 
-    TOTAL_DEBT_10_YEAR = 'total_debt_10_year'
-    TOTAL_DEBT_5_YEAR = 'total_debt_5_year'
-    TOTAL_DEBT_3_YEAR = 'total_debt_3_year'
-    TOTAL_DEBT_0_YEAR = 'total_debt_0_year'
-
-    REVENUE = 'REVENUE'
-    EARNINGS = 'EARNINGS'
-    EQUITY = 'EQUITY'
+    REVENUE = 'revenue'
+    EARNINGS = 'earnings'
+    EQUITY = 'equity'
 
     RETURN_ON_INVESTED_CAPITAL = 'return_on_invested_capital'
     EQUITY_GROWTH = 'equity_growth'
@@ -40,13 +31,14 @@ class CompanyReport:
     NUM_INCOME_STATEMENTS = 'num_income_statements'
     NUM_BALANCE_SHEETS = 'num_balance_sheets'
     NUM_CASH_FLOW_STATEMENTS = 'num_cash_flow_statements'
-    EPS = 'EPS'
-    EPS_DILUTED = 'EPS_DILUTED'
-    SHARES_OUTSTANDING = 'SHARES_OUTSTANDING'
-    RETURN_ON_EQUITY = 'RETURN_ON_EQUITY'
-    DEBT_TO_EARNINGS = 'DEBT_TO_EARNINGS'
-    PE_RATIOS = 'PE_RATIOS'
-    AVERAGE_PE_RATIO = 'AVERAGE_PE_RATIO'
+    EPS = 'eps'
+    EPS_DILUTED = 'eps_diluted'
+    SHARES_OUTSTANDING = 'shares_outstanding'
+    RETURN_ON_EQUITY = 'return_on_equity'
+    DEBT_TO_EARNINGS = 'debt_to_earnings'
+    PE_RATIOS = 'pe_ratios'
+    AVERAGE_PE_RATIO = 'average_pe_ratio'
+    SHARES_OUTSTANDING = 'shares_outstanding'
 
 
     INTRINSIC_VALUE = 'intrinsic_value'
@@ -56,20 +48,12 @@ class CompanyReport:
 
     available_attributes = frozenset({TICKER,
                                       RETURN_ON_INVESTED_CAPITAL,
-                                      RETURN_ON_INVESTED_CAPITAL_10_YEAR,
-                                      RETURN_ON_INVESTED_CAPITAL_5_YEAR,
-                                      RETURN_ON_INVESTED_CAPITAL_3_YEAR,
-                                      RETURN_ON_INVESTED_CAPITAL_1_YEAR,
                                       EQUITY_GROWTH,
                                       EARNINGS_GROWTH,
                                       REVENUE_GROWTH,
                                       OPERATING_CASH_GROWTH,
                                       HISTORIC_PE,
                                       TOTAL_DEBT,
-                                      TOTAL_DEBT_10_YEAR,
-                                      TOTAL_DEBT_5_YEAR,
-                                      TOTAL_DEBT_3_YEAR,
-                                      TOTAL_DEBT_0_YEAR,
                                       REVENUE,
                                       EARNINGS,
                                       EQUITY,
@@ -87,7 +71,8 @@ class CompanyReport:
                                       DEBT_TO_EARNINGS,
                                       SHARES_OUTSTANDING,
                                       PE_RATIOS,
-                                      AVERAGE_PE_RATIO
+                                      AVERAGE_PE_RATIO,
+                                      SHARES_OUTSTANDING
                                       })
 
     def __init__(self):

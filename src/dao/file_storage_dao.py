@@ -103,11 +103,7 @@ class FileStorageDAO:
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
 
         file.write('# Big 5\n')
-        # file.write('ROIC: ' + str([company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_1_YEAR),
-        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR),
-        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_5_YEAR),
-        #                            company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR),
-        #                           ]) + '\n')
+        # file.write('ROIC: ' + str(company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)) + '\n\n')
         file.write('Equity Growth: ' + str(company_report.get(CompanyReport.EQUITY_GROWTH)) + '\n\n')
         file.write('Earnings Growth: ' + str(company_report.get(CompanyReport.EARNINGS_GROWTH)) + '\n\n')
         file.write('Revenue Growth: ' + str(company_report.get(CompanyReport.REVENUE_GROWTH)) + '\n\n')
@@ -125,6 +121,7 @@ class FileStorageDAO:
         # TODO: Shares Outstanding
         # TODO: PE ratios
         # TODO: Average PE ratio
+        # TODO: Add payback time
 
         file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
         file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n\n')
