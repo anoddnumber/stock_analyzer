@@ -4,6 +4,7 @@ from src.business_objects.company_report import CompanyReport
 from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
+from src.business_objects.key_ratios import KeyRatios
 from scripts.utilities.utils import Utils
 
 
@@ -19,6 +20,7 @@ class ReportGenerator:
         income_statements = FinancialStatementConverter.convert_income_statement_data(ticker)
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
+        key_ratios = FinancialStatementConverter.convert_key_ratio_data(ticker)
 
         # Part 1 - Growth rates
 
@@ -40,13 +42,18 @@ class ReportGenerator:
             lowest_growth_rate = 0
             conservative_growth_rate = 0
 
-        # TODO calculate a suitable P/E ratio
+        pe_ratios = ReportGenerator.get_list(key_ratios, KeyRatios.PE_RATIO)
 
+        positive_pe_ratios = Utils.remove_negative_numbers(pe_ratios)
+        estimated_future_pe = Utils.average(positive_pe_ratios)
+        conservative_future_pe = 15
+
+        # TODO: use Trailing 12 months EPS instead
         eps = income_statements[0].get(IncomeStatement.EPS)
         eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
 
-        intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, 15)
-        conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, 15)
+        intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
+        conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, conservative_future_pe)
 
         # Create and populate the company report
         company_report = CompanyReport()
@@ -60,7 +67,7 @@ class ReportGenerator:
         # Debt, Revenue, Earnings, Equity, ROIC, Return on Equity, Debt to Earnings, Shares Outstanding
         company_report.set_attr(CompanyReport.TOTAL_DEBT, ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT))
         company_report.set_attr(CompanyReport.REVENUE, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
-        company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
+        company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME))
         company_report.set_attr(CompanyReport.EQUITY, ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other
@@ -71,6 +78,8 @@ class ReportGenerator:
 
         company_report.set_attr(CompanyReport.EPS, income_statements[0].get(IncomeStatement.EPS))
         company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
+        company_report.set_attr(CompanyReport.PE_RATIOS, pe_ratios)
+        company_report.set_attr(CompanyReport.AVERAGE_PE_RATIO, estimated_future_pe)
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE, lowest_growth_rate)
@@ -115,3 +124,4 @@ class ReportGenerator:
         return ret
 
 ReportGenerator.generate_report('AMZN')
+print(Utils.calculate_intrinsic_value(23.46,.273,50))

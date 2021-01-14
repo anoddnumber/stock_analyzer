@@ -1,6 +1,7 @@
 from business_objects.income_statement import IncomeStatement
 from business_objects.balance_sheet import BalanceSheet
 from business_objects.cash_flow_statement import CashFlowStatement
+from business_objects.key_ratios import KeyRatios
 
 
 class FinancialModelingPrepInfo:
@@ -52,4 +53,9 @@ class FinancialModelingPrepInfo:
         CashFlowStatement.FINANCING_CASH_FLOW: 'netCashUsedProvidedByFinancingActivities',
         CashFlowStatement.NET_CASH_FLOW: 'netChangeInCash',
         CashFlowStatement.FREE_CASH_FLOW: 'freeCashFlow',
+    }
+
+    key_ratios_object_to_json_mapping = {
+        KeyRatios.DATE: 'date',
+        KeyRatios.PE_RATIO: 'peRatio'
     }

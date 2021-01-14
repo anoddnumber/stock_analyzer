@@ -13,6 +13,10 @@ class Utils:
         return api_key
 
     @staticmethod
+    def remove_negative_numbers(numbers):
+        return [ele for ele in numbers if ele > 0]
+
+    @staticmethod
     def average(values):
         if len(values) == 0:
             return 0
@@ -113,7 +117,7 @@ class Utils:
 
         :param eps:
         :param growth_rate: .25 means 25% growth rate
-        :param expected_pe:
+        :param future_pe:
         :param minimum_acceptable_rate_of_return: .25 means 25% growth rate
         :return:
         """

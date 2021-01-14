@@ -111,7 +111,8 @@ class FileStorageDAO:
         file.write(ticker + '\n\n')
         file.write('Number of Income Statements: ' + company_report.get_str(CompanyReport.NUM_INCOME_STATEMENTS) + '\n')
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
-        file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n\n\n')
+        file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n')
+        file.write('Data is from the most recent year first in lists - [year1, year2, year3, ...]\n\n\n')
 
         file.write('# Big 5\n')
         # file.write('ROIC: ' + str(company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)) + '\n\n')
@@ -127,18 +128,21 @@ class FileStorageDAO:
         file.write('Equity: ' + str(company_report.get(CompanyReport.EQUITY)) + '\n\n')
         file.write('Earnings: ' + str(company_report.get(CompanyReport.EARNINGS)) + '\n\n')
         file.write('Revenue: ' + str(company_report.get(CompanyReport.REVENUE)) + '\n\n')
+        file.write('PE Ratios: ' + str(company_report.get(CompanyReport.PE_RATIOS)) + '\n\n')
         # TODO: Return on Equity
         # TODO: Debt to Earnings
         # TODO: Shares Outstanding
-        # TODO: PE ratios
-        # TODO: Average PE ratio
         # TODO: Add payback time
+        # TODO: Trailing 12 months for EPS?
 
         file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
         file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n\n')
 
-        file.write('Growth rate for intrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n\n')
-        file.write('Growth rate for conservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE) + '\n\n')
+        file.write('Growth rate for intrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n')
+        file.write('PE for intrinsic value (average of positive PEs): ' + company_report.get_str(CompanyReport.AVERAGE_PE_RATIO) + '\n\n')
+
+        file.write('Growth rate for conservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE) + '\n')
+        file.write('PE for conservative intrinsic value: 15\n\n')
 
         file.write('\nIntrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE))
         file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE))

@@ -2,6 +2,7 @@ from src.dao.file_storage_dao import FileStorageDAO
 from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
+from src.business_objects.key_ratios import KeyRatios
 from src.client_info.financial_modeling_prep_info import FinancialModelingPrepInfo
 
 
@@ -61,5 +62,14 @@ class FinancialStatementConverter:
 
         return cash_flow_statements
 
+    @staticmethod
+    def convert_key_ratio_data(ticker):
+        json_data = FileStorageDAO.get_key_ratios(ticker)
+        key_ratios = []
+        for key_ratio_data in json_data['financials']:
+            key_ratios.append(KeyRatios(
+                FinancialModelingPrepInfo.key_ratios_object_to_json_mapping, key_ratio_data))
+
+        return key_ratios
 
 # print(*FinancialStatementConverter.convert_cash_flow_statement_data('AMZN'))
