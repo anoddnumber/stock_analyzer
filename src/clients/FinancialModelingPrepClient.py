@@ -17,6 +17,14 @@ class FinancialModelingPrepClient:
         return FinancialModelingPrepClient.json_get(url)
 
     @staticmethod
+    def get_company_quote_batch(tickers):
+        tickers_str = ''
+        for ticker in tickers:
+            tickers_str += str(ticker) + ','
+        url = 'https://financialmodelingprep.com/api/v3/quote/' + tickers_str + '?apikey=' + FinancialModelingPrepClient.API_KEY
+        return FinancialModelingPrepClient.json_get(url)
+
+    @staticmethod
     def get_financial_ratios_batch(tickers):
         """
         Financial Modeling Prep doesn't have a batch API, so just loop through and use the single API
@@ -63,7 +71,7 @@ class FinancialModelingPrepClient:
 
     @staticmethod
     def get_tickers():
-        url = 'https://financialmodelingprep.com/api/v3/company/stock/list' + '?apikey=' + FinancialModelingPrepClient.API_KEY
+        url = 'https://financialmodelingprep.com/api/v3/company/stock/list?apikey=' + FinancialModelingPrepClient.API_KEY
         return FinancialModelingPrepClient.json_get(url)
 
     @staticmethod

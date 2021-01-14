@@ -7,12 +7,18 @@ import json
 
 class DataRetriever:
 
-    MAX_TICKERS = 10  # 10 is the max allowed for a single call
+    MAX_TICKERS = 300
 
     @staticmethod
     def retrieve_all(tickers, time_to_live=0):
         DataRetriever.retrieve_financial_statements(tickers, time_to_live)
         DataRetriever.retrieve_key_ratios(tickers, time_to_live)
+
+    @staticmethod
+    def retrieve_company_quotes(tickers, time_to_live=0):
+        return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_company_quote,
+                                           FinancialModelingPrepClient.get_company_quote_batch,
+                                           FileStorageDAO.save_company_quote_batch, time_to_live, True)
 
     @staticmethod
     def retrieve_tickers(time_to_live=0):
@@ -69,7 +75,7 @@ class DataRetriever:
 
     # time_to_live is in seconds
     @staticmethod
-    def retrieve_data(tickers, get_func, fetch_func, save_func, time_to_live=0):
+    def retrieve_data(tickers, get_func, fetch_func, save_func, time_to_live=0, ignore_data_length=False):
         tickers_to_retrieve = []
 
         for ticker in tickers:
@@ -89,14 +95,20 @@ class DataRetriever:
         # otherwise, call FinancialModelingPrepClient
         i = 0
         while i < len(tickers_to_retrieve):
-            current_tickers = tickers_to_retrieve[i: i + DataRetriever.MAX_TICKERS]
+            current_tickers = tickers_to_retrieve[i: min(i + DataRetriever.MAX_TICKERS, len(tickers_to_retrieve) - 1)]
             print('current tickers: ' + str(current_tickers))
             data = fetch_func(current_tickers)
 
+            if ignore_data_length:
+                save_func(data)
+                i += DataRetriever.MAX_TICKERS
+                continue
+
             if len(data) != len(current_tickers):
-                print('retrieve_income_statements: Data length does not match number of tickers')
+                print('Data length does not match number of tickers')
+                print('data: ' + str(data))
                 print('data length: ' + str(len(data)))
-                print('tickers length: ' + str(len(tickers)))
+                print('current_tickers length: ' + str(len(current_tickers)))
                 return False
 
             # save to the database

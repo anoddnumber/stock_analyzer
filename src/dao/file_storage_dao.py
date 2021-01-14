@@ -21,6 +21,7 @@ class FileStorageDAO:
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
 
     KEY_RATIOS_DIR = DATA_DIR + 'key_ratios/'
+    COMPANY_QUOTES_DIR = DATA_DIR + 'company_quotes/'
     COMPANY_REPORTS_DIR = DATA_DIR + 'company_reports/'
     TICKERS_FILE = DATA_DIR + 'tickers.json'
 
@@ -39,6 +40,10 @@ class FileStorageDAO:
     @staticmethod
     def get_key_ratios(ticker):
         return FileStorageDAO.get_data(ticker, FileStorageDAO.KEY_RATIOS_DIR)
+
+    @staticmethod
+    def get_company_quote(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.COMPANY_QUOTES_DIR)
 
     @staticmethod
     def get_income_statement(ticker):
@@ -71,6 +76,12 @@ class FileStorageDAO:
     @staticmethod
     def save_key_ratios(ticker, json_obj):
         FileStorageDAO._save_json(FileStorageDAO.KEY_RATIOS_DIR + ticker + '.json', json_obj)
+
+    @staticmethod
+    def save_company_quote_batch(json_objs):
+        for json_obj in json_objs:
+            ticker = json_obj['symbol']
+            FileStorageDAO._save_json(FileStorageDAO.COMPANY_QUOTES_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_income_statement(ticker, json_obj):
@@ -138,7 +149,7 @@ class FileStorageDAO:
     def _make_directories():
         paths = [FileStorageDAO.ROOT_DIR, FileStorageDAO.DATA_DIR, FileStorageDAO.FINANCIAL_STATEMENTS_DIR,
                  FileStorageDAO.INCOME_STATEMENTS_DIR, FileStorageDAO.BALANCE_SHEET_DIR,
-                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR, FileStorageDAO.KEY_RATIOS_DIR]
+                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR, FileStorageDAO.KEY_RATIOS_DIR, FileStorageDAO.COMPANY_QUOTES_DIR]
 
         for path in paths:
             if not os.path.isdir(path):
