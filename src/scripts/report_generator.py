@@ -5,6 +5,7 @@ from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
 from src.business_objects.key_ratios import KeyRatios
+from src.business_objects.company_quote import CompanyQuote
 from scripts.utilities.utils import Utils
 
 
@@ -21,6 +22,7 @@ class ReportGenerator:
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
         key_ratios = FinancialStatementConverter.convert_key_ratio_data(ticker)
+        company_quote = FinancialStatementConverter.convert_company_quote_data(ticker)
 
         # Part 1 - Growth rates
 
@@ -45,7 +47,9 @@ class ReportGenerator:
         pe_ratios = ReportGenerator.get_list(key_ratios, KeyRatios.PE_RATIO)
 
         positive_pe_ratios = Utils.remove_negative_numbers(pe_ratios)
-        estimated_future_pe = Utils.average(positive_pe_ratios)
+
+        estimated_future_pe = max(min(lowest_growth_rate * 2 * 100, Utils.average(positive_pe_ratios)), 0)
+        # estimated_future_pe = Utils.average(positive_pe_ratios)
         conservative_future_pe = 15
 
         # TODO: use Trailing 12 months EPS instead
@@ -80,6 +84,7 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
         company_report.set_attr(CompanyReport.PE_RATIOS, pe_ratios)
         company_report.set_attr(CompanyReport.AVERAGE_PE_RATIO, estimated_future_pe)
+        company_report.set_attr(CompanyReport.SHARES_OUTSTANDING, company_quote.get(CompanyQuote.SHARES_OUTSTANDING))
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE, lowest_growth_rate)
@@ -124,4 +129,4 @@ class ReportGenerator:
         return ret
 
 ReportGenerator.generate_report('AMZN')
-print(Utils.calculate_intrinsic_value(23.46,.273,50))
+# print(Utils.calculate_intrinsic_value(34.8,.25,50))

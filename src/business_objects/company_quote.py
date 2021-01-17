@@ -1,11 +1,7 @@
-class KeyRatios:
-    DATE = 'date'
-    PE_RATIO = 'pe_ratio'
-    DEBT_TO_EARNINGS = 'debt_to_earnings'
-    ROIC = 'roic' # return on invested capital
-    ROE = 'roe' # return on equity
+class CompanyQuote:
+    SHARES_OUTSTANDING = 'shares_outstanding'
 
-    available_attributes = frozenset({DATE, PE_RATIO, DEBT_TO_EARNINGS, ROIC, ROE})
+    available_attributes = frozenset({SHARES_OUTSTANDING})
 
     def __init__(self, mapping, json_data):
         if mapping is not None and json_data is not None:

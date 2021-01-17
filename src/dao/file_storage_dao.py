@@ -112,9 +112,11 @@ class FileStorageDAO:
         file.write('Number of Income Statements: ' + company_report.get_str(CompanyReport.NUM_INCOME_STATEMENTS) + '\n')
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n')
-        file.write('Data is from the most recent year first in lists - [year1, year2, year3, ...]\n\n\n')
+        file.write('Data is from the most recent year first in lists - [year1, year2, year3, ...] where year1 is the most recent year\n\n\n')
+        #TODO: add date of report
 
         file.write('# Big 5\n')
+        # TODO: roic -
         # file.write('ROIC: ' + str(company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)) + '\n\n')
         file.write('Equity Growth: ' + str(company_report.get(CompanyReport.EQUITY_GROWTH)) + '\n\n')
         file.write('Earnings Growth: ' + str(company_report.get(CompanyReport.EARNINGS_GROWTH)) + '\n\n')
@@ -129,9 +131,10 @@ class FileStorageDAO:
         file.write('Earnings: ' + str(company_report.get(CompanyReport.EARNINGS)) + '\n\n')
         file.write('Revenue: ' + str(company_report.get(CompanyReport.REVENUE)) + '\n\n')
         file.write('PE Ratios: ' + str(company_report.get(CompanyReport.PE_RATIOS)) + '\n\n')
-        # TODO: Return on Equity
-        # TODO: Debt to Earnings
+        # TODO: Return on Equity -
+        # TODO: Debt to Earnings -
         # TODO: Shares Outstanding
+        file.write('Shares Outstanding: ' + str(company_report.get(CompanyReport.SHARES_OUTSTANDING)) + '\n\n')
         # TODO: Add payback time
         # TODO: Trailing 12 months for EPS?
 

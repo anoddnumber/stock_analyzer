@@ -3,6 +3,7 @@ from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
 from src.business_objects.key_ratios import KeyRatios
+from src.business_objects.company_quote import CompanyQuote
 from src.client_info.financial_modeling_prep_info import FinancialModelingPrepInfo
 
 
@@ -16,8 +17,8 @@ class FinancialStatementConverter:
         """
             Reads the raw income statement data for the given ticker and converts it into IncomeStatement objects
 
-        :param ticker: the stock symbol
-        :return: a list of income statement objects associated with the ticker that was input
+            :param ticker: the stock symbol
+            :return: a list of income statement objects associated with the ticker that was input
         """
         json_data = FileStorageDAO.get_income_statement(ticker)
 
@@ -32,11 +33,11 @@ class FinancialStatementConverter:
     @staticmethod
     def convert_balance_statement_data(ticker):
         """
-                Reads the raw balance sheet data for the given ticker and converts it into BalanceSheet objects
+            Reads the raw balance sheet data for the given ticker and converts it into BalanceSheet objects
 
-                :param ticker: the stock symbol
-                :return: a list of balance sheet objects associated with the ticker that was input
-                """
+            :param ticker: the stock symbol
+            :return: a list of balance sheet objects associated with the ticker that was input
+        """
         json_data = FileStorageDAO.get_balance_sheet(ticker)
         balance_sheets = []
         for balance_sheet_data in json_data['financials']:
@@ -48,12 +49,12 @@ class FinancialStatementConverter:
     @staticmethod
     def convert_cash_flow_statement_data(ticker):
         """
-                Reads the raw cash flow statement data for the given ticker and converts it into
-                CashFlowStatement objects
+            Reads the raw cash flow statement data for the given ticker and converts it into
+            CashFlowStatement objects
 
-                :param ticker: the stock symbol
-                :return: a list of cash flow statement objects associated with the ticker that was input
-                """
+            :param ticker: the stock symbol
+            :return: a list of cash flow statement objects associated with the ticker that was input
+        """
         json_data = FileStorageDAO.get_cash_flow_statement(ticker)
         cash_flow_statements = []
         for cash_flow_statement_data in json_data['financials']:
@@ -71,5 +72,10 @@ class FinancialStatementConverter:
                 FinancialModelingPrepInfo.key_ratios_object_to_json_mapping, key_ratio_data))
 
         return key_ratios
+
+    @staticmethod
+    def convert_company_quote_data(ticker):
+        json_data = FileStorageDAO.get_company_quote(ticker)
+        return CompanyQuote(FinancialModelingPrepInfo.company_quote_object_to_json_mapping, json_data)
 
 # print(*FinancialStatementConverter.convert_cash_flow_statement_data('AMZN'))
