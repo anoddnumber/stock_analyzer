@@ -51,15 +51,17 @@ class ReportGenerator:
         positive_pe_ratios = Utils.remove_negative_numbers(pe_ratios)
 
         estimated_future_pe = max(min(lowest_growth_rate * 2 * 100, Utils.average(positive_pe_ratios)), 0)
-        # estimated_future_pe = Utils.average(positive_pe_ratios)
         conservative_future_pe = 15
 
-        # TODO: use Trailing 12 months EPS instead
         eps = income_statements[0].get(IncomeStatement.EPS)
         eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
+        eps_ttm = key_ratios_ttm.get(KeyRatiosTTM.EPS)
 
         intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
         conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, conservative_future_pe)
+
+        intrinsic_value_ttm = Utils.calculate_intrinsic_value(eps_ttm, lowest_growth_rate, estimated_future_pe)
+        conservative_intrinsic_value_ttm = Utils.calculate_intrinsic_value(eps_ttm, conservative_growth_rate, conservative_future_pe)
 
         # Create and populate the company report
         company_report = CompanyReport()
@@ -97,6 +99,9 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE, lowest_growth_rate)
         company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE, conservative_intrinsic_value)
         company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE, conservative_growth_rate)
+
+        company_report.set_attr(CompanyReport.INTRINSIC_VALUE_USING_TTM_EPS, intrinsic_value_ttm)
+        company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS, conservative_intrinsic_value_ttm)
 
         FileStorageDAO.save_report(company_report)
 

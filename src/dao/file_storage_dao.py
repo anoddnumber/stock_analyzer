@@ -158,6 +158,9 @@ class FileStorageDAO:
         file.write('\nIntrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE))
         file.write('\nConservative intrinsic value: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE))
 
+        file.write('\nIntrinsic value using TTM EPS: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_USING_TTM_EPS))
+        file.write('\nConservative intrinsic value using TTM EPS: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS))
+
         file.close()
 
     @staticmethod
