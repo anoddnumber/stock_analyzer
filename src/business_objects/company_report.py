@@ -50,6 +50,9 @@ class CompanyReport:
     CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS = 'conservative_intrinsic_value_ttm_eps'
     CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE = 'conservative_intrinsic_value_growth_rate'
 
+    PAYBACK_TIME_MARGIN_OF_SAFETY = 'payback_time_margin_of_safety'
+    PAYBACK_TIME_INTRINSIC_VALUE = 'payback_time_intrinsic_value'
+
     available_attributes = frozenset({TICKER,
                                       DATES,
                                       RETURN_ON_INVESTED_CAPITAL,
@@ -80,7 +83,9 @@ class CompanyReport:
                                       SHARES_OUTSTANDING,
                                       PE_RATIOS,
                                       AVERAGE_PE_RATIO,
-                                      SHARES_OUTSTANDING
+                                      SHARES_OUTSTANDING,
+                                      PAYBACK_TIME_MARGIN_OF_SAFETY,
+                                      PAYBACK_TIME_INTRINSIC_VALUE
                                       })
 
     def __init__(self):

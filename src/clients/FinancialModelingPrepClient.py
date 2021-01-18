@@ -22,6 +22,11 @@ class FinancialModelingPrepClient:
         return FinancialModelingPrepClient.json_get(url)
 
     @staticmethod
+    def get_key_metrics_ttm(ticker):
+        url = 'https://financialmodelingprep.com/api/v3/key-metrics-ttm/' + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
+        return FinancialModelingPrepClient.json_get(url)
+
+    @staticmethod
     def get_company_quote_batch(tickers):
         tickers_str = ''
         for ticker in tickers:

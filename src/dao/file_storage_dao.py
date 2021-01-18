@@ -1,6 +1,8 @@
 import json
 import os
 from business_objects.company_report import CompanyReport
+import math
+from scripts.utilities.utils import Utils
 
 
 class FileStorageDAO:
@@ -161,7 +163,41 @@ class FileStorageDAO:
         file.write('\nIntrinsic value using TTM EPS: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_USING_TTM_EPS))
         file.write('\nConservative intrinsic value using TTM EPS: ' + company_report.get_str(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS))
 
+
+
+        # Payback time
+        shares_outstanding = company_report.get(CompanyReport.SHARES_OUTSTANDING)
+        growth_rate = company_report.get(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE)
+        eps = company_report.get(CompanyReport.EPS)
+        intrinsic_value = company_report.get(CompanyReport.INTRINSIC_VALUE)
+
+        file.write('\n\nPayback time with last year\'s earnings (not TTM):\n')
+        file.write('EPS: ' + str(eps) + '\n')
+        file.write('Shares Outstanding: ' + str(shares_outstanding) + '\n')
+        file.write('Growth rate for intrinsic value: ' + company_report.get_str(
+            CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n')
+        file.write('Calculated Payback Time with intrinsic value ' + str(intrinsic_value)
+                   + ': ' + Utils.calculate_payback_time(intrinsic_value, shares_outstanding, growth_rate, eps))
+        file.write('Calculated Payback Time with intrinsic value ' + str(intrinsic_value)
+                   + ': ' + Utils.calculate_payback_time(intrinsic_value, shares_outstanding, growth_rate, eps))
+
+        FileStorageDAO.write_payback_time_table(company_report.get(CompanyReport.EPS), shares_outstanding,
+                                                growth_rate, file)
+
+
+        file.write('\n\nConservative Payback time:\n')
+
         file.close()
+
+    @staticmethod
+    def write_payback_time_table(eps, shares_outstanding, growth_rate, file, num_years=20):
+        file.write('Year, Estimated Earnings, Cumulative Earnings')
+
+        cumulative_earnings = 0
+        for year in range(0, num_years):
+            year_earnings = eps * shares_outstanding * math.pow(growth_rate, num_years)
+            cumulative_earnings += year_earnings
+            file.write('0, ' + str(year_earnings) + ', ' + str(cumulative_earnings) + '\n')
 
     @staticmethod
     def _make_directories():
