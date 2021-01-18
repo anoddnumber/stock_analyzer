@@ -121,6 +121,8 @@ class Utils:
         :param minimum_acceptable_rate_of_return: .25 means 25% growth rate
         :return:
         """
+        if type(eps) != int and type(eps) != float:
+            return 0
         num_years = 10
         future_eps = eps * math.pow(1 + growth_rate, num_years)
         future_val = future_eps * future_pe

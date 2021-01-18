@@ -53,8 +53,13 @@ class ReportGenerator:
         estimated_future_pe = max(min(lowest_growth_rate * 2 * 100, Utils.average(positive_pe_ratios)), 0)
         conservative_future_pe = 15
 
-        eps = income_statements[0].get(IncomeStatement.EPS)
-        eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
+        if len(income_statements) > 0:
+            eps = income_statements[0].get(IncomeStatement.EPS)
+            eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
+        else:
+            eps = 0
+            eps_diluted = 0
+
         eps_ttm = company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS)
 
         intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
@@ -88,8 +93,8 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.NUM_BALANCE_SHEETS, len(balance_sheets))
         company_report.set_attr(CompanyReport.NUM_CASH_FLOW_STATEMENTS, len(cash_flow_statements))
 
-        company_report.set_attr(CompanyReport.EPS, income_statements[0].get(IncomeStatement.EPS))
-        company_report.set_attr(CompanyReport.EPS_DILUTED, income_statements[0].get(IncomeStatement.EPS_DILUTED))
+        company_report.set_attr(CompanyReport.EPS, eps)
+        company_report.set_attr(CompanyReport.EPS_DILUTED, eps_diluted)
         company_report.set_attr(CompanyReport.PE_RATIOS, pe_ratios)
         company_report.set_attr(CompanyReport.AVERAGE_PE_RATIO, estimated_future_pe)
         company_report.set_attr(CompanyReport.SHARES_OUTSTANDING, company_quote.get(CompanyQuote.SHARES_OUTSTANDING))
@@ -107,7 +112,7 @@ class ReportGenerator:
 
     @staticmethod
     def get_growth(statements, num_years, attr):
-        if len(statements) < num_years:
+        if len(statements) < num_years or len(statements) == 0:
             return 'no data'
         starting_value = float(statements[num_years].get(attr))
         ending_value = float(statements[0].get(attr))
