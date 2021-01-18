@@ -118,6 +118,7 @@ class FileStorageDAO:
         ticker = company_report.get(CompanyReport.TICKER)
         file = open(FileStorageDAO.COMPANY_REPORTS_DIR + ticker + '.txt', "w")
         file.write(ticker + '\n\n')
+        file.write('Dates: ' + company_report.get_str(CompanyReport.DATES) + '\n')
         file.write('Number of Income Statements: ' + company_report.get_str(CompanyReport.NUM_INCOME_STATEMENTS) + '\n')
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n')

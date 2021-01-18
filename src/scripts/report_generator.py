@@ -63,6 +63,7 @@ class ReportGenerator:
 
         # Create and populate the company report
         company_report = CompanyReport()
+        company_report.set_attr(CompanyReport.DATES, ReportGenerator.get_list(income_statements, IncomeStatement.DATE))
 
         # Set growth rates
         company_report.set_attr(CompanyReport.EQUITY_GROWTH, equity_growth)

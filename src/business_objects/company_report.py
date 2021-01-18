@@ -3,6 +3,7 @@
 class CompanyReport:
 
     TICKER = 'ticker'
+    DATES = 'dates'
 
     # Big 5 - should be greater than or equal to 10% per year for the last 10 years for each of them
     # These are in order of importance
@@ -48,6 +49,7 @@ class CompanyReport:
     CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE = 'conservative_intrinsic_value_growth_rate'
 
     available_attributes = frozenset({TICKER,
+                                      DATES,
                                       RETURN_ON_INVESTED_CAPITAL,
                                       EQUITY_GROWTH,
                                       EARNINGS_GROWTH,
