@@ -15,7 +15,7 @@ FileStorageDAO._make_directories()
 tickers = DataRetriever.retrieve_tickers(ttl)
 print('tickers: ' + str(tickers))
 
-ReportGenerator.generate_reports(tickers)
+ReportGenerator.generate_reports(tickers, ttl)
 
 
 
