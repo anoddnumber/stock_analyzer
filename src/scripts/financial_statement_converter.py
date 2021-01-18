@@ -3,6 +3,7 @@ from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
 from src.business_objects.key_ratios import KeyRatios
+from src.business_objects.key_ratios_ttm import KeyRatiosTTM
 from src.business_objects.company_quote import CompanyQuote
 from src.client_info.financial_modeling_prep_info import FinancialModelingPrepInfo
 
@@ -72,6 +73,11 @@ class FinancialStatementConverter:
                 FinancialModelingPrepInfo.key_ratios_object_to_json_mapping, key_ratio_data))
 
         return key_ratios
+
+    @staticmethod
+    def convert_key_ratio_ttm_data(ticker):
+        json_data = FileStorageDAO.get_key_ratios_ttm(ticker)
+        return KeyRatiosTTM(FinancialModelingPrepInfo.key_ratios_ttm_object_to_json_mapping, json_data['financials'][0])
 
     @staticmethod
     def convert_company_quote_data(ticker):

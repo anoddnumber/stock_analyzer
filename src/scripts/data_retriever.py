@@ -7,7 +7,7 @@ import json
 
 class DataRetriever:
 
-    MAX_TICKERS = 300
+    MAX_TICKERS = 10
 
     @staticmethod
     def retrieve_all(tickers, time_to_live=0):
@@ -48,6 +48,12 @@ class DataRetriever:
         return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_key_ratios,
                                            FinancialModelingPrepClient.get_financial_ratios_batch,
                                            FileStorageDAO.save_key_ratios, time_to_live)
+
+    @staticmethod
+    def retrieve_key_ratios_ttm(tickers, time_to_live=0):
+        return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_key_ratios_ttm,
+                                           FinancialModelingPrepClient.get_financial_ratios_ttm_batch,
+                                           FileStorageDAO.save_key_ratios_ttm, time_to_live)
 
     @staticmethod
     def retrieve_financial_statements(tickers, time_to_live=0):

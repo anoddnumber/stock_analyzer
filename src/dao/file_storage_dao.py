@@ -21,6 +21,7 @@ class FileStorageDAO:
     CASH_FLOW_STATEMENTS_DIR = FINANCIAL_STATEMENTS_DIR + 'cash_flow_statements/'
 
     KEY_RATIOS_DIR = DATA_DIR + 'key_ratios/'
+    KEY_RATIOS_TTM_DIR =  DATA_DIR + 'key_ratios_ttm/'
     COMPANY_QUOTES_DIR = DATA_DIR + 'company_quotes/'
     COMPANY_REPORTS_DIR = DATA_DIR + 'company_reports/'
     TICKERS_FILE = DATA_DIR + 'tickers.json'
@@ -40,6 +41,10 @@ class FileStorageDAO:
     @staticmethod
     def get_key_ratios(ticker):
         return FileStorageDAO.get_data(ticker, FileStorageDAO.KEY_RATIOS_DIR)
+
+    @staticmethod
+    def get_key_ratios_ttm(ticker):
+        return FileStorageDAO.get_data(ticker, FileStorageDAO.KEY_RATIOS_TTM_DIR)
 
     @staticmethod
     def get_company_quote(ticker):
@@ -76,6 +81,10 @@ class FileStorageDAO:
     @staticmethod
     def save_key_ratios(ticker, json_obj):
         FileStorageDAO._save_json(FileStorageDAO.KEY_RATIOS_DIR + ticker + '.json', json_obj)
+
+    @staticmethod
+    def save_key_ratios_ttm(ticker, json_obj):
+        FileStorageDAO._save_json(FileStorageDAO.KEY_RATIOS_TTM_DIR + ticker + '.json', json_obj)
 
     @staticmethod
     def save_company_quote_batch(json_objs):
@@ -138,6 +147,7 @@ class FileStorageDAO:
 
         file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
         file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n\n')
+        file.write('EPS TTM: ' + company_report.get_str(CompanyReport.EPS_TTM) + '\n\n')
 
         file.write('Growth rate for intrinsic value: ' + company_report.get_str(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n')
         file.write('PE for intrinsic value (average of positive PEs): ' + company_report.get_str(CompanyReport.AVERAGE_PE_RATIO) + '\n\n')
@@ -154,7 +164,8 @@ class FileStorageDAO:
     def _make_directories():
         paths = [FileStorageDAO.ROOT_DIR, FileStorageDAO.DATA_DIR, FileStorageDAO.FINANCIAL_STATEMENTS_DIR,
                  FileStorageDAO.INCOME_STATEMENTS_DIR, FileStorageDAO.BALANCE_SHEET_DIR,
-                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR, FileStorageDAO.KEY_RATIOS_DIR, FileStorageDAO.COMPANY_QUOTES_DIR]
+                 FileStorageDAO.CASH_FLOW_STATEMENTS_DIR, FileStorageDAO.KEY_RATIOS_DIR, FileStorageDAO.COMPANY_QUOTES_DIR,
+                 FileStorageDAO.KEY_RATIOS_TTM_DIR]
 
         for path in paths:
             if not os.path.isdir(path):

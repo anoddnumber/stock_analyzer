@@ -2,6 +2,7 @@ from business_objects.income_statement import IncomeStatement
 from business_objects.balance_sheet import BalanceSheet
 from business_objects.cash_flow_statement import CashFlowStatement
 from business_objects.key_ratios import KeyRatios
+from business_objects.key_ratios_ttm import KeyRatiosTTM
 from business_objects.company_quote import CompanyQuote
 
 
@@ -62,6 +63,10 @@ class FinancialModelingPrepInfo:
         KeyRatios.DEBT_TO_EARNINGS: 'netDebtToEBITDA',
         KeyRatios.ROIC: 'roic',
         KeyRatios.ROE: 'roe'
+    }
+
+    key_ratios_ttm_object_to_json_mapping = {
+        KeyRatiosTTM.EPS: 'netIncomePerShareTTM'
     }
 
     company_quote_object_to_json_mapping = {

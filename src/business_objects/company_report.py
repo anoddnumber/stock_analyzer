@@ -16,6 +16,7 @@ class CompanyReport:
 
     REVENUE = 'revenue'
     EARNINGS = 'earnings'
+    EPS_TTM = 'eps_ttm'
     EQUITY = 'equity'
 
     RETURN_ON_INVESTED_CAPITAL = 'return_on_invested_capital'
@@ -56,6 +57,7 @@ class CompanyReport:
                                       TOTAL_DEBT,
                                       REVENUE,
                                       EARNINGS,
+                                      EPS_TTM,
                                       EQUITY,
                                       MARGIN_OF_SAFETY,
                                       NUM_INCOME_STATEMENTS,
