@@ -9,25 +9,47 @@ from clients.FinancialModelingPrepClient import FinancialModelingPrepClient
 from scripts.report_generator import ReportGenerator
 from business_objects.company_report import CompanyReport
 
+ttl=60*60*24*500 # 500 days
+
 FileStorageDAO._make_directories()
-tickers = DataRetriever.retrieve_tickers()
+tickers = DataRetriever.retrieve_tickers(ttl)
 print('tickers: ' + str(tickers))
-ttl=60*60*24*50 # 50 days
+
+ReportGenerator.generate_reports(tickers)
+
+
+
+
+def should_include(company_report):
+    roic_list = company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)
+    equity_growth = company_report.get(CompanyReport.EQUITY_GROWTH)
+    earnings_growth = company_report.get(CompanyReport.EARNINGS_GROWTH)
+    revenue_growth = company_report.get(CompanyReport.REVENUE_GROWTH)
+    operating_cash_flow_growth = company_report.get(CompanyReport.OPERATING_CASH_GROWTH)
+
+    if len(roic_list) < 10 or len(equity_growth) < 10 or len(earnings_growth) < 10 or len(revenue_growth) < 10 or len(operating_cash_flow_growth) < 10:
+        return False
+
+    return roic_list[0] > .1 \
+           and equity_growth[2] > .1 and equity_growth[9] > .1 \
+           and earnings_growth[2] > .1 and earnings_growth[9] > .1 \
+           and revenue_growth[2] > .1 and revenue_growth[9] > .1 \
+           and operating_cash_flow_growth[2] > .1 and operating_cash_flow_growth[9] > .1
+
+
+
+DataFilterer.filter_reports(tickers, should_include)
+
+
+
+
+
 # DataRetriever.retrieve_key_ratios(tickers, ttl)
-DataRetriever.retrieve_financial_statements(tickers, ttl)
+#  DataRetriever.retrieve_financial_statements(tickers, ttl)
+# DataRetriever.retrieve_company_key_metrics_ttm(tickers, ttl)
 # ReportGenerator.generate_reports(tickers)
 
-# def should_include(company_report):
-#     return company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_10_YEAR) > .1 \
-#            and company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL_3_YEAR) > .1 \
-#            and company_report.get(CompanyReport.EQUITY_GROWTH_10_YEAR) > .1 \
-#            and company_report.get(CompanyReport.EQUITY_GROWTH_3_YEAR) > .1 \
-#            and company_report.get(CompanyReport.EARNINGS_GROWTH_10_YEAR) > .1 \
-#            and company_report.get(CompanyReport.EARNINGS_GROWTH_3_YEAR) > .1 \
-#            and company_report.get(CompanyReport.REVENUE_GROWTH_10_YEAR) > .1 \
-#            and company_report.get(CompanyReport.REVENUE_GROWTH_3_YEAR) > .1 \
-#            and company_report.get(CompanyReport.OPERATING_CASH_GROWTH_10_YEAR) > .1 \
-#            and company_report.get(CompanyReport.OPERATING_CASH_GROWTH_3_YEAR) > .1
+
 
 # print(FinancialModelingPrepClient.get_income_statement('AAPL'))
 # print(FinancialModelingPrepClient.get_income_statements_batch(['GOOG', 'AMZN']))
