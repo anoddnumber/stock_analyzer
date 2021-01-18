@@ -118,12 +118,12 @@ class FileStorageDAO:
         ticker = company_report.get(CompanyReport.TICKER)
         file = open(FileStorageDAO.COMPANY_REPORTS_DIR + ticker + '.txt', "w")
         file.write(ticker + '\n\n')
-        file.write('Dates: ' + company_report.get_str(CompanyReport.DATES) + '\n')
+
         file.write('Number of Income Statements: ' + company_report.get_str(CompanyReport.NUM_INCOME_STATEMENTS) + '\n')
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n')
         file.write('Data is from the most recent year first in lists - [year1, year2, year3, ...] where year1 is the most recent year\n\n\n')
-        #TODO: add date of report
+        file.write('Dates: ' + company_report.get_str(CompanyReport.DATES) + '\n')
 
         file.write('# Big 5\n')
         file.write('ROIC: ' + str(company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)) + '\n\n')
@@ -144,7 +144,6 @@ class FileStorageDAO:
         file.write('Debt to Earnings: ' + str(company_report.get(CompanyReport.DEBT_TO_EARNINGS)) + '\n\n')
         file.write('Shares Outstanding: ' + str(company_report.get(CompanyReport.SHARES_OUTSTANDING)) + '\n\n')
         # TODO: Add payback time
-        # TODO: Trailing 12 months for EPS?
 
         file.write('\nEPS: ' + company_report.get_str(CompanyReport.EPS) + '\n')
         file.write('EPS Diluted: ' + company_report.get_str(CompanyReport.EPS_DILUTED) + '\n\n')
