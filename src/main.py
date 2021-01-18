@@ -38,9 +38,10 @@ def should_include(company_report):
 
 
 
-DataFilterer.filter_reports(tickers, should_include)
-
-
+filtered_tickers = DataFilterer.filter_reports(tickers, should_include)
+sorted_tickers = DataSorter.sort_reports(filtered_tickers)
+print('\n\n\nSorted tickers:\n\n')
+print(sorted_tickers)
 
 
 
