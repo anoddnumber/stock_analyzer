@@ -8,17 +8,32 @@ from src.business_objects.key_ratios import KeyRatios
 from src.business_objects.company_key_metrics_ttm import CompanyKeyMetricsTTM
 from src.business_objects.company_quote import CompanyQuote
 from scripts.utilities.utils import Utils
+import time
+import datetime
+import json
 
 
 class ReportGenerator:
 
     @staticmethod
-    def generate_reports(tickers):
+    def generate_reports(tickers, time_to_live=0):
         for ticker in tickers:
-            ReportGenerator.generate_report(ticker)
+            ReportGenerator.generate_report(ticker, time_to_live)
 
     @staticmethod
-    def generate_report(ticker):
+    def generate_report(ticker, time_to_live=0):
+        try:
+            info = FileStorageDAO.get_company_report(ticker)
+            if time.time() - float(info.get('last_updated_date', 0)) < time_to_live:
+                return
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            # continue on
+            pass
+        except BaseException as e:
+            print("Unexpected exception when trying to generate report: " + str(e))
+            return
+
+
         income_statements = FinancialStatementConverter.convert_income_statement_data(ticker)
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
@@ -27,7 +42,6 @@ class ReportGenerator:
         company_quote = FinancialStatementConverter.convert_company_quote_data(ticker)
 
         # Part 1 - Growth rates
-
         equity_growth = ReportGenerator.get_growth_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY)
         revenue_growth = ReportGenerator.get_growth_list(income_statements, IncomeStatement.REVENUE)
         earnings_growth = ReportGenerator.get_growth_list(income_statements, IncomeStatement.NET_INCOME)
@@ -46,6 +60,7 @@ class ReportGenerator:
             lowest_growth_rate = 0
             conservative_growth_rate = 0
 
+        # Part 2 - P/E and EPS
         pe_ratios = ReportGenerator.get_list(key_ratios, KeyRatios.PE_RATIO)
 
         positive_pe_ratios = Utils.remove_negative_numbers(pe_ratios)
@@ -62,13 +77,14 @@ class ReportGenerator:
 
         eps_ttm = company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS)
 
+        # Part 3 - Intrinsic value calculation
         intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
         conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, conservative_future_pe)
 
         intrinsic_value_ttm = Utils.calculate_intrinsic_value(eps_ttm, lowest_growth_rate, estimated_future_pe)
         conservative_intrinsic_value_ttm = Utils.calculate_intrinsic_value(eps_ttm, conservative_growth_rate, conservative_future_pe)
 
-        # Create and populate the company report
+        # Part 4 - Create and populate the company report
         company_report = CompanyReport()
         company_report.set_attr(CompanyReport.DATES, ReportGenerator.get_list(income_statements, IncomeStatement.DATE))
 
@@ -109,6 +125,45 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS, conservative_intrinsic_value_ttm)
 
         FileStorageDAO.save_report(company_report)
+
+
+
+
+        # Part 5 - create and save the json version of the company report
+        company_report_json = {
+            CompanyReport.DATES: ReportGenerator.get_list(income_statements, IncomeStatement.DATE),
+            CompanyReport.EQUITY_GROWTH: equity_growth,
+            CompanyReport.REVENUE_GROWTH: revenue_growth,
+            CompanyReport.EARNINGS_GROWTH: earnings_growth,
+            CompanyReport.OPERATING_CASH_GROWTH: operating_cash_growth,
+            CompanyReport.RETURN_ON_INVESTED_CAPITAL: ReportGenerator.get_list(key_ratios, KeyRatios.ROIC),
+            CompanyReport.RETURN_ON_EQUITY: ReportGenerator.get_list(key_ratios, KeyRatios.ROE),
+            CompanyReport.TOTAL_DEBT: ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT),
+            CompanyReport.REVENUE: ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE),
+            CompanyReport.EARNINGS: ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME),
+            CompanyReport.EPS_TTM: company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS),
+            CompanyReport.EQUITY: ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY),
+            CompanyReport.TICKER: ticker,
+            CompanyReport.NUM_INCOME_STATEMENTS: len(income_statements),
+            CompanyReport.NUM_BALANCE_SHEETS: len(balance_sheets),
+            CompanyReport.NUM_CASH_FLOW_STATEMENTS: len(cash_flow_statements),
+            CompanyReport.EPS: eps,
+            CompanyReport.EPS_DILUTED: eps_diluted,
+            CompanyReport.PE_RATIOS: pe_ratios,
+            CompanyReport.AVERAGE_PE_RATIO: estimated_future_pe,
+            CompanyReport.SHARES_OUTSTANDING: company_quote.get(CompanyQuote.SHARES_OUTSTANDING),
+            CompanyReport.DEBT_TO_EARNINGS: ReportGenerator.get_list(key_ratios, KeyRatios.DEBT_TO_EARNINGS),
+            CompanyReport.INTRINSIC_VALUE: intrinsic_value,
+            CompanyReport.INTRINSIC_VALUE_GROWTH_RATE: lowest_growth_rate,
+            CompanyReport.CONSERVATIVE_INTRINSIC_VALUE: conservative_intrinsic_value,
+            CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE: conservative_growth_rate,
+            CompanyReport.INTRINSIC_VALUE_USING_TTM_EPS: intrinsic_value_ttm,
+            CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_USING_TTM_EPS: conservative_intrinsic_value_ttm,
+            'last_updated_date': time.time(),
+            'last_updated_date_human': str(datetime.datetime.now())
+        }
+
+        FileStorageDAO.save_company_report_json(ticker, company_report_json)
 
     @staticmethod
     def get_growth(statements, num_years, attr):
