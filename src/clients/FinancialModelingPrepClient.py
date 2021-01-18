@@ -22,7 +22,7 @@ class FinancialModelingPrepClient:
         return FinancialModelingPrepClient.json_get(url)
 
     @staticmethod
-    def get_key_metrics_ttm(ticker):
+    def get_company_key_metrics_ttm(ticker):
         url = 'https://financialmodelingprep.com/api/v3/key-metrics-ttm/' + ticker + '?apikey=' + FinancialModelingPrepClient.API_KEY
         return FinancialModelingPrepClient.json_get(url)
 
@@ -57,6 +57,21 @@ class FinancialModelingPrepClient:
         for ticker in tickers:
             try:
                 ret.append(FinancialModelingPrepClient.get_financial_ratios_ttm(ticker))
+            except:
+                ret.append({})
+        return ret
+
+    @staticmethod
+    def get_company_key_metrics_ttm_batch(tickers):
+        """
+        Financial Modeling Prep doesn't have a batch API, so just loop through and use the single API
+        :param tickers: stock symbols to fetch for
+        :return: a list of json that contains financial ratios
+        """
+        ret = []
+        for ticker in tickers:
+            try:
+                ret.append(FinancialModelingPrepClient.get_company_key_metrics_ttm(ticker))
             except:
                 ret.append({})
         return ret

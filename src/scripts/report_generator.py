@@ -5,7 +5,7 @@ from src.business_objects.income_statement import IncomeStatement
 from src.business_objects.balance_sheet import BalanceSheet
 from src.business_objects.cash_flow_statement import CashFlowStatement
 from src.business_objects.key_ratios import KeyRatios
-from src.business_objects.key_ratios_ttm import KeyRatiosTTM
+from src.business_objects.company_key_metrics_ttm import CompanyKeyMetricsTTM
 from src.business_objects.company_quote import CompanyQuote
 from scripts.utilities.utils import Utils
 
@@ -23,7 +23,7 @@ class ReportGenerator:
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
         key_ratios = FinancialStatementConverter.convert_key_ratio_data(ticker)
-        key_ratios_ttm = FinancialStatementConverter.convert_key_ratio_ttm_data(ticker)
+        company_key_metrics_ttm = FinancialStatementConverter.convert_key_ratio_ttm_data(ticker)
         company_quote = FinancialStatementConverter.convert_company_quote_data(ticker)
 
         # Part 1 - Growth rates
@@ -55,7 +55,7 @@ class ReportGenerator:
 
         eps = income_statements[0].get(IncomeStatement.EPS)
         eps_diluted = income_statements[0].get(IncomeStatement.EPS_DILUTED)
-        eps_ttm = key_ratios_ttm.get(KeyRatiosTTM.EPS)
+        eps_ttm = company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS)
 
         intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
         conservative_intrinsic_value = Utils.calculate_intrinsic_value(eps_diluted, conservative_growth_rate, conservative_future_pe)
@@ -79,7 +79,7 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.TOTAL_DEBT, ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT))
         company_report.set_attr(CompanyReport.REVENUE, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
         company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME))
-        company_report.set_attr(CompanyReport.EPS_TTM, key_ratios_ttm.get(KeyRatiosTTM.EPS))
+        company_report.set_attr(CompanyReport.EPS_TTM, company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS))
         company_report.set_attr(CompanyReport.EQUITY, ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other

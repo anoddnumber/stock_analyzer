@@ -3,6 +3,7 @@ from business_objects.balance_sheet import BalanceSheet
 from business_objects.cash_flow_statement import CashFlowStatement
 from business_objects.key_ratios import KeyRatios
 from business_objects.key_ratios_ttm import KeyRatiosTTM
+from business_objects.company_key_metrics_ttm import CompanyKeyMetricsTTM
 from business_objects.company_quote import CompanyQuote
 
 
@@ -66,7 +67,10 @@ class FinancialModelingPrepInfo:
     }
 
     key_ratios_ttm_object_to_json_mapping = {
-        KeyRatiosTTM.EPS: 'netIncomePerShareTTM'
+    }
+
+    company_key_metrics_ttm_object_to_json_mapping = {
+        CompanyKeyMetricsTTM.EPS: 'netIncomePerShareTTM'
     }
 
     company_quote_object_to_json_mapping = {

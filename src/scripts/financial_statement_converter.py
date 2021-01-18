@@ -80,6 +80,11 @@ class FinancialStatementConverter:
         return KeyRatiosTTM(FinancialModelingPrepInfo.key_ratios_ttm_object_to_json_mapping, json_data['financials'][0])
 
     @staticmethod
+    def convert_company_key_metrics_ttm_data(ticker):
+        json_data = FileStorageDAO.get_key_ratios_ttm(ticker)
+        return KeyRatiosTTM(FinancialModelingPrepInfo.company_key_metrics_ttm_object_to_json_mapping, json_data['financials'][0])
+
+    @staticmethod
     def convert_company_quote_data(ticker):
         json_data = FileStorageDAO.get_company_quote(ticker)
         return CompanyQuote(FinancialModelingPrepInfo.company_quote_object_to_json_mapping, json_data)

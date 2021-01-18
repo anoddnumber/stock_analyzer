@@ -1,6 +1,7 @@
-class KeyRatiosTTM:
+class CompanyKeyMetricsTTM:
+    EPS = 'earnings'
 
-    available_attributes = frozenset({})
+    available_attributes = frozenset({EPS})
 
     def __init__(self, mapping, json_data):
         if mapping is not None and json_data is not None:

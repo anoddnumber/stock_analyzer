@@ -56,6 +56,12 @@ class DataRetriever:
                                            FileStorageDAO.save_key_ratios_ttm, time_to_live)
 
     @staticmethod
+    def retrieve_company_key_metrics_ttm(tickers, time_to_live=0):
+        return DataRetriever.retrieve_data(tickers, FileStorageDAO.get_company_key_metrics_ttm,
+                                           FinancialModelingPrepClient.get_company_key_metrics_ttm_batch,
+                                           FileStorageDAO.save_company_key_metrics_ttm, time_to_live)
+
+    @staticmethod
     def retrieve_financial_statements(tickers, time_to_live=0):
         DataRetriever.retrieve_income_statements(tickers, time_to_live)
         DataRetriever.retrieve_balance_sheets(tickers, time_to_live)
