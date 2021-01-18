@@ -69,6 +69,8 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.OPERATING_CASH_GROWTH, operating_cash_growth)
 
         # Debt, Revenue, Earnings, Equity, ROIC, Return on Equity, Debt to Earnings, Shares Outstanding
+        company_report.set_attr(CompanyReport.RETURN_ON_INVESTED_CAPITAL, ReportGenerator.get_list(key_ratios, KeyRatios.ROIC))
+        company_report.set_attr(CompanyReport.RETURN_ON_EQUITY, ReportGenerator.get_list(key_ratios, KeyRatios.ROE))
         company_report.set_attr(CompanyReport.TOTAL_DEBT, ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT))
         company_report.set_attr(CompanyReport.REVENUE, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
         company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME))
@@ -85,6 +87,7 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.PE_RATIOS, pe_ratios)
         company_report.set_attr(CompanyReport.AVERAGE_PE_RATIO, estimated_future_pe)
         company_report.set_attr(CompanyReport.SHARES_OUTSTANDING, company_quote.get(CompanyQuote.SHARES_OUTSTANDING))
+        company_report.set_attr(CompanyReport.DEBT_TO_EARNINGS, ReportGenerator.get_list(key_ratios, KeyRatios.DEBT_TO_EARNINGS))
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE_GROWTH_RATE, lowest_growth_rate)
