@@ -178,9 +178,12 @@ class ReportGenerator:
     def get_growth(statements, num_years, attr):
         if len(statements) < num_years or len(statements) == 0:
             return 'no data'
-        starting_value = float(statements[num_years].get(attr))
-        ending_value = float(statements[0].get(attr))
-        return Utils.calculate_yoy_return(starting_value, ending_value, num_years)
+        try:
+            starting_value = float(statements[num_years].get(attr))
+            ending_value = float(statements[0].get(attr))
+            return Utils.calculate_yoy_return(starting_value, ending_value, num_years)
+        except:
+            return 'error'
 
     @staticmethod
     def get_value(statements, num_years, attr):

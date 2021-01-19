@@ -22,15 +22,18 @@ class FinancialStatementConverter:
             :param ticker: the stock symbol
             :return: a list of income statement objects associated with the ticker that was input
         """
-        json_data = FileStorageDAO.get_income_statement(ticker)
+        try:
+            json_data = FileStorageDAO.get_income_statement(ticker)
 
-        income_statements = []
-        for income_statement_data in json_data['financials']:
-            income_statements.append(IncomeStatement(ticker,
-                                                     FinancialModelingPrepInfo.income_statement_object_to_json_mapping,
-                                                     income_statement_data))
+            income_statements = []
+            for income_statement_data in json_data['financials']:
+                income_statements.append(IncomeStatement(ticker,
+                                                         FinancialModelingPrepInfo.income_statement_object_to_json_mapping,
+                                                         income_statement_data))
 
-        return income_statements
+            return income_statements
+        except:
+            return []
 
     @staticmethod
     def convert_balance_statement_data(ticker):
@@ -39,14 +42,17 @@ class FinancialStatementConverter:
 
             :param ticker: the stock symbol
             :return: a list of balance sheet objects associated with the ticker that was input
-        """
-        json_data = FileStorageDAO.get_balance_sheet(ticker)
-        balance_sheets = []
-        for balance_sheet_data in json_data['financials']:
-            balance_sheets.append(BalanceSheet(FinancialModelingPrepInfo.balance_sheet_object_to_json_mapping,
-                                               balance_sheet_data))
+            """
+        try:
+            json_data = FileStorageDAO.get_balance_sheet(ticker)
+            balance_sheets = []
+            for balance_sheet_data in json_data['financials']:
+                balance_sheets.append(BalanceSheet(FinancialModelingPrepInfo.balance_sheet_object_to_json_mapping,
+                                                   balance_sheet_data))
 
-        return balance_sheets
+            return balance_sheets
+        except:
+            return []
 
     @staticmethod
     def convert_cash_flow_statement_data(ticker):
@@ -57,23 +63,29 @@ class FinancialStatementConverter:
             :param ticker: the stock symbol
             :return: a list of cash flow statement objects associated with the ticker that was input
         """
-        json_data = FileStorageDAO.get_cash_flow_statement(ticker)
-        cash_flow_statements = []
-        for cash_flow_statement_data in json_data['financials']:
-            cash_flow_statements.append(CashFlowStatement(
-                FinancialModelingPrepInfo.cash_flow_statement_object_to_json_mapping, cash_flow_statement_data))
+        try:
+            json_data = FileStorageDAO.get_cash_flow_statement(ticker)
+            cash_flow_statements = []
+            for cash_flow_statement_data in json_data['financials']:
+                cash_flow_statements.append(CashFlowStatement(
+                    FinancialModelingPrepInfo.cash_flow_statement_object_to_json_mapping, cash_flow_statement_data))
 
-        return cash_flow_statements
+            return cash_flow_statements
+        except:
+            return []
 
     @staticmethod
     def convert_key_ratio_data(ticker):
-        json_data = FileStorageDAO.get_key_ratios(ticker)
-        key_ratios = []
-        for key_ratio_data in json_data['financials']:
-            key_ratios.append(KeyRatios(
-                FinancialModelingPrepInfo.key_ratios_object_to_json_mapping, key_ratio_data))
+        try:
+            json_data = FileStorageDAO.get_key_ratios(ticker)
+            key_ratios = []
+            for key_ratio_data in json_data['financials']:
+                key_ratios.append(KeyRatios(
+                    FinancialModelingPrepInfo.key_ratios_object_to_json_mapping, key_ratio_data))
 
-        return key_ratios
+            return key_ratios
+        except:
+            return []
 
     @staticmethod
     def convert_key_ratio_ttm_data(ticker):
@@ -82,10 +94,12 @@ class FinancialStatementConverter:
 
     @staticmethod
     def convert_company_key_metrics_ttm_data(ticker):
-        json_data = FileStorageDAO.get_company_key_metrics_ttm(ticker)
-        if len(json_data['financials']) > 0:
-            return CompanyKeyMetricsTTM(FinancialModelingPrepInfo.company_key_metrics_ttm_object_to_json_mapping, json_data['financials'][0])
-        # return CompanyKeyMetricsTTM(FinancialModelingPrepInfo.company_key_metrics_ttm_object_to_json_mapping, {})
+        try:
+            json_data = FileStorageDAO.get_company_key_metrics_ttm(ticker)
+            if len(json_data['financials']) > 0:
+                return CompanyKeyMetricsTTM(FinancialModelingPrepInfo.company_key_metrics_ttm_object_to_json_mapping, json_data['financials'][0])
+        except:
+            return None
 
     @staticmethod
     def convert_company_quote_data(ticker):
@@ -94,5 +108,3 @@ class FinancialStatementConverter:
             return CompanyQuote(FinancialModelingPrepInfo.company_quote_object_to_json_mapping, json_data)
         except:
             return None
-
-# print(*FinancialStatementConverter.convert_cash_flow_statement_data('AMZN'))
