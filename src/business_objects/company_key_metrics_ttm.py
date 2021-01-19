@@ -7,13 +7,13 @@ class CompanyKeyMetricsTTM:
         if mapping is not None and json_data is not None:
             for key in mapping:
                 if key not in self.available_attributes:
-                    print('Key ' + str(key) + ' is not allowed in Key Ratios')
+                    print('Key ' + str(key) + ' is not allowed in Company Key Metrics')
                     continue
                 json_data_key = mapping[key]
                 try:
                     setattr(self, key, json_data[json_data_key])
                 except KeyError:
-                    print('Key Ratios: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
+                    print('Company Key Metrics: JSON key ' + str(json_data_key) + ' not found in json_data' + str(json_data))
 
     def get(self, attr):
         return getattr(self, attr)

@@ -38,7 +38,7 @@ class ReportGenerator:
         balance_sheets = FinancialStatementConverter.convert_balance_statement_data(ticker)
         cash_flow_statements = FinancialStatementConverter.convert_cash_flow_statement_data(ticker)
         key_ratios = FinancialStatementConverter.convert_key_ratio_data(ticker)
-        company_key_metrics_ttm = FinancialStatementConverter.convert_key_ratio_ttm_data(ticker)
+        company_key_metrics_ttm = FinancialStatementConverter.convert_company_key_metrics_ttm_data(ticker)
         company_quote = FinancialStatementConverter.convert_company_quote_data(ticker)
 
         # Part 1 - Growth rates
@@ -200,5 +200,7 @@ class ReportGenerator:
             ret.append(ReportGenerator.get_growth(statements, i, attr))
         return ret
 
-# ReportGenerator.generate_report('AMZN')
+# print(Utils.calculate_payback_time(3185, 501000000, .25, 17377000000))
+# FileStorageDAO._make_directories()
+ReportGenerator.generate_report('AMZN')
 # print(Utils.calculate_intrinsic_value(34.8,.25,50))

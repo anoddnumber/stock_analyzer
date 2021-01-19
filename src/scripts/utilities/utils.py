@@ -143,11 +143,11 @@ class Utils:
 
         num_years = 0
         target = price * shares_outstanding
-        next_earnings = earnings_ttm
+        next_earnings = earnings_ttm * (1 + growth_rate)
         while next_earnings < target:
             target -= next_earnings
             num_years += 1
-            next_earnings *= growth_rate
+            next_earnings *= (1 + growth_rate)
 
         num_years += target / next_earnings
         return num_years
