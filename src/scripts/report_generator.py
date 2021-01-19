@@ -75,7 +75,6 @@ class ReportGenerator:
             eps = 0
             eps_diluted = 0
 
-        # print('ticker: ' + str(ticker))
         if company_key_metrics_ttm is None:
             eps_ttm = 0
         else:
