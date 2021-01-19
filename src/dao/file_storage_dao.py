@@ -130,7 +130,7 @@ class FileStorageDAO:
 
     @staticmethod
     def save_report(company_report):
-        print('\n\ncompany report:\n' + str(company_report))
+        # print('\n\ncompany report:\n' + str(company_report))
         ticker = company_report.get(CompanyReport.TICKER)
         file = open(FileStorageDAO.COMPANY_REPORTS_DIR + ticker + '.txt', "w")
         file.write(ticker + '\n\n')
@@ -139,7 +139,7 @@ class FileStorageDAO:
         file.write('Number of Balance Sheets: ' + company_report.get_str(CompanyReport.NUM_BALANCE_SHEETS) + '\n')
         file.write('Number of Cash Flow Statements: ' + company_report.get_str(CompanyReport.NUM_CASH_FLOW_STATEMENTS) + '\n')
         file.write('Data is from the most recent year first in lists - [year1, year2, year3, ...] where year1 is the most recent year\n\n\n')
-        file.write('Dates: ' + company_report.get_str(CompanyReport.DATES) + '\n')
+        file.write('Dates: ' + company_report.get_str(CompanyReport.DATES) + '\n\n')
 
         file.write('# Big 5\n')
         file.write('ROIC: ' + str(company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)) + '\n\n')
@@ -184,6 +184,10 @@ class FileStorageDAO:
         eps = company_report.get(CompanyReport.EPS)
         intrinsic_value = company_report.get(CompanyReport.INTRINSIC_VALUE)
         mos = intrinsic_value / 2
+        if eps is not None and shares_outstanding is not None:
+            earnings = eps * shares_outstanding
+        else:
+            earnings = 0
 
         file.write('\n\nPayback time with last year\'s earnings (not TTM):\n')
         file.write('EPS: ' + str(eps) + '\n')
@@ -191,9 +195,9 @@ class FileStorageDAO:
         file.write('Growth rate for intrinsic value: ' + company_report.get_str(
             CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n')
         file.write('Payback Time with intrinsic value ' + str(intrinsic_value)
-                   + ': ' + str(Utils.calculate_payback_time(intrinsic_value, shares_outstanding, growth_rate, eps * shares_outstanding)) + '\n')
+                   + ': ' + str(Utils.calculate_payback_time(intrinsic_value, shares_outstanding, growth_rate, earnings)) + '\n')
         file.write('Payback Time with margin of safety ' + str(mos)
-                   + ': ' + str(Utils.calculate_payback_time(mos, shares_outstanding, growth_rate, eps * shares_outstanding)) + '\n\n')
+                   + ': ' + str(Utils.calculate_payback_time(mos, shares_outstanding, growth_rate, earnings)) + '\n\n')
 
         FileStorageDAO.write_payback_time_table(eps, shares_outstanding, growth_rate, file)
 
@@ -203,6 +207,10 @@ class FileStorageDAO:
         conservative_growth_rate = company_report.get(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE)
         conservative_intrinsic_value = company_report.get(CompanyReport.CONSERVATIVE_INTRINSIC_VALUE)
         conservative_mos = conservative_intrinsic_value / 2;
+        if diluted_eps is not None and shares_outstanding is not None:
+            earnings = diluted_eps * shares_outstanding
+        else:
+            earnings = 0
 
         file.write('\n\nConservative Payback time:\n')
         file.write('Diluted EPS: ' + str(diluted_eps) + '\n')
@@ -211,9 +219,9 @@ class FileStorageDAO:
             CompanyReport.CONSERVATIVE_INTRINSIC_VALUE_GROWTH_RATE) + '\n')
 
         file.write('Conservative Payback Time with intrinsic value ' + str(conservative_intrinsic_value)
-                   + ': ' + str(Utils.calculate_payback_time(conservative_intrinsic_value, shares_outstanding, conservative_growth_rate, diluted_eps * shares_outstanding)) + '\n')
+                   + ': ' + str(Utils.calculate_payback_time(conservative_intrinsic_value, shares_outstanding, conservative_growth_rate, earnings)) + '\n')
         file.write('Payback Time with margin of safety ' + str(mos)
-                   + ': ' + str(Utils.calculate_payback_time(conservative_mos, shares_outstanding, conservative_growth_rate, diluted_eps * shares_outstanding)) + '\n\n')
+                   + ': ' + str(Utils.calculate_payback_time(conservative_mos, shares_outstanding, conservative_growth_rate, earnings)) + '\n\n')
 
         FileStorageDAO.write_payback_time_table(diluted_eps, shares_outstanding, conservative_growth_rate, file)
 
@@ -223,6 +231,10 @@ class FileStorageDAO:
         eps_ttm = company_report.get(CompanyReport.EPS_TTM)
         intrinsic_value_ttm = company_report.get(CompanyReport.INTRINSIC_VALUE_USING_TTM_EPS)
         mos_ttm = intrinsic_value_ttm / 2
+        if eps_ttm is not None and shares_outstanding is not None:
+            earnings = eps_ttm * shares_outstanding
+        else:
+            earnings = 0
 
         file.write('\n\nPayback time with TTM earnings:\n')
         file.write('EPS: ' + str(eps_ttm) + '\n')
@@ -230,9 +242,9 @@ class FileStorageDAO:
         file.write('Growth rate for intrinsic value: ' + company_report.get_str(
             CompanyReport.INTRINSIC_VALUE_GROWTH_RATE) + '\n')
         file.write('Payback Time with intrinsic value ' + str(intrinsic_value_ttm)
-                   + ': ' + str(Utils.calculate_payback_time(intrinsic_value_ttm, shares_outstanding, growth_rate, eps_ttm * shares_outstanding)) + '\n')
+                   + ': ' + str(Utils.calculate_payback_time(intrinsic_value_ttm, shares_outstanding, growth_rate, earnings)) + '\n')
         file.write('Payback Time with margin of safety ' + str(mos_ttm)
-                   + ': ' + str(Utils.calculate_payback_time(mos_ttm, shares_outstanding, growth_rate, eps_ttm * shares_outstanding)) + '\n\n')
+                   + ': ' + str(Utils.calculate_payback_time(mos_ttm, shares_outstanding, growth_rate, earnings)) + '\n\n')
 
         FileStorageDAO.write_payback_time_table(eps_ttm, shares_outstanding, growth_rate, file)
 
@@ -246,9 +258,9 @@ class FileStorageDAO:
         file.write('Shares Outstanding: ' + str(shares_outstanding) + '\n')
         file.write('Conservative growth rate for intrinsic value: ' + str(conservative_growth_rate) + '\n')
         file.write('Payback Time with intrinsic value ' + str(conservative_intrinsic_value_ttm)
-                   + ': ' + str(Utils.calculate_payback_time(conservative_intrinsic_value_ttm, shares_outstanding, conservative_growth_rate, eps_ttm * shares_outstanding)) + '\n')
+                   + ': ' + str(Utils.calculate_payback_time(conservative_intrinsic_value_ttm, shares_outstanding, conservative_growth_rate, earnings)) + '\n')
         file.write('Payback Time with margin of safety ' + str(conservative_mos_ttm)
-                   + ': ' + str(Utils.calculate_payback_time(conservative_mos_ttm, shares_outstanding, conservative_growth_rate, eps_ttm * shares_outstanding)) + '\n\n')
+                   + ': ' + str(Utils.calculate_payback_time(conservative_mos_ttm, shares_outstanding, conservative_growth_rate, earnings)) + '\n\n')
 
         FileStorageDAO.write_payback_time_table(eps_ttm, shares_outstanding, conservative_growth_rate, file)
 
@@ -256,6 +268,8 @@ class FileStorageDAO:
 
     @staticmethod
     def write_payback_time_table(eps, shares_outstanding, growth_rate, file, num_years=20):
+        if eps is None or shares_outstanding is None:
+            return
         file.write('Year, Estimated Earnings, Cumulative Earnings\n')
 
         cumulative_earnings = 0

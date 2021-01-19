@@ -75,7 +75,16 @@ class ReportGenerator:
             eps = 0
             eps_diluted = 0
 
-        eps_ttm = company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS)
+        # print('ticker: ' + str(ticker))
+        if company_key_metrics_ttm is None:
+            eps_ttm = 0
+        else:
+            eps_ttm = company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS)
+
+        if company_quote is None:
+            shares_outstanding = 0
+        else:
+            shares_outstanding = company_quote.get(CompanyQuote.SHARES_OUTSTANDING)
 
         # Part 3 - Intrinsic value calculation
         intrinsic_value = Utils.calculate_intrinsic_value(eps, lowest_growth_rate, estimated_future_pe)
@@ -100,7 +109,7 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.TOTAL_DEBT, ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT))
         company_report.set_attr(CompanyReport.REVENUE, ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE))
         company_report.set_attr(CompanyReport.EARNINGS, ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME))
-        company_report.set_attr(CompanyReport.EPS_TTM, company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS))
+        company_report.set_attr(CompanyReport.EPS_TTM, eps_ttm)
         company_report.set_attr(CompanyReport.EQUITY, ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY))
 
         # other
@@ -113,7 +122,7 @@ class ReportGenerator:
         company_report.set_attr(CompanyReport.EPS_DILUTED, eps_diluted)
         company_report.set_attr(CompanyReport.PE_RATIOS, pe_ratios)
         company_report.set_attr(CompanyReport.AVERAGE_PE_RATIO, estimated_future_pe)
-        company_report.set_attr(CompanyReport.SHARES_OUTSTANDING, company_quote.get(CompanyQuote.SHARES_OUTSTANDING))
+        company_report.set_attr(CompanyReport.SHARES_OUTSTANDING, shares_outstanding)
         company_report.set_attr(CompanyReport.DEBT_TO_EARNINGS, ReportGenerator.get_list(key_ratios, KeyRatios.DEBT_TO_EARNINGS))
 
         company_report.set_attr(CompanyReport.INTRINSIC_VALUE, intrinsic_value)
@@ -141,7 +150,7 @@ class ReportGenerator:
             CompanyReport.TOTAL_DEBT: ReportGenerator.get_list(balance_sheets, BalanceSheet.TOTAL_DEBT),
             CompanyReport.REVENUE: ReportGenerator.get_list(income_statements, IncomeStatement.REVENUE),
             CompanyReport.EARNINGS: ReportGenerator.get_list(income_statements, IncomeStatement.NET_INCOME),
-            CompanyReport.EPS_TTM: company_key_metrics_ttm.get(CompanyKeyMetricsTTM.EPS),
+            CompanyReport.EPS_TTM: eps_ttm,
             CompanyReport.EQUITY: ReportGenerator.get_list(balance_sheets, BalanceSheet.SHAREHOLDERS_EQUITY),
             CompanyReport.TICKER: ticker,
             CompanyReport.NUM_INCOME_STATEMENTS: len(income_statements),
@@ -151,7 +160,7 @@ class ReportGenerator:
             CompanyReport.EPS_DILUTED: eps_diluted,
             CompanyReport.PE_RATIOS: pe_ratios,
             CompanyReport.AVERAGE_PE_RATIO: estimated_future_pe,
-            CompanyReport.SHARES_OUTSTANDING: company_quote.get(CompanyQuote.SHARES_OUTSTANDING),
+            CompanyReport.SHARES_OUTSTANDING: shares_outstanding,
             CompanyReport.DEBT_TO_EARNINGS: ReportGenerator.get_list(key_ratios, KeyRatios.DEBT_TO_EARNINGS),
             CompanyReport.INTRINSIC_VALUE: intrinsic_value,
             CompanyReport.INTRINSIC_VALUE_GROWTH_RATE: lowest_growth_rate,
@@ -202,5 +211,5 @@ class ReportGenerator:
 
 # print(Utils.calculate_payback_time(3185, 501000000, .25, 17377000000))
 # FileStorageDAO._make_directories()
-ReportGenerator.generate_report('AMZN')
+# ReportGenerator.generate_report('F')
 # print(Utils.calculate_intrinsic_value(34.8,.25,50))

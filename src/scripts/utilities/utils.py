@@ -14,7 +14,7 @@ class Utils:
 
     @staticmethod
     def remove_negative_numbers(numbers):
-        return [ele for ele in numbers if ele > 0]
+        return [ele for ele in numbers if ele is not None and ele > 0]
 
     @staticmethod
     def average(values):
@@ -138,6 +138,8 @@ class Utils:
         :param earnings_ttm: how many earnings the company made in the last 12 months (ttm = trailing twelve months)
         :return: the number of years it will take for the earnings to equal the amount you paid for the company
         """
+        if price is None or shares_outstanding is None or growth_rate is None or earnings_ttm is None:
+            return -1
         if price < 0 or shares_outstanding < 0 or growth_rate <= 0 or earnings_ttm <= 0:
             return -1
 

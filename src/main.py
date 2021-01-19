@@ -19,29 +19,29 @@ ReportGenerator.generate_reports(tickers, ttl)
 
 
 
-
-def should_include(company_report):
-    roic_list = company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)
-    equity_growth = company_report.get(CompanyReport.EQUITY_GROWTH)
-    earnings_growth = company_report.get(CompanyReport.EARNINGS_GROWTH)
-    revenue_growth = company_report.get(CompanyReport.REVENUE_GROWTH)
-    operating_cash_flow_growth = company_report.get(CompanyReport.OPERATING_CASH_GROWTH)
-
-    if len(roic_list) < 10 or len(equity_growth) < 10 or len(earnings_growth) < 10 or len(revenue_growth) < 10 or len(operating_cash_flow_growth) < 10:
-        return False
-
-    return roic_list[0] > .1 \
-           and equity_growth[2] > .1 and equity_growth[9] > .1 \
-           and earnings_growth[2] > .1 and earnings_growth[9] > .1 \
-           and revenue_growth[2] > .1 and revenue_growth[9] > .1 \
-           and operating_cash_flow_growth[2] > .1 and operating_cash_flow_growth[9] > .1
-
-
-
-filtered_tickers = DataFilterer.filter_reports(tickers, should_include)
-sorted_tickers = DataSorter.sort_reports(filtered_tickers)
-print('\n\n\nSorted tickers:\n\n')
-print(sorted_tickers)
+#
+# def should_include(company_report):
+#     roic_list = company_report.get(CompanyReport.RETURN_ON_INVESTED_CAPITAL)
+#     equity_growth = company_report.get(CompanyReport.EQUITY_GROWTH)
+#     earnings_growth = company_report.get(CompanyReport.EARNINGS_GROWTH)
+#     revenue_growth = company_report.get(CompanyReport.REVENUE_GROWTH)
+#     operating_cash_flow_growth = company_report.get(CompanyReport.OPERATING_CASH_GROWTH)
+#
+#     if len(roic_list) < 10 or len(equity_growth) < 10 or len(earnings_growth) < 10 or len(revenue_growth) < 10 or len(operating_cash_flow_growth) < 10:
+#         return False
+#
+#     return roic_list[0] > .1 \
+#            and equity_growth[2] > .1 and equity_growth[9] > .1 \
+#            and earnings_growth[2] > .1 and earnings_growth[9] > .1 \
+#            and revenue_growth[2] > .1 and revenue_growth[9] > .1 \
+#            and operating_cash_flow_growth[2] > .1 and operating_cash_flow_growth[9] > .1
+#
+#
+#
+# filtered_tickers = DataFilterer.filter_reports(tickers, should_include)
+# sorted_tickers = DataSorter.sort_reports(filtered_tickers)
+# print('\n\n\nSorted tickers:\n\n')
+# print(sorted_tickers)
 
 
 
