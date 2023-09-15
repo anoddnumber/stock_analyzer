@@ -22,12 +22,13 @@ with open('video_feed.csv') as csvfile:
             print('ERROR: Could not download video with url: {url}, start time: {}, and end time: {}'
                   .format(start_time, end_time))
 
-    try:
-        print('Executing convert_to_mov.bash')
-        bashCommand = './convert_to_mov.bash'
-        process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-        output, error = process.communicate()
-    except Exception:
-        print('ERROR: There was a problem executing convert_to_mov.bash')
+    # No need to convert to MOV anymore, seems like iMovie works with mp4 now.
+    # try:
+    #     print('Executing convert_to_mov.bash')
+    #     bashCommand = './convert_to_mov.bash'
+    #     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    #     output, error = process.communicate()
+    # except Exception:
+    #     print('ERROR: There was a problem executing convert_to_mov.bash')
 
 print("DOWNLOAD COMPLETE")
