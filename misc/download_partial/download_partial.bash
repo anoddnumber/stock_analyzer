@@ -39,22 +39,14 @@ output_name="${output_name}.mp4"
 # So, I split it up into 3 commands - 1 for the video and 1 for the audio and then merged them together with 1 more ffmpeg command
 
 ffmpeg -i ${audioUrl} \
--ss ${start_time} -to ${end_time} -c:a copy \
+-ss ${start_time} -to ${end_time} \
 "${audioName}"
 
 ffmpeg -i ${videoUrl} \
--ss ${start_time} -to ${end_time} -c:v copy \
+-ss ${start_time} -to ${end_time} \
 "${videoName}"
 
-#ffmpeg -i "./${videoName}" -i "./${audioUrl}" \
-#-ss ${start_time} -to ${end_time} -c:v copy -c:a copy \
-#"${output_name}"
-
 ffmpeg -i "${videoName}" -i "${audioName}" -c:v copy -c:a copy "${output_name}"
-
-#ffmpeg -i ${videoUrl} -i ${audioUrl} \
-#-ss ${start_time} -to ${end_time} -c:v copy -c:a copy \
-#"${output_name}"
 
 # "-c:v copy" means to copy the video without re-encoding
 # "-c:a copy" means to copy the audio without re-encoding
