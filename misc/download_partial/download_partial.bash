@@ -20,7 +20,7 @@ then
 fi
 
 # As long as the output_name exists, increment a counter and change the output_name
-while [[ -f "${final_output_name}" ]]
+while [[ -f "${final_output_name}.mp4" ]]
 do
     if [[ -z ${counter} ]]
     then
@@ -31,6 +31,7 @@ do
     final_output_name="${final_output_name}-${counter}"
 done
 
+echo "final name: ${final_output_name}"
 final_output_name="${final_output_name}.mp4"
 
 ffmpeg -i "${valid_name}" \
