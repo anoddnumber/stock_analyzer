@@ -9,6 +9,6 @@ do
 done
 
 echo "Deleting mp4 files"
-rm *.mp4
+#rm *.mp4
 
 echo "CONVERSION COMPLETE"

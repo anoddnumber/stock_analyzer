@@ -4,3 +4,7 @@ data
 *.pyc
 misc/download_partial/video_feed.csv
 API_KEY.txt
+*.mp3
+*.mp4
+*.webm
+.DS_Store

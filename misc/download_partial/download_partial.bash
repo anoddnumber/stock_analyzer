@@ -19,6 +19,7 @@ then
   yt-dlp "$url" -o "${valid_name}"
 fi
 
+counter=
 # As long as the output_name exists, increment a counter and change the output_name
 while [[ -f "${final_output_name}.mp4" ]]
 do
