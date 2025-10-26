@@ -12,8 +12,8 @@ def download_segment(url: str, start_time: str, end_time: str, out_dir: Optional
 
     Args:
         url: Video URL.
-        start_time: HH:MM:SS start time.
-        end_time: HH:MM:SS end time.
+        start_time: Start time. Accepts HH:MM:SS[.ms] or MM:SS[.ms] (e.g., 40:35.850).
+        end_time: End time. Accepts HH:MM:SS[.ms] or MM:SS[.ms].
         out_dir: Optional directory to place the downloaded file. Created if missing.
 
     Returns:
@@ -59,7 +59,7 @@ def download_segments(url: str, ranges: Iterable[Tuple[str, str]], out_dir: Opti
 
     Args:
         url: Video URL.
-        ranges: Iterable of (start, end) strings (HH:MM:SS format recommended).
+        ranges: Iterable of (start, end) strings. Accepts HH:MM:SS[.ms] or MM:SS[.ms].
         out_dir: Optional output directory.
 
     Returns:
@@ -108,8 +108,8 @@ def download_segments(url: str, ranges: Iterable[Tuple[str, str]], out_dir: Opti
 def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Download a partial video segment.')
     parser.add_argument('url', help='Video URL')
-    parser.add_argument('start_time', help='Start time HH:MM:SS')
-    parser.add_argument('end_time', help='End time HH:MM:SS')
+    parser.add_argument('start_time', help='Start time (HH:MM:SS[.ms] or MM:SS[.ms])')
+    parser.add_argument('end_time', help='End time (HH:MM:SS[.ms] or MM:SS[.ms])')
     parser.add_argument('--out-dir', default=None, help='Directory to save the downloaded file')
     return parser
 
