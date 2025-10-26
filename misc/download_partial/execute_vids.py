@@ -3,6 +3,7 @@ import csv
 import os
 import subprocess
 import tempfile
+import re
 from typing import List, Tuple
 
 from misc.download_partial.download_partial_vids import download_segment, download_segments
@@ -67,8 +68,39 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
             url = row[0]
             # Title code is now after the first comma (second column)
             code = row[1].strip() if row[1] else ''
-            # Collect one or more time ranges from columns 3..N
-            time_fields = [c.strip() for c in row[2:] if c and c.strip()]
+            # Optional crop spec at column 3 in the form "left:right" (e.g., .25:.30 or 25%:30%)
+            crop_left_val = None
+            crop_right_val = None
+            start_idx = 2
+            if len(row) >= 3 and row[2]:
+                possible_crop = row[2].strip()
+                if (":" in possible_crop) and ("-" not in possible_crop):
+                    m = re.match(r"^\s*(\d*\.?\d+%?)\s*:\s*(\d*\.?\d+%?)\s*$", possible_crop)
+                    if m:
+                        def _parse_crop(v: str):
+                            v = v.strip()
+                            if v.endswith('%'):
+                                try:
+                                    return float(v[:-1]) / 100.0
+                                except ValueError:
+                                    return None
+                            try:
+                                return float(v)
+                            except ValueError:
+                                return None
+
+                        def _clamp(x: float) -> float:
+                            return max(0.0, min(0.95, x))
+
+                        l_raw = _parse_crop(m.group(1))
+                        r_raw = _parse_crop(m.group(2))
+                        if l_raw is not None and r_raw is not None:
+                            crop_left_val = _clamp(l_raw)
+                            crop_right_val = _clamp(r_raw)
+                            start_idx = 3
+
+            # Collect one or more time ranges from columns start_idx..N
+            time_fields = [c.strip() for c in row[start_idx:] if c and c.strip()]
             ranges: List[Tuple[str, str]] = []
             for tf in time_fields:
                 if '-' not in tf:
@@ -152,6 +184,10 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
             print(f"Processing: {raw_path}")
             opts = ProcessOptions()
+            if crop_left_val is not None:
+                opts.crop_left = crop_left_val
+            if crop_right_val is not None:
+                opts.crop_right = crop_right_val
             # Use generated title for this row if available, unless code indicates no title
             if no_title:
                 opts.title_path = None
@@ -179,7 +215,7 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description='Execute sequential video pipeline from CSV.')
-    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end[,start-end...]. Use code N to disable title overlay.')
+    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV with url,code,[left:right],start-end[,start-end...] . Use code N to disable title overlay. left/right are fractions (e.g., .25:.30 or 25%%).')
     p.add_argument('--out-dir', default=_THIS_DIR, help='Directory to store outputs')
     p.add_argument('--dry-run', action='store_true', help='Only print actions, do not download/process')
     p.add_argument('--no-skip-existing', action='store_true', help='Re-process even if output exists')
