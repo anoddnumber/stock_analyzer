@@ -40,12 +40,21 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
     for idx, row in enumerate(rows, start=1):
         try:
-            url = row[0]
-            start_time = row[1]
-            end_time = row[2]
+            if len(row) < 3:
+                print(f"[{idx}/{total}] Skipping row: expected at least 3 columns (url, code, start-end)")
+                failures += 1
+                continue
 
-            # Optional 4th column: code like 'S56' → base image + number
-            code = row[3].strip() if len(row) >= 4 and row[3] else ''
+            url = row[0]
+            # Title code is now after the first comma (second column)
+            code = row[1].strip() if row[1] else ''
+            time_field = row[2].strip() if row[2] else ''
+            if '-' not in time_field:
+                print(f"[{idx}/{total}] Skipping row: time field must be 'start-end', got '{time_field}'")
+                failures += 1
+                continue
+            start_time, end_time = [part.strip() for part in time_field.split('-', 1)]
+
             letter = code[:1].upper() if code else ''
             digits = ''.join(ch for ch in code[1:] if ch.isdigit()) if len(code) >= 2 else ''
 
@@ -93,7 +102,7 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description='Execute sequential video pipeline from CSV.')
-    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,start,end')
+    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end')
     p.add_argument('--out-dir', default=_THIS_DIR, help='Directory to store outputs')
     p.add_argument('--dry-run', action='store_true', help='Only print actions, do not download/process')
     p.add_argument('--no-skip-existing', action='store_true', help='Re-process even if output exists')
