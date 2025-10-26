@@ -40,12 +40,14 @@ with open(csv_path) as csvfile:
                     logo_path = os.path.join(repo_root, 'misc', 'img', 'BB_logo_and_name-transparent-with-color.png')
 
                     steps = [
-                        {"op": "crop", "params": {"left": 0.15, "right": 0.15}},
+                        {"op": "crop", "params": {"left": 0.17, "right": 0.17}},
                         {"op": "overlay", "params": {"path": logo_path, "position": "bottom-right", "margin": 16, "scale": {"factor": 0.75}}},
+                        {"op": "pad_to_aspect", "params": {"w": 9, "h": 16, "color": "black"}},
+                        {"op": "resize", "params": {"width": 1080, "height": 1920, "keep_aspect": False}},
                     ]
 
                     base, ext = os.path.splitext(final_output)
-                    output_path = f"{base}-watermarked{ext}"
+                    output_path = f"{base}-done{ext}"
 
                     wm_output_name = process_steps(final_output, output_path, steps)
                     print('Processed file created: {}'.format(wm_output_name))

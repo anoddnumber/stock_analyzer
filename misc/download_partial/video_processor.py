@@ -75,6 +75,25 @@ def _build_resize_filter(resize: Dict[str, Any], in_label: str, out_label: str) 
     return None
 
 
+def _build_pad_to_aspect_filter(pad: Dict[str, Any], in_label: str, out_label: str) -> str:
+    """
+    Pad vertically to reach a target aspect ratio (e.g., 9:16) with black bars.
+
+    Expects params: {"w": 9, "h": 16, "color": "black"}
+    This implementation pads height to (iw * h / w), centering the input.
+    """
+    aw = int(pad.get("w", 9))
+    ah = int(pad.get("h", 16))
+    color = pad.get("color", "black")
+
+    width_expr = _even_expr('iw')
+    height_expr = _even_expr(f"iw*{ah}/{aw}")
+    x_expr = "(ow-iw)/2"
+    y_expr = "(oh-ih)/2"
+
+    return f"[{in_label}]pad={width_expr}:{height_expr}:{x_expr}:{y_expr}:color={color}[{out_label}]"
+
+
 def _overlay_position_expr(position: str, margin: int) -> (str, str):
     p = (position or "bottom-right").lower()
     m = int(margin)
@@ -303,6 +322,9 @@ def _build_filter_complex_from_steps(steps: List[Dict[str, Any]]) -> Tuple[str, 
 
         if op == "crop":
             parts.append(_build_crop_filter(params, current, out_label))
+            current = out_label
+        elif op == "pad_to_aspect":
+            parts.append(_build_pad_to_aspect_filter(params, current, out_label))
             current = out_label
         elif op == "resize":
             rf = _build_resize_filter(params, current, out_label)
@@ -539,6 +561,19 @@ class VideoPipeline:
         if scale is not None:
             params["scale"] = scale
         self._steps.append({"op": "overlay", "params": params})
+        return self
+
+    def pad_to_aspect(
+        self,
+        *,
+        w: int = 9,
+        h: int = 16,
+        color: str = "black",
+    ) -> "VideoPipeline":
+        self._steps.append({
+            "op": "pad_to_aspect",
+            "params": {"w": int(w), "h": int(h), "color": color},
+        })
         return self
 
     def process(
