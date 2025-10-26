@@ -23,6 +23,15 @@ _TITLE_BASE_MAP = {
     'R': 'base_racket_change_title.png',
 }
 
+_FILENAME_SLUG_MAP = {
+    'R': 'racket_change',
+    'F': 'fault_or_not',
+    'E': 'epic_badminton',
+    'S': 'ridiculous_badminton_saves',
+    'B': 'i_dont_believe_it',
+    'U': 'funny_moments',
+}
+
 
 def _read_csv_rows(csv_path: str) -> List[List[str]]:
     rows: List[List[str]] = []
@@ -36,11 +45,12 @@ def _read_csv_rows(csv_path: str) -> List[List[str]]:
 
 
 
-def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool = True) -> None:
+def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool = True, keep_titles: bool = False) -> None:
     rows = _read_csv_rows(csv_path)
     total = len(rows)
     successes = 0
     failures = 0
+    titles_to_cleanup: List[str] = []
 
     for idx, row in enumerate(rows, start=1):
         try:
@@ -70,17 +80,20 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
             letter = code[:1].upper() if code else ''
             digits = ''.join(ch for ch in code[1:] if ch.isdigit()) if len(code) >= 2 else ''
+            no_title = (letter == 'N')
 
             # Pre-generate title image before any download
             # Output filename is per-row: misc/img/title_{idx}.png
             title_path = None
             out_title_path = os.path.join(_REPO_ROOT, 'misc', 'img', f'title_{idx}.png')
-            if letter in _TITLE_BASE_MAP and digits:
+            created_title_this_row = False
+            if (not no_title) and letter in _TITLE_BASE_MAP and digits:
                 base_filename = _TITLE_BASE_MAP[letter]
                 base_path = os.path.join(_REPO_ROOT, 'misc', 'img', base_filename)
                 if not os.path.isfile(out_title_path):
                     # Create title image with requested base and number, saving to per-row filename
                     create_title_image(digits, base_path, out_title_path)
+                    created_title_this_row = True
                 if os.path.isfile(out_title_path):
                     title_path = out_title_path
 
@@ -117,9 +130,15 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
                 s, e = ranges[0]
                 raw_path = download_segment(url, s, e, out_dir=out_dir)
 
-            # Determine final output path (base-done.ext)
-            base, ext = os.path.splitext(raw_path)
-            final_path = f"{base}-done{ext}"
+            # Determine final output path
+            if letter in _FILENAME_SLUG_MAP and digits:
+                slug = _FILENAME_SLUG_MAP[letter]
+                number = str(int(digits))
+                final_filename = f"{slug}_{number}.mp4"
+                final_path = os.path.join(out_dir, final_filename)
+            else:
+                base, ext = os.path.splitext(raw_path)
+                final_path = f"{base}-done{ext}"
 
             if skip_existing and os.path.isfile(final_path):
                 print(f"Skipping processing, already exists: {final_path}")
@@ -128,9 +147,15 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
             print(f"Processing: {raw_path}")
             opts = ProcessOptions()
-            # Use generated title for this row if available
-            opts.title_path = title_path if title_path and os.path.isfile(title_path) else None
+            # Use generated title for this row if available, unless code indicates no title
+            if no_title:
+                opts.title_path = None
+            else:
+                opts.title_path = title_path if title_path and os.path.isfile(title_path) else None
             produced = process_video(raw_path, final_path, opts)
+            # Mark for cleanup only if we created the title in this run and processing succeeded
+            if created_title_this_row and os.path.isfile(out_title_path):
+                titles_to_cleanup.append(out_title_path)
             print(f"Created: {produced}")
             successes += 1
         except Exception as exc:
@@ -138,20 +163,28 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
             failures += 1
 
     print(f"DONE. success={successes} failures={failures} total={total}")
+    # Best-effort cleanup of generated title images
+    if not keep_titles and titles_to_cleanup:
+        for p in titles_to_cleanup:
+            try:
+                os.remove(p)
+            except FileNotFoundError:
+                pass
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description='Execute sequential video pipeline from CSV.')
-    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end[,start-end...]')
+    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end[,start-end...]. Use code N to disable title overlay.')
     p.add_argument('--out-dir', default=_THIS_DIR, help='Directory to store outputs')
     p.add_argument('--dry-run', action='store_true', help='Only print actions, do not download/process')
     p.add_argument('--no-skip-existing', action='store_true', help='Re-process even if output exists')
+    p.add_argument('--keep-titles', action='store_true', help='Do not delete generated title_*.png images after run')
     return p
 
 
 def _main() -> None:
     args = _build_arg_parser().parse_args()
-    run(args.csv, args.out_dir, dry_run=args.dry_run, skip_existing=not args.no_skip_existing)
+    run(args.csv, args.out_dir, dry_run=args.dry_run, skip_existing=not args.no_skip_existing, keep_titles=args.keep_titles)
 
 
 if __name__ == '__main__':
