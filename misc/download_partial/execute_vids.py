@@ -36,7 +36,12 @@ _FILENAME_SLUG_MAP = {
 def _read_csv_rows(csv_path: str) -> List[List[str]]:
     rows: List[List[str]] = []
     with open(csv_path) as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
+        def _cleaned_lines(f):
+            for raw in f:
+                line = raw.split('#', 1)[0].strip()
+                if line:
+                    yield line
+        reader = csv.reader(_cleaned_lines(csvfile), delimiter=',')
         for row in reader:
             if len(row) < 3:
                 continue
