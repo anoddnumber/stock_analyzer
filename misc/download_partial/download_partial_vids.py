@@ -98,7 +98,7 @@ with open(csv_path) as csvfile:
                         {"op": "overlay", "params": {"path": logo_path, "position": "bottom-right", "margin": 16, "scale": {"factor": 0.75}}},
                         {"op": "pad_to_aspect", "params": {"w": 9, "h": 16, "color": "black", "top_ratio": 0.6}},
                         {"op": "resize", "params": {"width": 1080, "height": 1920, "keep_aspect": False}},
-                        {"op": "overlay", "params": {"path": title_path, "x": "(main_w-overlay_w)/2", "y": title_y_expr, "scale": {"width": 864}}},
+                        {"op": "overlay", "params": {"path": title_path, "x": "(main_w-overlay_w)/2", "y": title_y_expr, "scale": {"width": 1080}}},
                     ]
 
                     base, ext = os.path.splitext(final_output)
