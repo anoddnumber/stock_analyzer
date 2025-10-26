@@ -8,6 +8,7 @@ from typing import List, Tuple
 from misc.download_partial.download_partial_vids import download_segment, download_segments
 from misc.download_partial.process_vid import process_video, ProcessOptions
 from misc.download_partial.make_title import create_title_image
+from misc.download_partial.concat_utils import concat_segments
 
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -33,42 +34,6 @@ def _read_csv_rows(csv_path: str) -> List[List[str]]:
             rows.append(row)
     return rows
 
-
-def _concat_segments(segments: List[str], out_path: str) -> str:
-    """Concat segments into out_path using re-encode with normalized timestamps.
-
-    We re-encode with concat filter, including audio, and reset PTS for each input
-    to avoid initial black frames due to timestamp/keyframe issues.
-    Returns the output path on success, raises RuntimeError on failure.
-    """
-    if not segments:
-        raise ValueError("No segments to concatenate")
-
-    out_dir = os.path.dirname(out_path) or _THIS_DIR
-    os.makedirs(out_dir, exist_ok=True)
-    inputs: List[str] = []
-    for p in segments:
-        inputs += ['-i', p]
-    n = len(segments)
-    # Normalize PTS for each input to ensure time starts at 0
-    pre_filters: List[str] = []
-    for i in range(n):
-        pre_filters.append(f"[{i}:v:0]setpts=PTS-STARTPTS[v{i}]")
-        pre_filters.append(f"[{i}:a:0]asetpts=PTS-STARTPTS[a{i}]")
-    av_pairs = ''.join(f'[v{i}][a{i}]' for i in range(n))
-    fc_av = ';'.join(pre_filters + [f"{av_pairs}concat=n={n}:v=1:a=1[v][a]"])
-    cmd = [
-        'ffmpeg', '-y', *inputs,
-        '-filter_complex', fc_av,
-        '-map', '[v]', '-map', '[a]',
-        '-c:v', 'libx264', '-crf', '18', '-preset', 'medium',
-        '-c:a', 'aac', '-b:a', '192k',
-        out_path,
-    ]
-    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if proc.returncode != 0 or not os.path.isfile(out_path):
-        raise RuntimeError(proc.stderr.decode('utf-8', errors='ignore'))
-    return out_path
 
 
 def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool = True) -> None:
@@ -133,7 +98,7 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
                     # Merge produced_paths in order
                     merged_path = os.path.join(out_dir, f"merge_{idx}.mp4")
                     print("Merging segments from yt-dlp output...")
-                    raw_path = _concat_segments(produced_paths, merged_path)
+                    raw_path = concat_segments(produced_paths, merged_path)
                 except Exception as exc:
                     print(f"Multi-section download failed ({exc}); falling back to per-segment downloads + merge")
                     segment_paths: List[str] = []
@@ -146,7 +111,7 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
                     else:
                         merged_path = os.path.join(out_dir, f"merge_{idx}.mp4")
                         print("Merging segments...")
-                        raw_path = _concat_segments(segment_paths, merged_path)
+                        raw_path = concat_segments(segment_paths, merged_path)
             else:
                 # Single range
                 s, e = ranges[0]
