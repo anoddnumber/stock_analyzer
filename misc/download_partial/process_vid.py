@@ -83,8 +83,19 @@ def process_video(input_path: str, output_path: Optional[str] = None, options: P
         {"op": "overlay", "params": {"path": options.logo_path, "position": "bottom-right", "margin": 16, "scale": {"factor": 0.75}}},
         {"op": "pad_to_aspect", "params": {"w": options.target_aspect_w, "h": options.target_aspect_h, "color": "black", "top_ratio": options.top_ratio}},
         {"op": "resize", "params": {"width": options.final_width, "height": options.final_height, "keep_aspect": False}},
-        {"op": "overlay", "params": {"path": options.title_path, "x": "(main_w-overlay_w)/2", "y": title_y_expr, "scale": {"width": options.final_width}}},
     ]
+
+    # Conditionally overlay title if a valid path is provided
+    if options.title_path and os.path.isfile(options.title_path):
+        steps.append({
+            "op": "overlay",
+            "params": {
+                "path": options.title_path,
+                "x": "(main_w-overlay_w)/2",
+                "y": title_y_expr,
+                "scale": {"width": options.final_width},
+            },
+        })
 
     base, ext = os.path.splitext(input_path)
     out_path = output_path or f"{base}-done{ext}"

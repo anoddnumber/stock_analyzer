@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import sys
 import os
+import argparse
 
 # --- CONFIG ---
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,9 +16,10 @@ BOTTOM_MARGIN = 20  # distance from bottom of image to baseline area
 TEXT_PADDING = 10  # extra pixels padding around text background
 # ---------------
 
-def create_title_image(number):
+def create_title_image(number, base_image_path=None, output_path=None):
     # Load image
-    img = Image.open(BASE_IMAGE).convert("RGBA")
+    base_path = base_image_path or BASE_IMAGE
+    img = Image.open(base_path).convert("RGBA")
     draw = ImageDraw.Draw(img)
 
     # Load font
@@ -50,14 +52,24 @@ def create_title_image(number):
     # Draw text on top
     draw.text((x, y), text, font=font, fill=TEXT_COLOR)
 
-    # Make output folder
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    out_path = os.path.join(OUTPUT_DIR, f"title_{number}.png")
-    img.save(out_path)
-    print(f"✅ Saved {out_path}")
+    # Determine output path
+    if output_path:
+        out_dir = os.path.dirname(output_path)
+        if out_dir and not os.path.isdir(out_dir):
+            os.makedirs(out_dir, exist_ok=True)
+        final_out = output_path
+    else:
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        final_out = os.path.join(OUTPUT_DIR, f"title_{number}.png")
+
+    img.save(final_out)
+    print(f"✅ Saved {final_out}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python make_title.py <number>")
-    else:
-        create_title_image(sys.argv[1])
+    parser = argparse.ArgumentParser(description="Create a title image with a number overlay.")
+    parser.add_argument("number", help="Number to render inside the title (e.g., 56)")
+    parser.add_argument("--base", dest="base", default=None, help="Path to base title image to use")
+    parser.add_argument("--out", dest="out", default=None, help="Output file path for the generated title image")
+    args = parser.parse_args()
+
+    create_title_image(args.number, args.base, args.out)
