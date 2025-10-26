@@ -58,13 +58,4 @@ with open(csv_path) as csvfile:
                   .format(start_time, end_time))
             print(exc)
 
-    # No need to convert to MOV anymore, seems like iMovie works with mp4 now.
-    # try:
-    #     print('Executing convert_to_mov.bash')
-    #     bashCommand = './convert_to_mov.bash'
-    #     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    #     output, error = process.communicate()
-    # except Exception:
-    #     print('ERROR: There was a problem executing convert_to_mov.bash')
-
 print("DOWNLOAD COMPLETE")
