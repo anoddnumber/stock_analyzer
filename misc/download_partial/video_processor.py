@@ -89,7 +89,19 @@ def _build_pad_to_aspect_filter(pad: Dict[str, Any], in_label: str, out_label: s
     width_expr = _even_expr('iw')
     height_expr = _even_expr(f"iw*{ah}/{aw}")
     x_expr = "(ow-iw)/2"
-    y_expr = "(oh-ih)/2"
+    top_ratio = pad.get("top_ratio")
+    if top_ratio is not None:
+        try:
+            tr = float(top_ratio)
+        except Exception:
+            tr = 0.5
+        if tr < 0.0:
+            tr = 0.0
+        if tr > 1.0:
+            tr = 1.0
+        y_expr = f"(oh-ih)*{tr}"
+    else:
+        y_expr = "(oh-ih)/2"
 
     return f"[{in_label}]pad={width_expr}:{height_expr}:{x_expr}:{y_expr}:color={color}[{out_label}]"
 

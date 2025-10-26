@@ -40,9 +40,9 @@ with open(csv_path) as csvfile:
                     logo_path = os.path.join(repo_root, 'misc', 'img', 'BB_logo_and_name-transparent-with-color.png')
 
                     steps = [
-                        {"op": "crop", "params": {"left": 0.17, "right": 0.17}},
+                        {"op": "crop", "params": {"left": 0.2, "right": 0.2}},
                         {"op": "overlay", "params": {"path": logo_path, "position": "bottom-right", "margin": 16, "scale": {"factor": 0.75}}},
-                        {"op": "pad_to_aspect", "params": {"w": 9, "h": 16, "color": "black"}},
+                        {"op": "pad_to_aspect", "params": {"w": 9, "h": 16, "color": "black", "top_ratio": 0.6}},
                         {"op": "resize", "params": {"width": 1080, "height": 1920, "keep_aspect": False}},
                     ]
 
