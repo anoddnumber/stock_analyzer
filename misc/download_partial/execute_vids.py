@@ -1,9 +1,11 @@
 import argparse
 import csv
 import os
+import subprocess
+import tempfile
 from typing import List, Tuple
 
-from misc.download_partial.download_partial_vids import download_segment
+from misc.download_partial.download_partial_vids import download_segment, download_segments
 from misc.download_partial.process_vid import process_video, ProcessOptions
 from misc.download_partial.make_title import create_title_image
 
@@ -32,6 +34,43 @@ def _read_csv_rows(csv_path: str) -> List[List[str]]:
     return rows
 
 
+def _concat_segments(segments: List[str], out_path: str) -> str:
+    """Concat segments into out_path using re-encode with normalized timestamps.
+
+    We re-encode with concat filter, including audio, and reset PTS for each input
+    to avoid initial black frames due to timestamp/keyframe issues.
+    Returns the output path on success, raises RuntimeError on failure.
+    """
+    if not segments:
+        raise ValueError("No segments to concatenate")
+
+    out_dir = os.path.dirname(out_path) or _THIS_DIR
+    os.makedirs(out_dir, exist_ok=True)
+    inputs: List[str] = []
+    for p in segments:
+        inputs += ['-i', p]
+    n = len(segments)
+    # Normalize PTS for each input to ensure time starts at 0
+    pre_filters: List[str] = []
+    for i in range(n):
+        pre_filters.append(f"[{i}:v:0]setpts=PTS-STARTPTS[v{i}]")
+        pre_filters.append(f"[{i}:a:0]asetpts=PTS-STARTPTS[a{i}]")
+    av_pairs = ''.join(f'[v{i}][a{i}]' for i in range(n))
+    fc_av = ';'.join(pre_filters + [f"{av_pairs}concat=n={n}:v=1:a=1[v][a]"])
+    cmd = [
+        'ffmpeg', '-y', *inputs,
+        '-filter_complex', fc_av,
+        '-map', '[v]', '-map', '[a]',
+        '-c:v', 'libx264', '-crf', '18', '-preset', 'medium',
+        '-c:a', 'aac', '-b:a', '192k',
+        out_path,
+    ]
+    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if proc.returncode != 0 or not os.path.isfile(out_path):
+        raise RuntimeError(proc.stderr.decode('utf-8', errors='ignore'))
+    return out_path
+
+
 def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool = True) -> None:
     rows = _read_csv_rows(csv_path)
     total = len(rows)
@@ -48,12 +87,21 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
             url = row[0]
             # Title code is now after the first comma (second column)
             code = row[1].strip() if row[1] else ''
-            time_field = row[2].strip() if row[2] else ''
-            if '-' not in time_field:
-                print(f"[{idx}/{total}] Skipping row: time field must be 'start-end', got '{time_field}'")
+            # Collect one or more time ranges from columns 3..N
+            time_fields = [c.strip() for c in row[2:] if c and c.strip()]
+            ranges: List[Tuple[str, str]] = []
+            for tf in time_fields:
+                if '-' not in tf:
+                    print(f"[{idx}/{total}] Skipping malformed time range '{tf}', expected 'start-end'")
+                    continue
+                s, e = [part.strip() for part in tf.split('-', 1)]
+                if s and e:
+                    ranges.append((s, e))
+
+            if not ranges:
+                print(f"[{idx}/{total}] Skipping row: no valid time ranges found")
                 failures += 1
                 continue
-            start_time, end_time = [part.strip() for part in time_field.split('-', 1)]
 
             letter = code[:1].upper() if code else ''
             digits = ''.join(ch for ch in code[1:] if ch.isdigit()) if len(code) >= 2 else ''
@@ -71,13 +119,40 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
                 if os.path.isfile(out_title_path):
                     title_path = out_title_path
 
-            print(f"[{idx}/{total}] Downloading: {url} {start_time}-{end_time}")
+            print(f"[{idx}/{total}] Downloading {len(ranges)} segment(s) from: {url}")
             if dry_run:
                 print("Dry run: skipping download and process")
                 successes += 1
                 continue
 
-            raw_path = download_segment(url, start_time, end_time, out_dir=out_dir)
+            # Prefer yt-dlp multi-section when multiple ranges
+            raw_path: str
+            if len(ranges) > 1:
+                try:
+                    produced_paths = download_segments(url, ranges, out_dir=out_dir)
+                    # Merge produced_paths in order
+                    merged_path = os.path.join(out_dir, f"merge_{idx}.mp4")
+                    print("Merging segments from yt-dlp output...")
+                    raw_path = _concat_segments(produced_paths, merged_path)
+                except Exception as exc:
+                    print(f"Multi-section download failed ({exc}); falling back to per-segment downloads + merge")
+                    segment_paths: List[str] = []
+                    for seg_idx, (s, e) in enumerate(ranges, start=1):
+                        print(f"  - [{seg_idx}/{len(ranges)}] {s}-{e}")
+                        seg_path = download_segment(url, s, e, out_dir=out_dir)
+                        segment_paths.append(seg_path)
+                    if len(segment_paths) == 1:
+                        raw_path = segment_paths[0]
+                    else:
+                        merged_path = os.path.join(out_dir, f"merge_{idx}.mp4")
+                        print("Merging segments...")
+                        raw_path = _concat_segments(segment_paths, merged_path)
+            else:
+                # Single range
+                s, e = ranges[0]
+                raw_path = download_segment(url, s, e, out_dir=out_dir)
+
+            # Determine final output path (base-done.ext)
             base, ext = os.path.splitext(raw_path)
             final_path = f"{base}-done{ext}"
 
@@ -102,7 +177,7 @@ def run(csv_path: str, out_dir: str, dry_run: bool = False, skip_existing: bool 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description='Execute sequential video pipeline from CSV.')
-    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end')
+    p.add_argument('--csv', default=os.path.join(_THIS_DIR, 'video_feed.csv'), help='CSV path with url,code,start-end[,start-end...]')
     p.add_argument('--out-dir', default=_THIS_DIR, help='Directory to store outputs')
     p.add_argument('--dry-run', action='store_true', help='Only print actions, do not download/process')
     p.add_argument('--no-skip-existing', action='store_true', help='Re-process even if output exists')

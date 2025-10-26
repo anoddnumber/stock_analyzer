@@ -1,7 +1,7 @@
 import argparse
 import os
 import subprocess
-from typing import Optional
+from typing import Optional, Iterable, Tuple, List
 
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,6 +35,9 @@ def download_segment(url: str, start_time: str, end_time: str, out_dir: Optional
     stdout, stderr = process.communicate()
 
     out_text = (stdout or b'').decode('utf-8', errors='ignore') + (stderr or b'').decode('utf-8', errors='ignore')
+    # Echo downloader output to terminal for visibility
+    if out_text:
+        print(out_text, end="")
     final_output_name = None
     for line in out_text.splitlines():
         if line.strip().startswith('FINAL_OUTPUT_FILENAME='):
@@ -49,6 +52,57 @@ def download_segment(url: str, start_time: str, end_time: str, out_dir: Optional
         raise RuntimeError(f"Expected output not found: {abs_output_path}\nLogs:\n{out_text}")
 
     return abs_output_path
+
+
+def download_segments(url: str, ranges: Iterable[Tuple[str, str]], out_dir: Optional[str] = None) -> List[str]:
+    """Download multiple non-contiguous segments in one run and return list of produced files.
+
+    Args:
+        url: Video URL.
+        ranges: Iterable of (start, end) strings (HH:MM:SS format recommended).
+        out_dir: Optional output directory.
+
+    Returns:
+        List of absolute paths to the downloaded .mp4 files (ordered by autonumber).
+
+    Raises:
+        RuntimeError: On failure to download or resolve the output path.
+    """
+    script_path = os.path.join(_THIS_DIR, 'download_partial.bash')
+    if not os.path.isfile(script_path):
+        raise RuntimeError(f"Downloader script not found: {script_path}")
+
+    cwd = out_dir if out_dir else _THIS_DIR
+    if cwd and not os.path.isdir(cwd):
+        os.makedirs(cwd, exist_ok=True)
+
+    args = [script_path, url]
+    for s, e in ranges:
+        args.append(f"{s}-{e}")
+
+    process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
+    stdout, stderr = process.communicate()
+
+    out_text = (stdout or b'').decode('utf-8', errors='ignore') + (stderr or b'').decode('utf-8', errors='ignore')
+    # Echo downloader output to terminal for visibility
+    if out_text:
+        print(out_text, end="")
+    produced_list = None
+    for line in out_text.splitlines():
+        if line.strip().startswith('FINAL_OUTPUT_FILENAMES='):
+            produced_list = line.split('FINAL_OUTPUT_FILENAMES=', 1)[1].strip()
+            break
+
+    if not produced_list:
+        raise RuntimeError(f"Could not determine output filenames. Output was:\n{out_text}")
+
+    parts = [p for p in produced_list.split('|') if p]
+    abs_paths: List[str] = [os.path.abspath(os.path.join(cwd, p)) for p in parts]
+    for p in abs_paths:
+        if not os.path.isfile(p):
+            raise RuntimeError(f"Expected output not found: {p}\nLogs:\n{out_text}")
+
+    return abs_paths
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
