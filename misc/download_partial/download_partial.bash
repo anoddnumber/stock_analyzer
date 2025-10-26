@@ -6,22 +6,13 @@ start_time=$2 # format of time should be something like this: 01:22:10 (HH:MM:SS
 end_time=$3
 
 original_title="$(yt-dlp --print filename -o "%(title)s" "$url")"
-original_output_name="$(yt-dlp --print filename -o "%(title)s.%(ext)s" "$url")"
-final_output_name="${original_title}"
-
-# replace all forward slashes with an underscore, otherwise ffmpeg will treat it as a path
-valid_name=$(echo ${original_output_name} | tr / _)
-
-if [[ ! -f "${valid_name}" ]]
-then
-  echo 'downloading!'
-  # downloads the .webm version of the file
-  yt-dlp "$url" -o "${valid_name}"
-fi
+# sanitize title to avoid path separators in filenames
+sanitized_title=$(echo "${original_title}" | tr / _)
+temp_output_name="${sanitized_title}"
 
 counter=
 # As long as the output_name exists, increment a counter and change the output_name
-while [[ -f "${final_output_name}.mp4" ]]
+while [[ -f "${temp_output_name}.mp4" ]]
 do
     if [[ -z ${counter} ]]
     then
@@ -29,12 +20,17 @@ do
     else
         counter=$((${counter}+1))
     fi
-    final_output_name="${final_output_name}-${counter}"
+    temp_output_name="${original_title}-${counter}"
 done
 
-echo "final name: ${final_output_name}"
-final_output_name="${final_output_name}.mp4"
+final_output_name="${temp_output_name}.mp4"
 
-ffmpeg -i "${valid_name}" \
--ss ${start_time} -to ${end_time} \
-"${final_output_name}"
+# Download only the requested section and let yt-dlp/ffmpeg handle the trim
+yt-dlp "$url" \
+--download-sections "*${start_time}-${end_time}" \
+--merge-output-format mp4 \
+--force-keyframes-at-cuts \
+-o "${final_output_name}"
+
+# Echo the final output name for callers to capture
+echo "FINAL_OUTPUT_FILENAME=${final_output_name}"
