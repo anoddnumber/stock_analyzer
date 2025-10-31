@@ -114,6 +114,7 @@ python misc/youtube/youtube_bwf_popular.py --api-key YOUR_API_KEY --handle "@MyC
 - `--handle HANDLE` - Channel handle (e.g., `@BWF`). Default: `@BWF`
 - `--max-results N` - Maximum number of videos to return (default: 25, max: 50 per page)
 - `--pages N` - Number of pages to traverse (default: 1, each page has up to 50 results)
+- `--require TERM` - Require video titles to contain these substrings; repeatable, AND semantics, case-insensitive. Example: `--require "final" --require "highlights"`
 
 #### Examples
 
@@ -126,6 +127,10 @@ python misc/youtube/youtube_bwf_popular.py --api-key YOUR_API_KEY --handle "@MyC
 
 # Get more results by fetching multiple pages
 python misc/youtube/youtube_bwf_popular.py --api-key YOUR_API_KEY --max-results 100 --pages 2
+
+# Filter titles that must contain both "final" and "highlights"
+python misc/youtube/youtube_bwf_popular.py --api-key YOUR_API_KEY \
+  --require "final" --require "highlights"
 ```
 
 #### Output Format

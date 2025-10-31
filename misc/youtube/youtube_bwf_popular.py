@@ -161,6 +161,14 @@ def fetch_video_stats(api_key: str, video_ids: List[str]) -> List[Dict]:
     return results
 
 
+def title_matches_requirements(title: str, required_terms: List[str]) -> bool:
+    """Return True if title contains all required substrings (case-insensitive)."""
+    if not required_terms:
+        return True
+    lowered_title = title.lower()
+    return all(term.lower() in lowered_title for term in required_terms)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Fetch most-popular videos from a YouTube channel by handle (@BWF)."
@@ -187,6 +195,15 @@ def main() -> None:
         default=1,
         help="How many pages to traverse (each up to 50 results).",
     )
+    parser.add_argument(
+        "--require",
+        action="append",
+        default=[],
+        help=(
+            "Require video titles to contain these substrings; "
+            "repeatable, AND semantics, case-insensitive"
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -210,6 +227,15 @@ def main() -> None:
         return
 
     videos = fetch_video_stats(api_key, video_ids)
+    if args.require:
+        videos = [
+            v
+            for v in videos
+            if title_matches_requirements(v.get("title", ""), args.require)
+        ]
+        if not videos:
+            print("No videos matched the title filter.")
+            return
     videos.sort(key=lambda v: v.get("viewCount", 0), reverse=True)
     videos = videos[:args.max_results]
 
