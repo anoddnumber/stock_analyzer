@@ -29,19 +29,39 @@ fi
 original_title="$(yt-dlp --print filename -o "%(title)s" "$url")"
 # sanitize title to avoid path separators in filenames
 sanitized_title=$(echo "${original_title}" | tr / _)
-temp_output_name="${sanitized_title}"
 
+# Derive a unique suffix from the requested time ranges to avoid collisions
+ranges_parts=( )
+idx=0
+for arg in "${section_args[@]}"; do
+  if (( idx % 2 == 1 )); then
+    ranges_parts+=("${arg}")
+  fi
+  ((idx++))
+done
+ranges_key=$(printf '%s|' "${ranges_parts[@]}")
+
+if command -v shasum >/dev/null 2>&1; then
+  suffix=$(printf '%s' "${ranges_key}" | shasum | awk '{print $1}' | cut -c1-8)
+elif command -v sha1sum >/dev/null 2>&1; then
+  suffix=$(printf '%s' "${ranges_key}" | sha1sum | awk '{print $1}' | cut -c1-8)
+elif command -v md5 >/dev/null 2>&1; then
+  suffix=$(printf '%s' "${ranges_key}" | md5 | awk '{print $NF}' | cut -c1-8)
+else
+  suffix=$(printf '%s' "${ranges_key}" | cksum | awk '{print $1}' | cut -c1-8)
+fi
+
+temp_output_name="${sanitized_title}-${suffix}"
+
+# If files already exist with this base, append a counter
 counter=
-# As long as the output_name exists, increment a counter and change the output_name
-while [[ -f "${temp_output_name}.mp4" ]]
-do
-    if [[ -z ${counter} ]]
-    then
-        counter=1
-    else
-        counter=$((${counter}+1))
-    fi
-    temp_output_name="${original_title}-${counter}"
+while compgen -G "${temp_output_name}-"*.mp4 > /dev/null; do
+  if [[ -z ${counter} ]]; then
+    counter=1
+  else
+    counter=$((counter+1))
+  fi
+  temp_output_name="${sanitized_title}-${suffix}-${counter}"
 done
 
 # Download only the requested sections; let yt-dlp/ffmpeg trim and stitch cleanly
@@ -94,3 +114,6 @@ done
 # Emit a machine-parseable list for the Python caller
 IFS='|'
 echo "FINAL_OUTPUT_FILENAMES=${produced[*]}"
+if [[ ${#produced[@]} -eq 1 ]]; then
+  echo "FINAL_OUTPUT_FILENAME=${produced[0]}"
+fi

@@ -8,3 +8,4 @@ API_KEY.txt
 *.mp4
 *.webm
 .DS_Store
+client_secret.json

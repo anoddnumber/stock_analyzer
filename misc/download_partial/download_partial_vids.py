@@ -40,9 +40,15 @@ def download_segment(url: str, start_time: str, end_time: str, out_dir: Optional
         print(out_text, end="")
     final_output_name = None
     for line in out_text.splitlines():
-        if line.strip().startswith('FINAL_OUTPUT_FILENAME='):
-            final_output_name = line.split('FINAL_OUTPUT_FILENAME=', 1)[1].strip()
+        s = line.strip()
+        if s.startswith('FINAL_OUTPUT_FILENAME='):
+            final_output_name = s.split('FINAL_OUTPUT_FILENAME=', 1)[1].strip()
             break
+        if s.startswith('FINAL_OUTPUT_FILENAMES='):
+            produced_list = s.split('FINAL_OUTPUT_FILENAMES=', 1)[1].strip()
+            if produced_list:
+                final_output_name = produced_list.split('|')[0]
+                break
 
     if not final_output_name:
         raise RuntimeError(f"Could not determine output filename. Output was:\n{out_text}")
